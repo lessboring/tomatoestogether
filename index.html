@@ -87,7 +87,9 @@
             <p>An experiment by <a href="https://twitter.com/davidscolgan">@davidscolgan</a>.</p>
         </div>
         <div class="right">
-            <iframe src="http://webchat.freenode.net?channels=%23tomatoestogether&uio=d4" width="600" height="400"></iframe>
+            <div data-bind="if: state() == 'break'">
+                <iframe src="http://webchat.freenode.net?channels=%23tomatoestogether&uio=d4" width="600" height="400"></iframe>
+            </div>
         </div>
     </div>
 
