@@ -91,7 +91,7 @@
             <div data-bind="if: state() == 'tomato'">
                 <p>An irc chat client will be displayed here during the break.</p>
             </div>
-            <div data-bind="if: state() != 'break'">
+            <div data-bind="if: state() == 'break'">
                 <p>This irc chat client will be hidden during work times.</p>
                 <iframe src="http://webchat.freenode.net?channels=%23tomatoestogether&uio=d4" width="600" height="400"></iframe>
             </div>
