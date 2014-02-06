@@ -71,14 +71,14 @@
 
 
         <div class="left">
-            <div data-bind="visible: state() == 'tomato'">
+            <div data-bind="if: state() == 'tomato'">
                 <div class="clock work">
                     <h2>Tomato Time!</h2>
                     <div class="clock-face" data-bind="text: formattedTime"></div>
                     <p>Work without distractions until the work timer reaches zero!</p>
                 </div>
             </div>
-            <div data-bind="visible: state() == 'break'">
+            <div data-bind="if: state() == 'break'">
                 <div class="clock break">
                     <h2>Break Time!</h2>
                     <div class="clock-face" data-bind="text: formattedTime"></div>
@@ -88,10 +88,10 @@
             <p>An experiment by <a href="https://twitter.com/davidscolgan">@davidscolgan</a>.</p>
         </div>
         <div class="right">
-            <div data-bind="visible: state() == 'tomato'">
+            <div data-bind="if: state() == 'tomato'">
                 <p>An irc chat client will be displayed here during the break.</p>
             </div>
-            <div data-bind="visible: true or state() == 'break'">
+            <div data-bind="if: state() == 'break'">
                 <p>This irc chat client will be hidden during work times.</p>
                 <iframe src="http://webchat.freenode.net?channels=%23tomatoestogether&uio=d4" width="600" height="400"></iframe>
             </div>
