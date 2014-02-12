@@ -58,7 +58,7 @@ $ ->
         selector: '[rel=tooltip]'
 
     ViewModel = ->
-        socket = io.connect('http://tomatoestogether.egg')
+        socket = io.connect(window.location.origin)
 
         vm = @
 
