@@ -89,15 +89,16 @@ $ ->
             vm.nextTomatoTaskInput('')
 
         vm.finishTomato = ->
-            vm.doneTomatoes.push
-                task: vm.nextTomatoTask()
-                day: (new Date()).toDateString()
-            socket.emit 'message',
-                username: vm.username()
-                body: "My tomato task: " + vm.nextTomatoTask()
-                userColor: vm.userColor()
+            if vm.nextTomatoTask() != ''
+                vm.doneTomatoes.push
+                    task: vm.nextTomatoTask()
+                    day: (new Date()).toDateString()
+                socket.emit 'message',
+                    username: vm.username()
+                    body: "My tomato task: " + vm.nextTomatoTask()
+                    userColor: vm.userColor()
 
-            vm.nextTomatoTask('')
+                vm.nextTomatoTask('')
 
 
         vm.restoreFromLocalStorage = ->
@@ -177,6 +178,7 @@ $ ->
 
         vm.restoreFromLocalStorage()
 
+        window.vm = vm
         null
 
     ko.applyBindings(new ViewModel)

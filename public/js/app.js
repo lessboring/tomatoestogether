@@ -160,7 +160,7 @@ $(function() {
   });
   ViewModel = function() {
     var emoteSrc, socket, vm;
-    socket = io.connect('http://tomatoestogether.egg');
+    socket = io.connect(window.location.origin);
     vm = this;
     vm.connected = ko.observable(false);
     vm.clock = ko.observable(new Date());
@@ -190,16 +190,18 @@ $(function() {
       return vm.nextTomatoTaskInput('');
     };
     vm.finishTomato = function() {
-      vm.doneTomatoes.push({
-        task: vm.nextTomatoTask(),
-        day: (new Date()).toDateString()
-      });
-      socket.emit('message', {
-        username: vm.username(),
-        body: "My tomato task: " + vm.nextTomatoTask(),
-        userColor: vm.userColor()
-      });
-      return vm.nextTomatoTask('');
+      if (vm.nextTomatoTask() !== '') {
+        vm.doneTomatoes.push({
+          task: vm.nextTomatoTask(),
+          day: (new Date()).toDateString()
+        });
+        socket.emit('message', {
+          username: vm.username(),
+          body: "My tomato task: " + vm.nextTomatoTask(),
+          userColor: vm.userColor()
+        });
+        return vm.nextTomatoTask('');
+      }
     };
     vm.restoreFromLocalStorage = function() {
       var saved;
@@ -294,6 +296,7 @@ $(function() {
       return vm.addMessage(message);
     });
     vm.restoreFromLocalStorage();
+    window.vm = vm;
     return null;
   };
   return ko.applyBindings(new ViewModel);

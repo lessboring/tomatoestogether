@@ -47,7 +47,11 @@ html
                             .clock.break
                                 h2 Break Time!
                                 .clock-face(data-bind='text: formattedTime')
-                                p Tell everyone about what you did in the chat until the break timer reaches zero!
+                                div(data-bind='if: nextTomatoTask() === ""')
+                                    p Tell everyone about what you did in the chat until the break timer reaches zero!
+                                div(data-bind='if: nextTomatoTask() !== ""')
+                                    p Next tomato's task:
+                                    h3(data-bind='text: nextTomatoTask')
 
                         form.input-group.mbl(data-bind='submit: joinNextTomato')
                             input.form-control(placeholder='During this tomato I am going to...', type='text', name='nextTomatoTask', data-bind='value: nextTomatoTaskInput, valueUpdate: "keyup"')
