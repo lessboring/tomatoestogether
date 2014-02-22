@@ -50,8 +50,9 @@ io.sockets.on 'connection', (socket) ->
         message.body = ensureMessageIsShort(message.body)
         message.body = escapeHTML(message.body)
         messageHistory.push(message)
-        socket.emit('message', message)
+        console.log message
+        io.sockets.emit('message', message)
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
-        socket.emit('otherTomatoOver', data)
+        io.sockets.emit('otherTomatoOver', data)
