@@ -91,7 +91,7 @@
   globals.require.brunch = true;
 })();
 require.register("main", function(exports, require, module) {
-var emotes, gongSound, ringGong, scrollChatToBottom, util;
+var emotes, getDate, gongSound, ringGong, scrollChatToBottom, util;
 
 util = require('util');
 
@@ -134,6 +134,11 @@ ko.bindingHandlers.checkbox = {
   }
 };
 
+getDate = function() {
+  return new Date(2014, 3, 2, 13, 27);
+  return new Date();
+};
+
 emotes = {
   'Kappa': 'kappa',
   'Colgan': 'Colgan',
@@ -163,7 +168,7 @@ $(function() {
     socket = io.connect(window.location.origin);
     vm = this;
     vm.connected = ko.observable(false);
-    vm.clock = ko.observable(new Date());
+    vm.clock = ko.observable(getDate());
     vm.state = ko.observable(null);
     vm.chatMessages = ko.observableArray([]);
     vm.newChatMessage = ko.observable('');
@@ -193,7 +198,7 @@ $(function() {
       if (vm.nextTomatoTask() !== '') {
         vm.doneTomatoes.push({
           task: vm.nextTomatoTask(),
-          day: (new Date()).toDateString()
+          day: getDate().toDateString()
         });
         socket.emit('message', {
           username: vm.username(),
@@ -229,7 +234,7 @@ $(function() {
       });
     };
     vm.tick = function() {
-      return vm.clock(new Date());
+      return vm.clock(getDate());
     };
     vm.formattedClock = ko.computed(function() {
       return util.formatCurrentTime(vm.clock());
@@ -237,7 +242,7 @@ $(function() {
     vm.todaysTomatoes = ko.computed(function() {
       var today, todays, tomato, _i, _len, _ref;
       todays = [];
-      today = new Date().toDateString();
+      today = getDate().toDateString();
       _ref = vm.doneTomatoes();
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         tomato = _ref[_i];

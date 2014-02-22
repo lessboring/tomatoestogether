@@ -34,6 +34,10 @@ ko.bindingHandlers.checkbox =
 
         return
 
+getDate = ->
+    return new Date(2014, 3, 2, 13, 27)
+    return new Date()
+
 
 emotes = {
     'Kappa': 'kappa'
@@ -63,7 +67,7 @@ $ ->
         vm = @
 
         vm.connected = ko.observable(false)
-        vm.clock = ko.observable(new Date())
+        vm.clock = ko.observable(getDate())
         vm.state = ko.observable(null)
         vm.chatMessages = ko.observableArray([])
         vm.newChatMessage = ko.observable('')
@@ -92,7 +96,7 @@ $ ->
             if vm.nextTomatoTask() != ''
                 vm.doneTomatoes.push
                     task: vm.nextTomatoTask()
-                    day: (new Date()).toDateString()
+                    day: getDate().toDateString()
                 socket.emit 'message',
                     username: vm.username()
                     body: "My tomato task: " + vm.nextTomatoTask()
@@ -125,14 +129,14 @@ $ ->
                 localStorage.setItem('tomatoestogether', JSON.stringify(saved))
 
         vm.tick = ->
-            vm.clock(new Date())
+            vm.clock(getDate())
 
         vm.formattedClock = ko.computed ->
             return util.formatCurrentTime(vm.clock())
 
         vm.todaysTomatoes = ko.computed ->
             todays = []
-            today = new Date().toDateString()
+            today = getDate().toDateString()
             for tomato in vm.doneTomatoes()
                 if tomato.day == today
                     todays.push(tomato)

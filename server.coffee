@@ -1,6 +1,7 @@
 http = require('http')
 path = require('path')
 express = require('express')
+Encoder = require('node-html-encoder').Encoder
 
 app = new express()
 
@@ -31,14 +32,25 @@ server.listen(app.get('port'))
 
 messageHistory = []
 
+ensureMessageIsShort = (message) ->
+    if message.length > 255
+        return message[...255]
+    return message
+
+encoder = new Encoder('entity')
+escapeHTML = (message) ->
+    return encoder.htmlEncode(message)
+
+
 io.sockets.on 'connection', (socket) ->
     console.log messageHistory
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
-    socket.on 'message', (data) ->
-        console.log JSON.stringify(data)
-        messageHistory.push(data)
-        socket.emit('message', data)
+    socket.on 'message', (message) ->
+        message.body = ensureMessageIsShort(message.body)
+        message.body = escapeHTML(message.body)
+        messageHistory.push(message)
+        socket.emit('message', message)
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
