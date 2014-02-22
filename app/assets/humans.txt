@@ -4,7 +4,8 @@ JordanFitz: Colgan emote
 Drake: Swag emote
 Tinfoil: Box emote
 Good ideas: Yoshimoto, Pheelbert, Trystan34
+Aleeious: Found the vulnerability where you can call vm.finishTomato() manually and get infinite tomatoes.
 
 And everyone who watches the stream on twitch.tv/dvcolgan
 
-And JordanFitz for being awesome.
+And JordanFitz for being awesome and fixing my bug with Socket.io
