@@ -1,4 +1,5 @@
-deploy the site
+if you change your tomato task during the tomato it shows all of them in the chat during the break
+all chat colors are the same as yours
 suggest taking a long break after 4
 have some way to say "i'm working on this for this tomato" and confirm that you are doing this tomato
 show the chat always if you haven't confirmed you are doing this tomato

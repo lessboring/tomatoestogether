@@ -1,5 +1,43 @@
 util = require('util')
 
+`
+(function() {
+  var autoLink,
+    __slice = [].slice;
+
+  autoLink = function() {
+    var k, linkAttributes, option, options, pattern, v;
+    options = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    pattern = /(^|\s)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
+    if (!(options.length > 0)) {
+      return this.replace(pattern, "$1<a target='_blank' href='$2'>$2</a>");
+    }
+    option = options[0];
+    linkAttributes = ((function() {
+      var _results;
+      _results = [];
+      for (k in option) {
+        v = option[k];
+        if (k !== 'callback') {
+          _results.push(" " + k + "='" + v + "'");
+        }
+      }
+      return _results;
+    })()).join('');
+    return this.replace(pattern, function(match, space, url) {
+      var link;
+      link = (typeof option.callback === "function" ? option.callback(url) : void 0) || ("<a target='_blank' href='" + url + "'" + linkAttributes + ">" + url + "</a>");
+      return "" + space + link;
+    });
+  };
+
+  String.prototype['autoLink'] = autoLink;
+
+}).call(this);
+`
+
+
+
 String.prototype.replaceAll = (search, replace) ->
     if not replace?
         return @toString()
@@ -36,26 +74,25 @@ ko.bindingHandlers.checkbox =
 
 getDate = ->
     date = new Date()
-    #date.setMinutes(date.getMinutes() % 5 + 25)
+    date.setMinutes(date.getMinutes() % 5 + 25)
     return date
 
 
-emotes = {
+emotes =
     'Kappa': 'kappa'
-    'Colgan', 'colgan'
-    'NGCCG', 'ngccg'
+    'Colgan': 'colgan'
+    'NGCCG': 'ngccg'
     ':O': 'shocked'
     'FrankerZ': 'frankerz'
     'YOLOSwag': 'swag'
     'JordanFitz': 'jordanfitz'
     'BeExcellent': 'lincoln'
-    '>:|': 'brooding'
+    'Grrrr': 'brooding'
     'BigBrother': 'bigbrother'
     'Tinfoilboy': 'tinfoilboy'
     'FrankerQ': 'fitzdog'
     'NoHair': 'nohair'
     'OneTomato': 'tomato'
-}
 
 
 $ ->
@@ -155,7 +192,6 @@ $ ->
             return util.formatTomatoClock(minutesLeft, secondsLeft)
 
         vm.sendMessage = (form) ->
-            scrollChatToBottom()
             socket.emit 'message',
                 username: vm.username()
                 body: vm.newChatMessage()
@@ -168,7 +204,10 @@ $ ->
         vm.addMessage = (message) ->
             for emoteKeyword, emoteFile of emotes
                 message.body = message.body.replaceAll(emoteKeyword, emoteSrc(emoteFile))
+            debugger
+            message.body = Autolinker.link(message.body, { stripPrefix: false })
             vm.chatMessages.push(message)
+            scrollChatToBottom()
 
 
         setInterval(vm.tick, 1000)
@@ -177,7 +216,6 @@ $ ->
             vm.connected(true)
             for message in data.messages
                 vm.addMessage(message)
-            scrollChatToBottom()
         socket.on 'message', (message) ->
             vm.addMessage(message)
 

@@ -95,6 +95,42 @@ var emotes, getDate, gongSound, ringGong, scrollChatToBottom, util;
 
 util = require('util');
 
+
+(function() {
+  var autoLink,
+    __slice = [].slice;
+
+  autoLink = function() {
+    var k, linkAttributes, option, options, pattern, v;
+    options = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    pattern = /(^|\s)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
+    if (!(options.length > 0)) {
+      return this.replace(pattern, "$1<a target='_blank' href='$2'>$2</a>");
+    }
+    option = options[0];
+    linkAttributes = ((function() {
+      var _results;
+      _results = [];
+      for (k in option) {
+        v = option[k];
+        if (k !== 'callback') {
+          _results.push(" " + k + "='" + v + "'");
+        }
+      }
+      return _results;
+    })()).join('');
+    return this.replace(pattern, function(match, space, url) {
+      var link;
+      link = (typeof option.callback === "function" ? option.callback(url) : void 0) || ("<a target='_blank' href='" + url + "'" + linkAttributes + ">" + url + "</a>");
+      return "" + space + link;
+    });
+  };
+
+  String.prototype['autoLink'] = autoLink;
+
+}).call(this);
+;
+
 String.prototype.replaceAll = function(search, replace) {
   if (replace == null) {
     return this.toString();
@@ -137,21 +173,20 @@ ko.bindingHandlers.checkbox = {
 getDate = function() {
   var date;
   date = new Date();
+  date.setMinutes(date.getMinutes() % 5 + 25);
   return date;
 };
 
 emotes = {
   'Kappa': 'kappa',
-  'Colgan': 'Colgan',
-  'colgan': 'colgan',
-  'NGCCG': 'NGCCG',
-  'ngccg': 'ngccg',
+  'Colgan': 'colgan',
+  'NGCCG': 'ngccg',
   ':O': 'shocked',
   'FrankerZ': 'frankerz',
   'YOLOSwag': 'swag',
   'JordanFitz': 'jordanfitz',
   'BeExcellent': 'lincoln',
-  '>:|': 'brooding',
+  'Grrrr': 'brooding',
   'BigBrother': 'bigbrother',
   'Tinfoilboy': 'tinfoilboy',
   'FrankerQ': 'fitzdog',
@@ -268,7 +303,6 @@ $(function() {
       return util.formatTomatoClock(minutesLeft, secondsLeft);
     });
     vm.sendMessage = function(form) {
-      scrollChatToBottom();
       socket.emit('message', {
         username: vm.username(),
         body: vm.newChatMessage(),
@@ -285,18 +319,24 @@ $(function() {
         emoteFile = emotes[emoteKeyword];
         message.body = message.body.replaceAll(emoteKeyword, emoteSrc(emoteFile));
       }
-      return vm.chatMessages.push(message);
+      debugger;
+      message.body = Autolinker.link(message.body, {
+        stripPrefix: false
+      });
+      vm.chatMessages.push(message);
+      return scrollChatToBottom();
     };
     setInterval(vm.tick, 1000);
     socket.on('hello', function(data) {
-      var message, _i, _len, _ref;
+      var message, _i, _len, _ref, _results;
       vm.connected(true);
       _ref = data.messages;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         message = _ref[_i];
-        vm.addMessage(message);
+        _results.push(vm.addMessage(message));
       }
-      return scrollChatToBottom();
+      return _results;
     });
     socket.on('message', function(message) {
       return vm.addMessage(message);
