@@ -35,8 +35,9 @@ ko.bindingHandlers.checkbox =
         return
 
 getDate = ->
-    return new Date(2014, 3, 2, 13, 27)
-    return new Date()
+    date = new Date()
+    date.setMinutes(date.getMinutes() % 5 + 25)
+    return date
 
 
 emotes = {
