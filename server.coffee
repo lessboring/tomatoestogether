@@ -49,6 +49,7 @@ io.sockets.on 'connection', (socket) ->
     socket.on 'message', (message) ->
         message.body = ensureMessageIsShort(message.body)
         message.body = escapeHTML(message.body)
+        message.timestamp = new Date()
         messageHistory.push(message)
         console.log message
         io.sockets.emit('message', message)

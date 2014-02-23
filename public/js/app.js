@@ -173,6 +173,7 @@ ko.bindingHandlers.checkbox = {
 getDate = function() {
   var date;
   date = new Date();
+  date.setMinutes(date.getMinutes() % 5 + 25);
   return date;
 };
 
@@ -318,10 +319,10 @@ $(function() {
         emoteFile = emotes[emoteKeyword];
         message.body = message.body.replaceAll(emoteKeyword, emoteSrc(emoteFile));
       }
-      debugger;
       message.body = Autolinker.link(message.body, {
         stripPrefix: false
       });
+      message.timestamp = new Date(message.timestamp);
       vm.chatMessages.push(message);
       return scrollChatToBottom();
     };

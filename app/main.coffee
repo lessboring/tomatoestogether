@@ -74,7 +74,7 @@ ko.bindingHandlers.checkbox =
 
 getDate = ->
     date = new Date()
-    #date.setMinutes(date.getMinutes() % 5 + 25)
+    date.setMinutes(date.getMinutes() % 5 + 25)
     return date
 
 
@@ -204,8 +204,9 @@ $ ->
         vm.addMessage = (message) ->
             for emoteKeyword, emoteFile of emotes
                 message.body = message.body.replaceAll(emoteKeyword, emoteSrc(emoteFile))
-            debugger
             message.body = Autolinker.link(message.body, { stripPrefix: false })
+
+            message.timestamp = new Date(message.timestamp)
             vm.chatMessages.push(message)
             scrollChatToBottom()
 

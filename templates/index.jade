@@ -78,6 +78,8 @@ html
                             h2(style="margin: 0; margin-bottom: 21px;") Tell everyone about your work:
                             .well.chat-container(data-bind='foreach: chatMessages')
                                 .chat-message
+                                    span(data-bind='text: timestamp.toLocaleTimeString()')
+                                    | &nbsp;
                                     strong(data-bind='text: username, style: { color: $root.userColor }')
                                     | :&nbsp;&nbsp;
                                     span(data-bind='html: body')
