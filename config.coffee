@@ -23,10 +23,6 @@ exports.config =
                 before: [
                     'vendor/bootstrap/less/bootstrap.less'
                 ]
-        templates:
-            precompile: true
-            defaultExtension: 'jade'
-            joinTo: 'js/app.js'
     plugins:
         autoReload:
             enabled:
