@@ -87,7 +87,7 @@
                 <div>
                     <h2 style="margin: 0; margin-bottom: 21px;">Tell everyone about your work:</h2>
                     <div data-bind="foreach: chatMessages" class="well chat-container">
-                        <div class="chat-message"><span data-bind="text: timestamp.toLocaleTimeString()"></span>&nbsp;<strong data-bind="text: username, style: { color: $root.userColor }"></strong>:&nbsp;&nbsp;<span data-bind="html: body"></span></div>
+                        <div class="chat-message"><span data-bind="text: timestamp.toLocaleTimeString()"></span>&nbsp;<strong data-bind="text: username, style: { color: userColor }"></strong>:&nbsp;&nbsp;<span data-bind="html: body"></span></div>
                     </div>
                     <form data-bind="submit: sendMessage">
                         <div class="input-group">
