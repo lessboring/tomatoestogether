@@ -84,15 +84,16 @@
                 <!-- /ko-->
             </div>
             <div class="col-md-6">
-                <div data-bind="visible: connected() &amp;&amp; state() == 'break'">
+                <div>
                     <h2 style="margin: 0; margin-bottom: 21px;">Tell everyone about your work:</h2>
                     <div data-bind="foreach: chatMessages" class="well chat-container">
                         <div class="chat-message"><span data-bind="text: timestamp.toLocaleTimeString()"></span>&nbsp;<strong data-bind="text: username, style: { color: $root.userColor }"></strong>:&nbsp;&nbsp;<span data-bind="html: body"></span></div>
                     </div>
                     <form data-bind="submit: sendMessage">
                         <div class="input-group">
-                            <input type="text" data-bind="value: newChatMessage" class="new-chat-message form-control"><span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary">Chat</button></span>
+                            <input type="text" data-bind="value: newChatMessage, enable: connected() &amp;&amp; state() == 'break'" class="new-chat-message form-control">
+                            <span class="input-group-btn">
+                            <button type="submit" data-bind="enable: connected() &amp;&amp; state() == 'break'" class="btn btn-primary">Chat</button></span>
                         </div>
                     </form>
                 </div>
