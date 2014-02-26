@@ -1,7 +1,7 @@
 exports.config =
-    conventions:
-        ignored: (path) ->
-            not /bootstrap\.less/.test(path) and /vendor\/bootstrap\/less/.test(path)
+    #conventions:
+    #    ignored: (path) ->
+    #        not /bootstrap\.less/.test(path) and /vendor\/bootstrap\/less/.test(path)
     files:
         javascripts:
             defaultExtension: 'coffee'
@@ -19,10 +19,6 @@ exports.config =
             joinTo:
                 'css/style.css': /^app/
                 'css/vendor.css': /^vendor/
-            order:
-                before: [
-                    'vendor/bootstrap/less/bootstrap.less'
-                ]
     plugins:
         autoReload:
             enabled:
