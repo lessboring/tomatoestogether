@@ -57,13 +57,13 @@ io.sockets.on 'connection', (socket) ->
             waitingUsers.splice waitingUsers.indexOf(message.username), 1
             null
 
-        if waitingUsers.indexOf(message.username) == -1
-            if message.body.trim().length != 0
+        if message.body.trim().length != 0
+            if waitingUsers.indexOf(message.username) == -1
                 io.sockets.emit('message', message)
                 waitingUsers.push(message.username)
                 setTimeout(allow, 2000)
-        else
-            socket.emit 'slow-down'
+            else
+                socket.emit 'slow-down'
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
