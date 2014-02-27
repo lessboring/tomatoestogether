@@ -322,8 +322,10 @@ $(function() {
         stripPrefix: false
       });
       message.timestamp = new Date(message.timestamp);
-      vm.chatMessages.push(message);
-      return scrollChatToBottom();
+      if (message.body.trim().length !== 0) {
+        vm.chatMessages.push(message);
+        return scrollChatToBottom();
+      }
     };
     setInterval(vm.tick, 1000);
     socket.on('hello', function(data) {
@@ -339,6 +341,14 @@ $(function() {
     });
     socket.on('message', function(message) {
       return vm.addMessage(message);
+    });
+    socket.on('slow-down', function() {
+      return vm.addMessage({
+        username: 'Server',
+        timestamp: new Date(),
+        body: "You're sending messages too quickly.",
+        userColor: '#000'
+      });
     });
     vm.restoreFromLocalStorage();
     window.vm = vm;
