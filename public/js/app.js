@@ -291,6 +291,28 @@ $(function() {
         return scrollChatToBottom();
       }
     };
+    vm.updateMyInfo = ko.computed(function() {});
+    vm.getUsers = function() {
+      return socket.emit('users');
+    };
+    socket.on('users', function(users) {
+      return console.log(users);
+    });
+    vm.getMyInfo = function() {
+      return socket.emit('myinfo');
+    };
+    socket.on('myinfo', function(info) {
+      return vm.username(info.nick);
+    });
+    vm.setMyInfo = function(userinfo) {
+      return socket.emit('setmyinfo', userinfo);
+    };
+    socket.on('user_con', function(info) {
+      return console.log(info.nick + ' connected');
+    });
+    socket.on('user_dis', function(info) {
+      return console.log(info.nick + ' disconnected');
+    });
     setInterval(vm.tick, 1000);
     socket.on('hello', function(data) {
       var message, _i, _len, _ref, _results;

@@ -34,6 +34,7 @@ io = require('socket.io').listen(server)
 server.listen(app.get('port'))
 
 messageHistory = []
+connectedUsers = []
 waitingUsers = []
 
 ensureMessageIsShort = (message) ->
@@ -45,21 +46,20 @@ encoder = new Encoder('entity')
 escapeHTML = (message) ->
     return encoder.htmlEncode(message)
 
-
 io.sockets.on 'connection', (socket) ->
-    console.log messageHistory
+
+    userinfo = {}
+    userinfo.userid = socket.id
+    userinfo.nick = 'guest'
+    userinfo.usercolor = '#000000'
+
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
     socket.on 'message', (message) ->
-        # Ensure that the message is max 255 characters
         message.body = ensureMessageIsShort(message.body)
-        # Encode to html
         message.body = escapeHTML(message.body)
-        # Set the current data for timestamp
         message.timestamp = new Date()
-        # Push the message to history
         messageHistory.push(message)
-        # Ensure that history has a max of (x) messages
         messageHistory.splice(0, messageHistory.length - MaxMessageHistory)
         
         console.log message
@@ -72,6 +72,7 @@ io.sockets.on 'connection', (socket) ->
             if message.body.trim().length != 0
                 io.sockets.emit('message', message)
                 waitingUsers.push(message.username)
+                # I am not a big fan of this, not sure on how to solve this better tho (ChillyFlashER)
                 setTimeout(allow, 2000)
         else
             socket.emit 'slow-down'
@@ -79,3 +80,34 @@ io.sockets.on 'connection', (socket) ->
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
         io.sockets.emit('otherTomatoOver', data)
+
+
+
+    # Lets send the new data to the client
+    socket.emit 'myinfo', userinfo
+
+    # Lets send that there is a new user to everyone but the new user
+    socket.broadcast.emit 'user_con', userinfo
+
+    console.log 'user connected: ' + socket.id    
+    connectedUsers.push(userinfo)
+
+    socket.on 'disconnect', () ->
+        socket.broadcast.emit 'user_dis', userinfo
+
+        console.log 'user disconnected: ' + socket.id
+        connectedUsers.splice(connectedUsers.indexOf(userinfo), 1);
+        
+    socket.on 'users', () ->
+        socket.emit 'users', connectedUsers
+
+    socket.on 'myinfo', () ->
+        socket.emit 'myinfo', userinfo
+
+    socket.on 'setmyinfo', (info) ->
+        if !!info.nick
+            userinfo.nick = info.nick
+
+        socket.emit 'myinfo', userinfo
+
+

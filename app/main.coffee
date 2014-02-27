@@ -175,6 +175,32 @@ $ ->
                 scrollChatToBottom()
 
 
+
+
+        vm.updateMyInfo = ko.computed ->
+            #socket.emit 'setmyinfo', { nick: vm.username() }
+
+        vm.getUsers = () ->
+            socket.emit 'users'
+        socket.on 'users', (users) ->
+            console.log users
+
+        vm.getMyInfo = () ->
+            socket.emit 'myinfo'
+        socket.on 'myinfo', (info) ->
+            vm.username(info.nick)
+
+        vm.setMyInfo = (userinfo) ->
+            socket.emit 'setmyinfo', userinfo
+
+
+        socket.on 'user_con', (info) ->
+            console.log info.nick + ' connected'
+
+        socket.on 'user_dis', (info) ->
+            console.log info.nick + ' disconnected'
+
+
         setInterval(vm.tick, 1000)
 
         socket.on 'hello', (data) ->
