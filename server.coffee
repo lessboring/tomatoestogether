@@ -30,6 +30,7 @@ io = require('socket.io').listen(server)
 server.listen(app.get('port'))
 
 messageHistory = []
+waitingUsers = []
 
 ensureMessageIsShort = (message) ->
     if message.length > 255
@@ -51,7 +52,18 @@ io.sockets.on 'connection', (socket) ->
         message.timestamp = new Date()
         messageHistory.push(message)
         console.log message
-        io.sockets.emit('message', message)
+
+        allow = () ->
+            waitingUsers.splice waitingUsers.indexOf(message.username), 1
+            null
+
+        if waitingUsers.indexOf(message.username) == -1
+            if message.body.trim().length != 0
+                io.sockets.emit('message', message)
+                waitingUsers.push(message.username)
+                setTimeout(allow, 2000)
+        else
+            socket.emit 'slow-down'
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
