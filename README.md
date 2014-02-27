@@ -20,12 +20,17 @@ This project makes use of [Node.js](http://nodejs.org/), [Socket.io](http://sock
 
 * Show currently connected users!
 * Don't allow multiple people to have the same username - add an underscore somehow if that name is taken
-* Rate limit messages
-* Start discarding message history after a certain point
+* Start discarding message history after a certain point (ChillyFlashER)
+
+	Now it only does it on the server, not the client. Should it also do it on the client?
+
+* Rate limit messages (JordanFitz?)
 * Unit tests! LOTS of unit tests.
-* This was built on Arch Linux.  Does it still work on Windows?
 * The app/main.coffee file is kind of a mess
-* Show the chat during a tomato, just don't allow chatting?
+* Show the chat during a tomato, just don't allow chatting? (ChillyFlashER)
+
+	Should you be allowed to chat if you haven't joined the tomato?
+
 * This README needs expanded, explain better how to set up the project, add windows/mac/linux instructions
 * Some sort of build automation like Jake?
 * The top header on the page could be nicened up

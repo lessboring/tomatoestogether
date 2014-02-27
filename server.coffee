@@ -25,6 +25,10 @@ app.get '/', (req, res) ->
     res.sendfile(__dirname + '/templates/index.html')
 
 
+# Where should I place this?
+MaxMessageHistory = 100
+
+
 server = http.createServer(app)
 io = require('socket.io').listen(server)
 server.listen(app.get('port'))
@@ -47,10 +51,17 @@ io.sockets.on 'connection', (socket) ->
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
     socket.on 'message', (message) ->
+        # Ensure that the message is max 255 characters
         message.body = ensureMessageIsShort(message.body)
+        # Encode to html
         message.body = escapeHTML(message.body)
+        # Set the current data for timestamp
         message.timestamp = new Date()
+        # Push the message to history
         messageHistory.push(message)
+        # Ensure that history has a max of (x) messages
+        messageHistory.splice(0, messageHistory.length - MaxMessageHistory)
+        
         console.log message
 
         allow = () ->
