@@ -1,24 +1,26 @@
-if you change your tomato task during the tomato it shows all of them in the chat during the break
-all chat colors are the same as yours
-suggest taking a long break after 4
-have some way to say "i'm working on this for this tomato" and confirm that you are doing this tomato
-show the chat always if you haven't confirmed you are doing this tomato
+* if you change your tomato task during the tomato it shows all of them in the chat during the break
+* suggest taking a long break after 4
+* have some way to say "i'm working on this for this tomato" and confirm that you are doing this tomato
+
+* show the chat always if you haven't confirmed you are doing this tomato
     add a 'doingthistomato' variable
-favicon (tomato)
-add user accounts (login with facebook, twitter, gmail? username/password)
-show what everyone else did during the break?
+    # I am not sure what you mean by this // ChillyFlashER
 
-leaderboards for most tomatoes ever, most tomatoes per day
-show everyone who is doing a tomato right now
+* favicon (tomato)
+* add user accounts (login with facebook, twitter, gmail? username/password)
+* show what everyone else did during the break?
 
-make login optional and have leaderboards for people who are logged in
-count the total number of tomatoes ever done
-give guests names like adjective + "Tomato": Suspicious Tomato
-make the tomato timer pop out
+* leaderboards for most tomatoes ever, most tomatoes per day
+* show everyone who is doing a tomato right now
 
-mark whether or not your tomato was a success (rate 1-5 stars how productive you were)
+* make login optional and have leaderboards for people who are logged in
+* count the total number of tomatoes ever done
+* give guests names like adjective + "Tomato": Suspicious Tomato
+* make the tomato timer pop out
 
-have a way to share a screenshot with people of what you did
+* mark whether or not your tomato was a success (rate 1-5 stars how productive you were)
+
+* have a way to share a screenshot with people of what you did
 combine with GTD, todo lists
 
-add streaming your tomatos?
+* add streaming your tomatos?
