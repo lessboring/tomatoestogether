@@ -207,8 +207,10 @@ $ ->
             message.body = Autolinker.link(message.body, { stripPrefix: false })
 
             message.timestamp = new Date(message.timestamp)
-            vm.chatMessages.push(message)
-            scrollChatToBottom()
+
+            if message.body.trim().length != 0
+                vm.chatMessages.push(message)
+                scrollChatToBottom()
 
 
         setInterval(vm.tick, 1000)
@@ -219,6 +221,9 @@ $ ->
                 vm.addMessage(message)
         socket.on 'message', (message) ->
             vm.addMessage(message)
+
+        socket.on 'slow-down', () ->
+            vm.addMessage({username: 'Server', timestamp: new Date(), body: "You're sending messages too quickly.", userColor: '#000'})            
 
         vm.restoreFromLocalStorage()
 
