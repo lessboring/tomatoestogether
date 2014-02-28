@@ -31,6 +31,7 @@ server.listen(app.get('port'))
 
 messageHistory = []
 waitingUsers = []
+usernames = []
 
 ensureMessageIsShort = (message) ->
     if message.length > 255
@@ -43,7 +44,6 @@ escapeHTML = (message) ->
 
 
 io.sockets.on 'connection', (socket) ->
-    console.log messageHistory
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
     socket.on 'message', (message) ->

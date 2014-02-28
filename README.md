@@ -38,14 +38,14 @@ This project makes use of [Node.js](http://nodejs.org/), [Socket.io](http://sock
 
 * Show currently connected users!
 * Don't allow multiple people to have the same username - add an underscore somehow if that name is taken
-* Start discarding message history after a certain point (ChillyFlashER)
+* ✔ Start discarding message history after a certain point (ChillyFlashER)
 
 	Now it only does it on the server, not the client. Should it also do it on the client?
 
-* Rate limit messages (JordanFitz?)
+* ✔ Rate limit messages (JordanFitz)
 * Unit tests! LOTS of unit tests.
 * The app/main.coffee file is kind of a mess
-* Show the chat during a tomato, just don't allow chatting? (ChillyFlashER)
+* ✔ Show the chat during a tomato, just don't allow chatting? (ChillyFlashER)
 
 	Should you be allowed to chat if you haven't joined the tomato?
 

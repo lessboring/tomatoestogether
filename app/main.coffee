@@ -93,6 +93,7 @@ emotes =
     'FrankerQ': 'fitzdog'
     'NoHair': 'nohair'
     'OneTomato': 'tomato'
+    'Dooskington': 'dooskington'
 
 
 $ ->
@@ -223,7 +224,7 @@ $ ->
             vm.addMessage(message)
 
         socket.on 'slow-down', () ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: "You're sending messages too quickly.", userColor: '#000'})            
+            vm.addMessage({username: 'Server', timestamp: new Date(), body: 'You\'re sending messages too quickly.', userColor: '#000'})            
 
         vm.restoreFromLocalStorage()
 
