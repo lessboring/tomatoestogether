@@ -31,6 +31,7 @@ server.listen(app.get('port'))
 
 messageHistory = []
 waitingUsers = []
+usernames = []
 
 ensureMessageIsShort = (message) ->
     if message.length > 255
@@ -43,7 +44,6 @@ escapeHTML = (message) ->
 
 
 io.sockets.on 'connection', (socket) ->
-    console.log messageHistory
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
     socket.on 'message', (message) ->
@@ -57,13 +57,13 @@ io.sockets.on 'connection', (socket) ->
             waitingUsers.splice waitingUsers.indexOf(message.username), 1
             null
 
-        if waitingUsers.indexOf(message.username) == -1
-            if message.body.trim().length != 0
+        if message.body.trim().length != 0
+            if waitingUsers.indexOf(message.username) == -1
                 io.sockets.emit('message', message)
                 waitingUsers.push(message.username)
                 setTimeout(allow, 2000)
-        else
-            socket.emit 'slow-down'
+            else
+                socket.emit 'slow-down'
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
