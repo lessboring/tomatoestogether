@@ -154,7 +154,8 @@ emotes = {
   'Tinfoilboy': 'tinfoilboy',
   'FrankerQ': 'fitzdog',
   'NoHair': 'nohair',
-  'OneTomato': 'tomato'
+  'OneTomato': 'tomato',
+  'Dooskington': 'dooskington'
 };
 
 $(function() {
@@ -310,7 +311,7 @@ $(function() {
       return vm.addMessage({
         username: 'Server',
         timestamp: new Date(),
-        body: "You're sending messages too quickly.",
+        body: 'You\'re sending messages too quickly.',
         userColor: '#000'
       });
     });
