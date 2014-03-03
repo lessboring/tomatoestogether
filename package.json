@@ -19,6 +19,7 @@
     "express": "~3.4.8",
     "connect-slashes": "~1.2.0",
     "socket.io": "~0.9.16",
-    "node-html-encoder": "0.0.2"
+    "node-html-encoder": "0.0.2",
+    "jake": "~0.7.7"
   }
 }
