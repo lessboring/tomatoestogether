@@ -46,30 +46,14 @@
                         </label>
                     </div>
                 </div>
-                <div data-bind="visible: state() == 'tomato'">
-                    <div class="clock work">
-                        <h2>Tomato Time!</h2>
-                        <div data-bind="text: formattedTime" class="clock-face"></div>
-                        <div data-bind="if: nextTomatoTask() === ''">
-                            <h3>You have not joined this tomato.</h3>
-                        </div>
-                        <div data-bind="if: nextTomatoTask() !== ''">
-                            <p>Work without distractions until the work timer reaches zero on:</p>
-                            <h3 data-bind="text: nextTomatoTask"></h3>
-                        </div>
+                <div data-bind="css: clockBreakTime">
+                    <h2 data-bind="text: clockHeaderMessage">Tomato Time!</h2>
+                    <div data-bind="text: formattedTime" class="clock-face"></div>
+                    <div data-bind="visible: nextTomatoTask() === '', html: clockInnerHTML">
                     </div>
-                </div>
-                <div data-bind="visible: state() == 'break'">
-                    <div class="clock break">
-                        <h2>Break Time!</h2>
-                        <div data-bind="text: formattedTime" class="clock-face"></div>
-                        <div data-bind="if: nextTomatoTask() === ''">
-                            <p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>
-                        </div>
-                        <div data-bind="if: nextTomatoTask() !== ''">
-                            <p>Next tomato's task:</p>
-                            <h3 data-bind="text: nextTomatoTask"></h3>
-                        </div>
+                    <div data-bind="if: nextTomatoTask() !== ''">
+                        <p data-bind="text: clockInnerText"></p>
+                        <h3 data-bind="text: nextTomatoTask"></h3>
                     </div>
                 </div>
                 <form data-bind="submit: joinNextTomato" class="input-group mbl">

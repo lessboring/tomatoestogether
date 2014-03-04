@@ -78,9 +78,23 @@ $ ->
         vm.pastTomatoes = {}
 
         vm.clockHeaderMessage = ko.computed ->
-            if vm.state == 'tomato' then return 'Tomato Time!'
-            if vm.state == 'observing' then return 'Tomato Time!'
-            if vm.state == 'tomato' then return 'Tomato Time!'
+            if vm.state() == 'tomato' then 'Tomato Time!' else 'Break Time!'
+
+        vm.clockBreakTime = ko.computed -> 
+            if vm.state() == 'break' then 'clock break' else 'clock work'
+
+        vm.clockInnerHTML = ko.computed ->
+            if vm.state() == 'break' then 
+                '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>' 
+            else 
+                '<h3>You have not joined this tomato.</h3>'
+
+        vm.clockInnerText = ko.computed ->
+            if vm.state() == 'break' then 
+                'Next tomato\'s task:' 
+            else 
+                'Work without distractions until the work timer reaches zero on:'
+
 
         # Things to save
         vm.username = ko.observable('guest')

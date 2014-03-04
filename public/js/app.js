@@ -176,14 +176,31 @@ $(function() {
     vm.nextTomatoTaskInput = ko.observable('');
     vm.pastTomatoes = {};
     vm.clockHeaderMessage = ko.computed(function() {
-      if (vm.state === 'tomato') {
+      if (vm.state() === 'tomato') {
         return 'Tomato Time!';
+      } else {
+        return 'Break Time!';
       }
-      if (vm.state === 'observing') {
-        return 'Tomato Time!';
+    });
+    vm.clockBreakTime = ko.computed(function() {
+      if (vm.state() === 'break') {
+        return 'clock break';
+      } else {
+        return 'clock work';
       }
-      if (vm.state === 'tomato') {
-        return 'Tomato Time!';
+    });
+    vm.clockInnerHTML = ko.computed(function() {
+      if (vm.state() === 'break') {
+        return '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>';
+      } else {
+        return '<h3>You have not joined this tomato.</h3>';
+      }
+    });
+    vm.clockInnerText = ko.computed(function() {
+      if (vm.state() === 'break') {
+        return 'Next tomato\'s task:';
+      } else {
+        return 'Work without distractions until the work timer reaches zero on:';
       }
     });
     vm.username = ko.observable('guest');
