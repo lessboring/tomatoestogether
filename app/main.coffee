@@ -55,6 +55,7 @@ emotes =
     'FrankerQ': 'fitzdog'
     'NoHair': 'nohair'
     'OneTomato': 'tomato'
+    'Dooskington': 'dooskington'
 
 
 $ ->
@@ -83,17 +84,13 @@ $ ->
         vm.clockBreakTime = ko.computed -> 
             if vm.state() == 'break' then 'clock break' else 'clock work'
 
+        # Merge created some issue with multiline :<
+
         vm.clockInnerHTML = ko.computed ->
-            if vm.state() == 'break' then 
-                '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>' 
-            else 
-                '<h3>You have not joined this tomato.</h3>'
+            if vm.state() == 'break' then return '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>' else return '<h3>You have not joined this tomato.</h3>'
 
         vm.clockInnerText = ko.computed ->
-            if vm.state() == 'break' then 
-                'Next tomato\'s task:' 
-            else 
-                'Work without distractions until the work timer reaches zero on:'
+            if vm.state() == 'break' then return 'Next tomato\'s task:' else return 'Work without distractions until the work timer reaches zero on:'
 
 
         # Things to save
@@ -199,7 +196,7 @@ $ ->
             vm.addMessage(message)
 
         socket.on 'slow-down', () ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: "You're sending messages too quickly.", userColor: '#000'})            
+            vm.addMessage({username: 'Server', timestamp: new Date(), body: 'You\'re sending messages too quickly.', userColor: '#000'})            
 
         vm.restoreFromLocalStorage()
 
