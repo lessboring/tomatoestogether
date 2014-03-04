@@ -36,6 +36,7 @@ server.listen(app.get('port'))
 messageHistory = []
 connectedUsers = []
 waitingUsers = []
+usernames = []
 
 ensureMessageIsShort = (message) ->
     if message.length > 255
@@ -53,12 +54,15 @@ propertyOf = (array, property, value) ->
     return -1
 
 io.sockets.on 'connection', (socket) ->
+<<<<<<< HEAD
 
     userinfo = {}
     userinfo.userid = socket.id
     userinfo.nick = 'guest'
     userinfo.usercolor = '#000000'
 
+=======
+>>>>>>> master
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
     socket.on 'message', (message) ->
@@ -74,18 +78,19 @@ io.sockets.on 'connection', (socket) ->
             waitingUsers.splice waitingUsers.indexOf(message.username), 1
             null
 
-        if waitingUsers.indexOf(message.username) == -1
-            if message.body.trim().length != 0
+        if message.body.trim().length != 0
+            if waitingUsers.indexOf(message.username) == -1
                 io.sockets.emit('message', message)
                 waitingUsers.push(message.username)
                 # I am not a big fan of this, not sure on how to solve this better tho (ChillyFlashER)
                 setTimeout(allow, 2000)
-        else
-            socket.emit 'slow-down'
+            else
+                socket.emit 'slow-down'
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
         io.sockets.emit('otherTomatoOver', data)
+<<<<<<< HEAD
 
     checkUsername = (nick) ->
         # TODO: don't count with this users
@@ -119,3 +124,5 @@ io.sockets.on 'connection', (socket) ->
             console.log '-------------------------------------------------------------------------------------------------------------------------'
             userinfo.nick = checkUsername(info.nick)
         socket.emit 'myinfo', userinfo
+=======
+>>>>>>> master

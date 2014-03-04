@@ -1,11 +1,10 @@
 /* THANKS */
 Oxysoft: Kappa emote
-JordanFitz: Colgan emote
+JordanFitz: Colgan emote, io.sockets.emit vs socket.emit, and preventing chat spam to a certain extent
+ChillyFlashER: Made the chat show during tomatoes with a disabled text box, limited the message history
 Drake: Swag emote
 Tinfoil: Box emote
 Good ideas: Yoshimoto, Pheelbert, Trystan34
 Aleeious: Found the vulnerability where you can call vm.finishTomato() manually and get infinite tomatoes.
 
 And everyone who watches the stream on twitch.tv/dvcolgan
-
-And JordanFitz for being awesome and fixing my bug with Socket.io

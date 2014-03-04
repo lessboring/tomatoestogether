@@ -55,6 +55,7 @@ emotes =
     'FrankerQ': 'fitzdog'
     'NoHair': 'nohair'
     'OneTomato': 'tomato'
+    'Dooskington': 'dooskington'
 
 
 $ ->
@@ -78,9 +79,23 @@ $ ->
         vm.pastTomatoes = {}
 
         vm.clockHeaderMessage = ko.computed ->
-            if vm.state == 'tomato' then return 'Tomato Time!'
-            if vm.state == 'observing' then return 'Tomato Time!'
-            if vm.state == 'tomato' then return 'Tomato Time!'
+            if vm.state() == 'tomato' then 'Tomato Time!' else 'Break Time!'
+
+        vm.clockBreakTime = ko.computed -> 
+            if vm.state() == 'break' then 'clock break' else 'clock work'
+
+        # Merge created some issue with multiline :<
+
+        vm.clockInnerHTML = ko.computed ->
+            if vm.state() == 'break' then return '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>' else return '<h3>You have not joined this tomato.</h3>'
+
+        vm.clockInnerText = ko.computed ->
+            if vm.state() == 'break' then return 'Next tomato\'s task:' else return 'Work without distractions until the work timer reaches zero on:'
+
+        vm.messageTemplateToUse = (item) ->
+            if item.username == 'Server' then return 'serverMessage'
+            return 'defaultMessage'
+
 
         # Things to save
         vm.username = ko.observable('guest')
@@ -214,7 +229,7 @@ $ ->
             vm.addMessage(message)
 
         socket.on 'slow-down', () ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: "You're sending messages too quickly.", userColor: '#000'})            
+            vm.addMessage({username: 'Server', body: 'You\'re sending messages too quickly.'})            
 
         vm.restoreFromLocalStorage()
 
