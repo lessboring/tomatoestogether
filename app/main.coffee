@@ -92,6 +92,10 @@ $ ->
         vm.clockInnerText = ko.computed ->
             if vm.state() == 'break' then return 'Next tomato\'s task:' else return 'Work without distractions until the work timer reaches zero on:'
 
+        vm.messageTemplateToUse = (item) ->
+            if item.username == 'Server' then return 'serverMessage'
+            return 'defaultMessage'
+
 
         # Things to save
         vm.username = ko.observable('guest')
@@ -196,7 +200,7 @@ $ ->
             vm.addMessage(message)
 
         socket.on 'slow-down', () ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: 'You\'re sending messages too quickly.', userColor: '#000'})            
+            vm.addMessage({username: 'Server', body: 'You\'re sending messages too quickly.'})            
 
         vm.restoreFromLocalStorage()
 
