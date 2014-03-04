@@ -25,7 +25,6 @@ app.get '/', (req, res) ->
     res.sendfile(__dirname + '/templates/index.html')
 
 
-# Where should I place this?
 MaxMessageHistory = 100
 
 
@@ -36,7 +35,6 @@ server.listen(app.get('port'))
 messageHistory = []
 connectedUsers = []
 waitingUsers = []
-usernames = []
 
 ensureMessageIsShort = (message) ->
     if message.length > 255
@@ -47,30 +45,26 @@ encoder = new Encoder('entity')
 escapeHTML = (message) ->
     return encoder.htmlEncode(message)
 
-propertyOf = (array, property, value) ->
-    for i in [0 .. array.length]
-        if array[i][property] == value
-            return i
-    return -1
+pushMessage = (message) ->
+    messageHistory.push(message)
+    messageHistory.splice(0, messageHistory.length - MaxMessageHistory)
+
 
 io.sockets.on 'connection', (socket) ->
-<<<<<<< HEAD
 
     userinfo = {}
     userinfo.userid = socket.id
     userinfo.nick = 'guest'
     userinfo.usercolor = '#000000'
 
-=======
->>>>>>> master
     socket.emit('hello', { status: 'connected', messages: messageHistory })
 
     socket.on 'message', (message) ->
         message.body = ensureMessageIsShort(message.body)
         message.body = escapeHTML(message.body)
+        # Why do you set a new date here?
         message.timestamp = new Date()
-        messageHistory.push(message)
-        messageHistory.splice(0, messageHistory.length - MaxMessageHistory)
+        pushMessage(message)
         
         console.log message
 
@@ -78,33 +72,34 @@ io.sockets.on 'connection', (socket) ->
             waitingUsers.splice waitingUsers.indexOf(message.username), 1
             null
 
-        if message.body.trim().length != 0
-            if waitingUsers.indexOf(message.username) == -1
+        # TODO: Make this client side?
+        if waitingUsers.indexOf(message.username) == -1
+            if message.body.trim().length != 0
                 io.sockets.emit('message', message)
                 waitingUsers.push(message.username)
-                # I am not a big fan of this, not sure on how to solve this better tho (ChillyFlashER)
                 setTimeout(allow, 2000)
-            else
-                socket.emit 'slow-down'
+        else
+            socket.emit 'slow-down'
 
     socket.on 'tomatoOver', (data) ->
         console.log JSON.stringify(data)
         io.sockets.emit('otherTomatoOver', data)
-<<<<<<< HEAD
 
-    checkUsername = (nick) ->
-        # TODO: don't count with this users
-        while propertyOf(connectedUsers, 'nick', nick) != -1
-            nick += '_'
-        return nick
+    checkUsername = (info) ->
+        # TODO: conflict with itself
+        for user in connectedUsers
+            console.log info
+            if user.userid == not info.userid and user.nick == info.nick
+                info.nick += '_'
+        return info.nick
 
-    # TODO:
     userinfo.nick = checkUsername(userinfo.nick)
 
     socket.emit 'myinfo', userinfo
-    socket.broadcast.emit 'user_con', userinfo
 
-    console.log 'user connected: ' + socket.id    
+    # Clean this up?
+    socket.broadcast.emit 'user_con', userinfo
+    console.log 'user connected: ' + socket.id
     connectedUsers.push(userinfo)
 
     socket.on 'disconnect', () ->
@@ -119,10 +114,7 @@ io.sockets.on 'connection', (socket) ->
         socket.emit 'myinfo', userinfo
 
     socket.on 'setmyinfo', (info) ->
-        if !!info.nick #and userinfo.nick != info.nick
+        if !!info.nick
             socket.broadcast.emit 'notice', userinfo.nick + ' changed name to ' + info.nick + '.'
-            console.log '-------------------------------------------------------------------------------------------------------------------------'
-            userinfo.nick = checkUsername(info.nick)
+            userinfo.nick = checkUsername(info)
         socket.emit 'myinfo', userinfo
-=======
->>>>>>> master

@@ -27,3 +27,4 @@ combine with GTD, todo lists
 
 
 * If you refresh you lose your current tomato
+* Add user connect/disconnect to history?

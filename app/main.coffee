@@ -93,7 +93,7 @@ $ ->
             if vm.state() == 'break' then return 'Next tomato\'s task:' else return 'Work without distractions until the work timer reaches zero on:'
 
         vm.messageTemplateToUse = (item) ->
-            if item.username == 'Server' then return 'serverMessage'
+            if item.template == 'Server' then return 'serverMessage'
             return 'defaultMessage'
 
 
@@ -189,11 +189,8 @@ $ ->
                 vm.chatMessages.push(message)
                 scrollChatToBottom()
 
-
-
-
         vm.updateMyInfo = ko.computed ->
-            #socket.emit 'setmyinfo', { nick: vm.username() }
+            socket.emit 'setmyinfo', { nick: vm.username() }
 
         vm.getUsers = () ->
             socket.emit 'users'
@@ -210,13 +207,16 @@ $ ->
 
 
         socket.on 'user_con', (info) ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: info.nick + ' connected.', userColor: '#000'})
+            vm.addMessage({template: 'Server', username: 'Server', timestamp: new Date(), body: '<b>' + info.nick + '</b> connected.', userColor: '#000'})
+            scrollChatToBottom()
 
         socket.on 'user_dis', (info) ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: info.nick + ' disconnected.', userColor: '#000'})
+            vm.addMessage({template: 'Server', username: 'Server', timestamp: new Date(), body: '<b>' + info.nick + '</b> disconnected.', userColor: '#000'})
+            scrollChatToBottom()
 
         socket.on 'notice', (message) ->
-            vm.addMessage({username: 'Server', timestamp: new Date(), body: message, userColor: '#000'})
+            vm.addMessage({template: 'Server', username: 'Server', timestamp: new Date(), body: message, userColor: '#000'})
+            scrollChatToBottom()
 
 
         setInterval(vm.tick, 1000)
@@ -229,7 +229,7 @@ $ ->
             vm.addMessage(message)
 
         socket.on 'slow-down', () ->
-            vm.addMessage({username: 'Server', body: 'You\'re sending messages too quickly.'})            
+            vm.addMessage({template: 'Server', username: 'Server', body: 'You\'re sending messages too quickly.'})            
 
         vm.restoreFromLocalStorage()
 
