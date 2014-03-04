@@ -308,10 +308,28 @@ $(function() {
       return socket.emit('setmyinfo', userinfo);
     };
     socket.on('user_con', function(info) {
-      return console.log(info.nick + ' connected');
+      return vm.addMessage({
+        username: 'Server',
+        timestamp: new Date(),
+        body: info.nick + ' connected.',
+        userColor: '#000'
+      });
     });
     socket.on('user_dis', function(info) {
-      return console.log(info.nick + ' disconnected');
+      return vm.addMessage({
+        username: 'Server',
+        timestamp: new Date(),
+        body: info.nick + ' disconnected.',
+        userColor: '#000'
+      });
+    });
+    socket.on('notice', function(message) {
+      return vm.addMessage({
+        username: 'Server',
+        timestamp: new Date(),
+        body: message,
+        userColor: '#000'
+      });
     });
     setInterval(vm.tick, 1000);
     socket.on('hello', function(data) {

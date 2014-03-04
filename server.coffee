@@ -46,6 +46,12 @@ encoder = new Encoder('entity')
 escapeHTML = (message) ->
     return encoder.htmlEncode(message)
 
+propertyOf = (array, property, value) ->
+    for i in [0 .. array.length]
+        if array[i][property] == value
+            return i
+    return -1
+
 io.sockets.on 'connection', (socket) ->
 
     userinfo = {}
@@ -81,12 +87,16 @@ io.sockets.on 'connection', (socket) ->
         console.log JSON.stringify(data)
         io.sockets.emit('otherTomatoOver', data)
 
+    checkUsername = (nick) ->
+        # TODO: don't count with this users
+        while propertyOf(connectedUsers, 'nick', nick) != -1
+            nick += '_'
+        return nick
 
+    # TODO:
+    userinfo.nick = checkUsername(userinfo.nick)
 
-    # Lets send the new data to the client
     socket.emit 'myinfo', userinfo
-
-    # Lets send that there is a new user to everyone but the new user
     socket.broadcast.emit 'user_con', userinfo
 
     console.log 'user connected: ' + socket.id    
@@ -94,10 +104,9 @@ io.sockets.on 'connection', (socket) ->
 
     socket.on 'disconnect', () ->
         socket.broadcast.emit 'user_dis', userinfo
-
         console.log 'user disconnected: ' + socket.id
         connectedUsers.splice(connectedUsers.indexOf(userinfo), 1);
-        
+
     socket.on 'users', () ->
         socket.emit 'users', connectedUsers
 
@@ -105,9 +114,8 @@ io.sockets.on 'connection', (socket) ->
         socket.emit 'myinfo', userinfo
 
     socket.on 'setmyinfo', (info) ->
-        if !!info.nick
-            userinfo.nick = info.nick
-
+        if !!info.nick #and userinfo.nick != info.nick
+            socket.broadcast.emit 'notice', userinfo.nick + ' changed name to ' + info.nick + '.'
+            console.log '-------------------------------------------------------------------------------------------------------------------------'
+            userinfo.nick = checkUsername(info.nick)
         socket.emit 'myinfo', userinfo
-
-

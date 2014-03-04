@@ -195,10 +195,13 @@ $ ->
 
 
         socket.on 'user_con', (info) ->
-            console.log info.nick + ' connected'
+            vm.addMessage({username: 'Server', timestamp: new Date(), body: info.nick + ' connected.', userColor: '#000'})
 
         socket.on 'user_dis', (info) ->
-            console.log info.nick + ' disconnected'
+            vm.addMessage({username: 'Server', timestamp: new Date(), body: info.nick + ' disconnected.', userColor: '#000'})
+
+        socket.on 'notice', (message) ->
+            vm.addMessage({username: 'Server', timestamp: new Date(), body: message, userColor: '#000'})
 
 
         setInterval(vm.tick, 1000)
