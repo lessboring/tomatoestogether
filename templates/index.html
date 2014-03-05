@@ -80,6 +80,11 @@
                         </div>
                     </form>
                 </div>
+
+                <h3>Fellow Tomatoers</h3>
+                <div data-bind="foreach: connectedUserList">
+                    <p data-bind="text: nick, style: { color: userColor }"></p>
+                </div>
             </div>
         </div>
     </div>

@@ -78,6 +78,8 @@ $ ->
 
         vm.pastTomatoes = {}
 
+        vm.connectedUsers = ko.observable({})
+
 
         ### 
                 Template
@@ -186,6 +188,13 @@ $ ->
             vm.state(state)
             return util.formatTomatoClock(minutesLeft, secondsLeft)
 
+        vm.connectedUserList = ko.computed ->
+            users = []
+            for user in vm.connectedUsers()
+                users.push(user)
+            return users
+
+
 
         ###
                 Completed Tomatoes
@@ -251,7 +260,7 @@ $ ->
 
         # TODO: Never send message to the server
         socket.on 'slow-down', () ->
-            vm.addServerMessage('You\'re sending messages too quickly.')            
+            vm.addServerMessage('You\'re sending messages too quickly.')
 
 
         ### 
@@ -262,8 +271,10 @@ $ ->
             socket.emit 'users'
 
         socket.on 'users', (users) ->
-            # TODO: Display the users
-            console.log users
+            connectedUsers = vm.connectedUsers()
+            for user in users
+                connectedUsers[user.nick] = user
+            vm.connectedUsers(connectedUsers)
 
 
         ### 
@@ -287,13 +298,22 @@ $ ->
 
         socket.on 'user_con', (info) ->
             vm.addServerMessage('<b>' + info.nick + '</b> connected.')
+            connectedUsers = vm.connectedUsers()
+            connectedUsers[info.nick] = info
+            vm.connectedUsers(connectedUsers)
+
 
         socket.on 'user_dis', (info) ->
             vm.addServerMessage('<b>' + info.nick + '</b> disconnected.')
+            connectedUsers = vm.connectedUsers()
+            delete connectedUsers[info.nick]
+            vm.connectedUsers(connectedUsers)
 
         # Message from server
         socket.on 'notice', (message) ->
             vm.addServerMessage(message)
+
+        vm.getUsers()
 
 
         ###
