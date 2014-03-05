@@ -270,17 +270,12 @@ $ ->
                 Client Info
         ###
 
-        vm.updateMyInfo = (ko.computed ->
-            # TODO: Don't update when the oldValue is the same
-            #console.log 'update info { nick: ' + vm.nick() + ' }'
+        vm.updateMyInfo = ->
             socket.emit 'setmyinfo', { nick: vm.nick() }
-        , this).extend({ notify2: (a, b) -> return a != b; })
-
-        vm.getMyInfo = () ->
-            socket.emit 'myinfo'
 
         socket.on 'myinfo', (info) ->
-            vm.nick(info.nick)
+            if vm.nick() != info.nick
+                vm.nick(info.nick)
 
         vm.setMyInfo = (userinfo) ->
             socket.emit 'setmyinfo', userinfo

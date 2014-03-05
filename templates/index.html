@@ -30,7 +30,7 @@
                     <div class="col-xs-5">
                         <div class="input-group">
                             <span class="input-group-addon">Chat Name</span>
-                            <input type="text" name="nick" data-bind="value: nick, valueUpdate: 'keyup', style: { color: userColor }" class="form-control">
+                            <input type="text" name="nick" data-bind="value: nick, valueUpdate: 'keyup', style: { color: userColor }, event: { blur: updateMyInfo }" class="form-control">
                         </div>
                     </div>
                     <div class="col-xs-5">

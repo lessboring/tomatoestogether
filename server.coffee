@@ -142,26 +142,15 @@ io.sockets.on 'connection', (socket) ->
         socket.emit 'myinfo', userinfo
 
     socket.on 'setmyinfo', (info) ->
-        change = false
+        oldNick = userinfo.nick
+        newNick = checkNick(info)
 
-        if !!info.nick
-            oldNick = userinfo.nick
-            newNick = checkNick(info)
-
-            #if not oldNick == newNick
-            change = true
+        if oldNick != newNick
             userinfo.nick = newNick
             socket.broadcast.emit 'notice', '<b>' + oldNick + '</b> changed name to <b>' + userinfo.nick + '</b>.'
 
 #            console.log '[INFO] '.green + "'#{oldNick.underline.cyan}' change nick to '#{newNick.underline.cyan}' (#{userinfo.userid})"
-
-        if change 
             socket.emit 'myinfo', userinfo
-
-
-    ###
-            
-    ###
 
     socket.on 'identify', (info) ->
 #        console.log 'IDENTIFY '.green + JSON.stringify(info)
