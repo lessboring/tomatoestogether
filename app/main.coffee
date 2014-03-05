@@ -84,8 +84,6 @@ $ ->
         vm.clockBreakTime = ko.computed -> 
             if vm.state() == 'break' then 'clock break' else 'clock work'
 
-        # Merge created some issue with multiline :<
-
         vm.clockInnerHTML = ko.computed ->
             if vm.state() == 'break' then return '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>' else return '<h3>You have not joined this tomato.</h3>'
 
@@ -96,6 +94,10 @@ $ ->
             if item.template == 'Server' then return 'serverMessage'
             return 'defaultMessage'
 
+        vm.debugChatEnable = ko.observable(false)
+        vm.chatEnabled = ->
+            if vm.debugChatEnable() then return true
+            return vm.connected() and vm.state() == 'break'
 
         # Things to save
         vm.username = ko.observable('guest')
@@ -190,7 +192,8 @@ $ ->
                 scrollChatToBottom()
 
         vm.updateMyInfo = ko.computed ->
-            socket.emit 'setmyinfo', { nick: vm.username() }
+            #if 
+            #socket.emit 'setmyinfo', { nick: vm.username() }
 
         vm.getUsers = () ->
             socket.emit 'users'

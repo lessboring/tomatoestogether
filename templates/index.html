@@ -74,9 +74,9 @@
                     </div>
                     <form data-bind="submit: sendMessage">
                         <div class="input-group">
-                            <input type="text" data-bind="value: newChatMessage, enable: connected() &amp;&amp; state() == 'break'" class="new-chat-message form-control">
+                            <input type="text" data-bind="value: newChatMessage, enable: chatEnabled()" class="new-chat-message form-control">
                             <span class="input-group-btn">
-                            <button type="submit" data-bind="enable: connected() &amp;&amp; state() == 'break'" class="btn btn-primary">Chat</button></span>
+                            <button type="submit" data-bind="enable: chatEnabled()" class="btn btn-primary">Chat</button></span>
                         </div>
                     </form>
                 </div>

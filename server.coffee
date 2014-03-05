@@ -26,6 +26,7 @@ app.get '/', (req, res) ->
 
 
 MaxMessageHistory = 100
+UsernameMaxLength = 32
 
 
 server = http.createServer(app)
@@ -88,12 +89,13 @@ io.sockets.on 'connection', (socket) ->
     checkUsername = (info) ->
         # TODO: conflict with itself
         for user in connectedUsers
-            console.log info
             if user.userid == not info.userid and user.nick == info.nick
                 info.nick += '_'
+        #if info.nick.length > UsernameMaxLength then
+        #    info.nick.slice(UsernameMaxLength, UsernameMaxLength - info.nick.length)
         return info.nick
 
-    userinfo.nick = checkUsername(userinfo.nick)
+    userinfo.nick = checkUsername(userinfo)
 
     socket.emit 'myinfo', userinfo
 
@@ -115,6 +117,7 @@ io.sockets.on 'connection', (socket) ->
 
     socket.on 'setmyinfo', (info) ->
         if !!info.nick
-            socket.broadcast.emit 'notice', userinfo.nick + ' changed name to ' + info.nick + '.'
+            oldNick = userinfo.nick
             userinfo.nick = checkUsername(info)
+            socket.broadcast.emit 'notice', oldNick + ' changed name to ' + userinfo.nick + '.'
         socket.emit 'myinfo', userinfo
