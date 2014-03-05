@@ -271,6 +271,7 @@ $ ->
             socket.emit 'users'
 
         socket.on 'users', (users) ->
+            console.log users
             connectedUsers = vm.connectedUsers()
             for user in users
                 connectedUsers[user.nick] = user
