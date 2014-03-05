@@ -64,7 +64,7 @@ io.sockets.on 'connection', (socket) ->
 
     userinfo.userid = socket.id
     userinfo.nick = 'guest'
-    userinfo.usercolor = '#000000'
+    userinfo.userColor = '#000000'
 
 
     ###

@@ -190,7 +190,7 @@ $ ->
 
         vm.connectedUserList = ko.computed ->
             users = []
-            for user in vm.connectedUsers()
+            for nick, user of vm.connectedUsers()
                 users.push(user)
             return users
 
