@@ -91,11 +91,15 @@
     <div class="chat-message">
         <span data-bind="text: timestamp.toLocaleTimeString()"></span>&nbsp;<a href="#"><strong data-bind="text: nick, style: { color: userColor }"></strong></a>:&nbsp;&nbsp;<span data-bind="html: body"></span>
     </div>
+    <!-- 
+        data-bind="attr: { title: userid }" 
+    -->
 </script>
 <script id="serverMessage" type="text/html">
     <div class="chat-message">
         <span data-bind="html: body"></span>
     </div>
+    <!-- style="color: red" -->
 </script>
 <script src="/js/vendor.js"></script>
 <script src="/js/app.js"></script>

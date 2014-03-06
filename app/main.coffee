@@ -78,6 +78,7 @@ $ ->
 
         vm.pastTomatoes = {}
 
+
         ### 
                 Template
         ###
@@ -98,14 +99,19 @@ $ ->
             if item.template == 'Server' then return 'serverMessage'
             return 'defaultMessage'
 
+
         ###
                 Debug Stuff
         ###
 
         vm.debugChatEnable = ko.observable(false)
+        vm.debugServerMessages = ko.observable(false)
+
+        # This is also used in templates
         vm.chatEnabled = ->
             if vm.debugChatEnable() then return true
             return vm.connected() and vm.state() == 'break'
+
 
         ###
                 Storage
@@ -136,6 +142,7 @@ $ ->
                     doneTomatoes: vm.doneTomatoes()
                 localStorage.setItem('tomatoestogether', JSON.stringify(saved))
 
+
         ###
                 Tomato 
         ###
@@ -157,6 +164,7 @@ $ ->
 
                 vm.nextTomatoTask('')
 
+
         ###
                 Clock time
         ###
@@ -177,6 +185,7 @@ $ ->
                     vm.finishTomato()
             vm.state(state)
             return util.formatTomatoClock(minutesLeft, secondsLeft)
+
 
         ###
                 Completed Tomatoes
@@ -222,13 +231,15 @@ $ ->
                 scrollChatToBottom()
 
         vm.addServerMessage = (text) ->
-            vm.addMessage({template: 'Server', nick: 'server', timestamp: new Date(), body: text})
+            if vm.debugServerMessages()
+                vm.addMessage({template: 'Server', nick: 'server', timestamp: new Date(), body: text})
+
 
         ###
 
         ###
 
-        # Initial connection
+        # Initial connection message
         socket.on 'welcome', (data) ->
             vm.connected(true)
             for message in data.messages
@@ -259,9 +270,11 @@ $ ->
                 Client Info
         ###
 
-        vm.updateMyInfo = ko.computed ->
+        vm.updateMyInfo = (ko.computed ->
             # TODO: Don't update when the oldValue is the same
-            #socket.emit 'setmyinfo', { nick: vm.nick() }
+            #console.log 'update info { nick: ' + vm.nick() + ' }'
+            socket.emit 'setmyinfo', { nick: vm.nick() }
+        , this).extend({ notify2: (a, b) -> return a != b; })
 
         vm.getMyInfo = () ->
             socket.emit 'myinfo'
@@ -279,16 +292,14 @@ $ ->
 
         socket.on 'user_con', (info) ->
             vm.addServerMessage('<b>' + info.nick + '</b> connected.')
-            scrollChatToBottom()
 
         socket.on 'user_dis', (info) ->
             vm.addServerMessage('<b>' + info.nick + '</b> disconnected.')
-            scrollChatToBottom()
 
         # Message from server
         socket.on 'notice', (message) ->
             vm.addServerMessage(message)
-            scrollChatToBottom()
+
 
         ###
                 Initiate Server Connection
@@ -296,10 +307,10 @@ $ ->
 
         vm.restoreFromLocalStorage()
 
-        #   We should request nick and color to the server
-        #       Then we recive our new information (our "new" nick and color)
-        #
-        
+        socket.on 'identify', ->
+            socket.emit 'identify', {nick: vm.nick(), userColor: vm.userColor()}
+
+
         ###
 
         ###

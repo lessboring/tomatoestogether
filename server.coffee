@@ -3,6 +3,8 @@ path = require('path')
 express = require('express')
 Encoder = require('node-html-encoder').Encoder
 
+#colors = require('colors');
+
 app = new express()
 
 app.set('port', process.env.PORT or 3000)
@@ -33,15 +35,18 @@ server = http.createServer(app)
 io = require('socket.io').listen(server)
 server.listen(app.get('port'))
 
+# Less logging
+io.set('log level', 1);
+
 messageHistory = []
 connectedUsers = []
 
 # TODO: Remove this
 waitingUsers = []
 
-ensureMessageIsShort = (message) ->
-    if message.length > 255
-        return message[...255]
+ensureMessageIsShort = (message, size) ->
+    if message.length > size
+        return message[...size]
     return message
 
 encoder = new Encoder('entity')
@@ -61,6 +66,7 @@ io.sockets.on 'connection', (socket) ->
     userinfo.nick = 'guest'
     userinfo.usercolor = '#000000'
 
+
     ###
             Tomato
     ###
@@ -69,14 +75,16 @@ io.sockets.on 'connection', (socket) ->
         #console.log JSON.stringify(data)
         io.sockets.emit('otherTomatoOver', data)
 
+
     ###
             Messages
     ###
 
     socket.on 'message', (message) ->
-        message.body = ensureMessageIsShort(message.body)
+        message.body = ensureMessageIsShort(message.body, 255)
         message.body = escapeHTML(message.body)
         message.timestamp = new Date()
+        message.userid = userinfo.userid
         pushMessage(message)
         
         allow = () ->
@@ -92,55 +100,78 @@ io.sockets.on 'connection', (socket) ->
         else
             socket.emit 'slow-down'
 
+
     ### 
             Nick
     ###
 
     checkNick = (info) ->
-        # TODO: conflict with itself
-        for user in connectedUsers
-            if user.userid == not info.userid and user.nick == info.nick
-                info.nick += '_'
+
+        # TODO: Assign nick
+
+        # TODO: conflict with itself        
+        #for user in connectedUsers
+        #    if user.userid == not info.userid and user.nick == info.nick
+        #        info.nick += '_'
+        
         #if info.nick.length > NickMaxLength then
-        #    info.nick.slice(NickMaxLength, NickMaxLength - info.nick.length)
+        #    info.nick = ensureMessageIsShort(info.nick, NickMaxLength)
+
         return info.nick
+
 
     ###
             Connection
     ###
 
     connectedUsers.push(userinfo)
-    #console.log 'user connected: ' + socket.id
     socket.on 'disconnect', () ->
         socket.broadcast.emit 'user_dis', userinfo
-        #console.log 'user disconnected: ' + socket.id
         connectedUsers.splice(connectedUsers.indexOf(userinfo), 1);
+#        console.log '[USER] '.green + "'#{userinfo.nick.underline.cyan}' (#{socket.id}) Disconnected"
 
     socket.on 'users', () ->
         socket.emit 'users', connectedUsers
+
 
     ###
             Client Info
     ###
 
-    socket.on 'myinfo', () ->
+    socket.on 'myinfo', ->
         socket.emit 'myinfo', userinfo
 
     socket.on 'setmyinfo', (info) ->
+        change = false
+
         if !!info.nick
             oldNick = userinfo.nick
-            userinfo.nick = checkNick(info)
+            newNick = checkNick(info)
+
+            #if not oldNick == newNick
+            change = true
+            userinfo.nick = newNick
             socket.broadcast.emit 'notice', '<b>' + oldNick + '</b> changed name to <b>' + userinfo.nick + '</b>.'
-        socket.emit 'myinfo', userinfo
+
+#            console.log '[INFO] '.green + "'#{oldNick.underline.cyan}' change nick to '#{newNick.underline.cyan}' (#{userinfo.userid})"
+
+        if change 
+            socket.emit 'myinfo', userinfo
+
 
     ###
             
     ###
 
-    # Lets ask the client what nick and color he wants
-    userinfo.nick = checkNick(userinfo)
-    socket.emit 'myinfo', userinfo
+    socket.on 'identify', (info) ->
+#        console.log 'IDENTIFY '.green + JSON.stringify(info)
+        userinfo.nick = checkNick(info)
+        userinfo.userColor = info.userColor
+        socket.emit 'myinfo', userinfo
+#        console.log '[USER] '.green + "'#{userinfo.nick.underline.cyan}' (#{socket.id}) Connected"
 
+    socket.emit 'identify', {}
+    
     socket.broadcast.emit 'user_con', userinfo
-
+    
     socket.emit('welcome', { status: 'connected', messages: messageHistory })
