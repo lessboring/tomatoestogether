@@ -78,15 +78,19 @@ $ ->
 
         vm.pastTomatoes = {}
 
+        ### 
+                Template
+        ###
+
         vm.clockHeaderMessage = ko.computed ->
             if vm.state() == 'tomato' then 'Tomato Time!' else 'Break Time!'
-
+        
         vm.clockBreakTime = ko.computed -> 
             if vm.state() == 'break' then 'clock break' else 'clock work'
-
+        
         vm.clockInnerHTML = ko.computed ->
             if vm.state() == 'break' then return '<p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>' else return '<h3>You have not joined this tomato.</h3>'
-
+        
         vm.clockInnerText = ko.computed ->
             if vm.state() == 'break' then return 'Next tomato\'s task:' else return 'Work without distractions until the work timer reaches zero on:'
 
@@ -94,16 +98,47 @@ $ ->
             if item.template == 'Server' then return 'serverMessage'
             return 'defaultMessage'
 
+        ###
+                Debug Stuff
+        ###
+
         vm.debugChatEnable = ko.observable(false)
         vm.chatEnabled = ->
             if vm.debugChatEnable() then return true
             return vm.connected() and vm.state() == 'break'
 
-        # Things to save
-        vm.username = ko.observable('guest')
+        ###
+                Storage
+        ###
+
+        vm.nick = ko.observable('guest')
         vm.userColor = ko.observable('#000000')
         vm.playSound = ko.observable(true)
 
+        vm.restoreFromLocalStorage = ->
+            saved = localStorage.getItem('tomatoestogether')
+            if saved?
+                saved = JSON.parse(saved)
+                vm.nick(saved.nick or 'guest')
+                vm.userColor(saved.userColor or '#000000')
+                vm.doneTomatoes(saved.doneTomatoes or [])
+                if saved.playSound?
+                    vm.playSound(saved.playSound)
+
+            # This has to be done after the values are read
+            # or they will be overwritten
+            vm.saveToLocalStorage = ko.computed ->
+                #console.log 'Saving to localStorage.'
+                saved =
+                    nick: vm.nick()
+                    userColor: vm.userColor()
+                    playSound: vm.playSound()
+                    doneTomatoes: vm.doneTomatoes()
+                localStorage.setItem('tomatoestogether', JSON.stringify(saved))
+
+        ###
+                Tomato 
+        ###
 
         vm.joinNextTomato = ->
             vm.nextTomatoTask(vm.nextTomatoTaskInput())
@@ -114,50 +149,23 @@ $ ->
                 vm.doneTomatoes.push
                     task: vm.nextTomatoTask()
                     day: getDate().toDateString()
+                # TODO: This should be done differently 
                 socket.emit 'message',
-                    username: vm.username()
+                    nick: vm.nick()
                     body: "My tomato task: " + vm.nextTomatoTask()
                     userColor: vm.userColor()
 
                 vm.nextTomatoTask('')
 
-
-        vm.restoreFromLocalStorage = ->
-            saved = localStorage.getItem('tomatoestogether')
-            if saved?
-                console.log 'Reading from localStorage' + saved
-                saved = JSON.parse(saved)
-                vm.username(saved.username or 'guest')
-                vm.userColor(saved.userColor or '#000000')
-                vm.doneTomatoes(saved.doneTomatoes or [])
-                if saved.playSound?
-                    vm.playSound(saved.playSound)
-
-            # This has to be done after the values are read
-            # or they will be overwritten
-            vm.saveToLocalStorage = ko.computed ->
-                console.log 'Saving to localStorage.'
-                saved =
-                    username: vm.username()
-                    userColor: vm.userColor()
-                    playSound: vm.playSound()
-                    doneTomatoes: vm.doneTomatoes()
-                console.log saved
-                localStorage.setItem('tomatoestogether', JSON.stringify(saved))
+        ###
+                Clock time
+        ###
 
         vm.tick = ->
             vm.clock(getDate())
 
         vm.formattedClock = ko.computed ->
             return util.formatCurrentTime(vm.clock())
-
-        vm.todaysTomatoes = ko.computed ->
-            todays = []
-            today = getDate().toDateString()
-            for tomato in vm.doneTomatoes()
-                if tomato.day == today
-                    todays.push(tomato)
-            return todays
 
         vm.formattedTime = ko.computed ->
             [minutesLeft, secondsLeft, state] = util.tomatoTimeFromHourTime(vm.clock())
@@ -170,71 +178,134 @@ $ ->
             vm.state(state)
             return util.formatTomatoClock(minutesLeft, secondsLeft)
 
-        vm.sendMessage = (form) ->
-            socket.emit 'message',
-                username: vm.username()
-                body: vm.newChatMessage()
-                userColor: vm.userColor()
-            vm.newChatMessage('')
+        ###
+                Completed Tomatoes
+        ###
+
+        vm.todaysTomatoes = ko.computed ->
+            todays = []
+            today = getDate().toDateString()
+            for tomato in vm.doneTomatoes()
+                if tomato.day == today
+                    todays.push(tomato)
+            return todays
+
+
+        ### 
+                Emotes
+        ###
 
         emoteSrc = (emoteFile) ->
             return '<img src="emotes/' + emoteFile + '.png"/>'
 
+
+        ###
+                Messages
+        ###
+
+        vm.sendMessage = (form) ->
+            socket.emit 'message',
+                nick: vm.nick()
+                body: vm.newChatMessage()
+                userColor: vm.userColor()
+            vm.newChatMessage('')
+
         vm.addMessage = (message) ->
             for emoteKeyword, emoteFile of emotes
                 message.body = message.body.replaceAll(emoteKeyword, emoteSrc(emoteFile))
-            message.body = Autolinker.link(message.body, { stripPrefix: false })
 
+            message.body = Autolinker.link(message.body, { stripPrefix: false })
             message.timestamp = new Date(message.timestamp)
 
             if message.body.trim().length != 0
                 vm.chatMessages.push(message)
                 scrollChatToBottom()
 
-        vm.updateMyInfo = ko.computed ->
-            #if 
-            #socket.emit 'setmyinfo', { nick: vm.username() }
+        vm.addServerMessage = (text) ->
+            vm.addMessage({template: 'Server', nick: 'server', timestamp: new Date(), body: text})
+
+        ###
+
+        ###
+
+        # Initial connection
+        socket.on 'welcome', (data) ->
+            vm.connected(true)
+            for message in data.messages
+                vm.addMessage(message)
+
+        # New message
+        socket.on 'message', (message) ->
+            vm.addMessage(message)
+
+        # TODO: Never send message to the server
+        socket.on 'slow-down', () ->
+            vm.addServerMessage('You\'re sending messages too quickly.')            
+
+
+        ### 
+                Users
+        ###
 
         vm.getUsers = () ->
             socket.emit 'users'
+
         socket.on 'users', (users) ->
+            # TODO: Display the users
             console.log users
+
+
+        ### 
+                Client Info
+        ###
+
+        vm.updateMyInfo = ko.computed ->
+            # TODO: Don't update when the oldValue is the same
+            #socket.emit 'setmyinfo', { nick: vm.nick() }
 
         vm.getMyInfo = () ->
             socket.emit 'myinfo'
+
         socket.on 'myinfo', (info) ->
-            vm.username(info.nick)
+            vm.nick(info.nick)
 
         vm.setMyInfo = (userinfo) ->
             socket.emit 'setmyinfo', userinfo
 
 
+        ###
+                Server Messages
+        ###
+
         socket.on 'user_con', (info) ->
-            vm.addMessage({template: 'Server', username: 'Server', timestamp: new Date(), body: '<b>' + info.nick + '</b> connected.', userColor: '#000'})
+            vm.addServerMessage('<b>' + info.nick + '</b> connected.')
             scrollChatToBottom()
 
         socket.on 'user_dis', (info) ->
-            vm.addMessage({template: 'Server', username: 'Server', timestamp: new Date(), body: '<b>' + info.nick + '</b> disconnected.', userColor: '#000'})
+            vm.addServerMessage('<b>' + info.nick + '</b> disconnected.')
             scrollChatToBottom()
 
+        # Message from server
         socket.on 'notice', (message) ->
-            vm.addMessage({template: 'Server', username: 'Server', timestamp: new Date(), body: message, userColor: '#000'})
+            vm.addServerMessage(message)
             scrollChatToBottom()
 
-
-        setInterval(vm.tick, 1000)
-
-        socket.on 'hello', (data) ->
-            vm.connected(true)
-            for message in data.messages
-                vm.addMessage(message)
-        socket.on 'message', (message) ->
-            vm.addMessage(message)
-
-        socket.on 'slow-down', () ->
-            vm.addMessage({template: 'Server', username: 'Server', body: 'You\'re sending messages too quickly.'})            
+        ###
+                Initiate Server Connection
+        ###
 
         vm.restoreFromLocalStorage()
+
+        #   We should request nick and color to the server
+        #       Then we recive our new information (our "new" nick and color)
+        #
+        
+        ###
+
+        ###
+
+        # Set the clock update timer
+        setInterval(vm.tick, 1000)
 
         window.vm = vm
         null
