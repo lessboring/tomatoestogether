@@ -24,3 +24,7 @@
 combine with GTD, todo lists
 
 * add streaming your tomatos?
+
+
+* If you refresh you lose your current tomato
+* Add user connect/disconnect to history?
