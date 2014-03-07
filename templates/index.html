@@ -30,7 +30,7 @@
                     <div class="col-xs-5">
                         <div class="input-group">
                             <span class="input-group-addon">Chat Name</span>
-                            <input type="text" name="username" data-bind="value: username, valueUpdate: 'keyup', style: { color: userColor }" class="form-control">
+                            <input type="text" name="nick" data-bind="value: nick, valueUpdate: 'keyup', style: { color: userColor }" class="form-control">
                         </div>
                     </div>
                     <div class="col-xs-5">
@@ -46,30 +46,14 @@
                         </label>
                     </div>
                 </div>
-                <div data-bind="visible: state() == 'tomato'">
-                    <div class="clock work">
-                        <h2>Tomato Time!</h2>
-                        <div data-bind="text: formattedTime" class="clock-face"></div>
-                        <div data-bind="if: nextTomatoTask() === ''">
-                            <h3>You have not joined this tomato.</h3>
-                        </div>
-                        <div data-bind="if: nextTomatoTask() !== ''">
-                            <p>Work without distractions until the work timer reaches zero on:</p>
-                            <h3 data-bind="text: nextTomatoTask"></h3>
-                        </div>
+                <div data-bind="css: clockBreakTime">
+                    <h2 data-bind="text: clockHeaderMessage">Tomato Time!</h2>
+                    <div data-bind="text: formattedTime" class="clock-face"></div>
+                    <div data-bind="visible: nextTomatoTask() === '', html: clockInnerHTML">
                     </div>
-                </div>
-                <div data-bind="visible: state() == 'break'">
-                    <div class="clock break">
-                        <h2>Break Time!</h2>
-                        <div data-bind="text: formattedTime" class="clock-face"></div>
-                        <div data-bind="if: nextTomatoTask() === ''">
-                            <p>Tell everyone about what you did in the chat until the break timer reaches zero!</p>
-                        </div>
-                        <div data-bind="if: nextTomatoTask() !== ''">
-                            <p>Next tomato's task:</p>
-                            <h3 data-bind="text: nextTomatoTask"></h3>
-                        </div>
+                    <div data-bind="if: nextTomatoTask() !== ''">
+                        <p data-bind="text: clockInnerText"></p>
+                        <h3 data-bind="text: nextTomatoTask"></h3>
                     </div>
                 </div>
                 <form data-bind="submit: joinNextTomato" class="input-group mbl">
@@ -86,14 +70,13 @@
             <div class="col-md-6">
                 <div>
                     <h2 style="margin: 0; margin-bottom: 21px;">Tell everyone about your work:</h2>
-                    <div data-bind="foreach: chatMessages" class="well chat-container">
-                        <div class="chat-message"><span data-bind="text: timestamp.toLocaleTimeString()"></span>&nbsp;<strong data-bind="text: username, style: { color: userColor }"></strong>:&nbsp;&nbsp;<span data-bind="html: body"></span></div>
+                    <div data-bind="template: { name: messageTemplateToUse, foreach: chatMessages }" class="well chat-container">
                     </div>
                     <form data-bind="submit: sendMessage">
                         <div class="input-group">
-                            <input type="text" data-bind="value: newChatMessage, enable: connected() &amp;&amp; state() == 'break'" class="new-chat-message form-control">
+                            <input type="text" data-bind="value: newChatMessage, enable: chatEnabled()" class="new-chat-message form-control">
                             <span class="input-group-btn">
-                            <button type="submit" data-bind="enable: connected() &amp;&amp; state() == 'break'" class="btn btn-primary">Chat</button></span>
+                            <button type="submit" data-bind="enable: chatEnabled()" class="btn btn-primary">Chat</button></span>
                         </div>
                     </form>
                 </div>
@@ -104,6 +87,20 @@
 <div id="footer">
     <div class="container text-muted">An experiment by <a href="https://twitter.com/davidscolgan">@davidscolgan</a></div>
 </div>
+<script id="defaultMessage" type="text/html">
+    <div class="chat-message">
+        <span data-bind="text: timestamp.toLocaleTimeString()"></span>&nbsp;<a href="#"><strong data-bind="text: nick, style: { color: userColor }"></strong></a>:&nbsp;&nbsp;<span data-bind="html: body"></span>
+    </div>
+    <!-- 
+        data-bind="attr: { title: userid }" 
+    -->
+</script>
+<script id="serverMessage" type="text/html">
+    <div class="chat-message">
+        <span data-bind="html: body"></span>
+    </div>
+    <!-- style="color: red" -->
+</script>
 <script src="/js/vendor.js"></script>
 <script src="/js/app.js"></script>
 <script src="/socket.io/socket.io.js"></script>
