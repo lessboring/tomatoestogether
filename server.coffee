@@ -109,17 +109,18 @@ io.sockets.on 'connection', (socket) ->
 
         # TODO: Assign nick
 
-        # TODO: conflict with itself        
+        # TODO: conflict with itself
         #for user in connectedUsers
         #    if user.userid == not info.userid and user.nick == info.nick
         #        info.nick += '_'
         
         #if info.nick.length > NickMaxLength then
         #    info.nick = ensureMessageIsShort(info.nick, NickMaxLength)
-
+        for user in connectedUsers
+            if info.userid isnt user.userid
+                if info.nick is user.nick
+                    info.nick += '_' + Math.floor(Math.random() * 10000)
         return info.nick
-
-
     ###
             Connection
     ###
@@ -148,9 +149,9 @@ io.sockets.on 'connection', (socket) ->
             oldNick = userinfo.nick
             newNick = checkNick(info)
 
-            #if not oldNick == newNick
-            change = true
-            userinfo.nick = newNick
+            if not oldNick == newNick
+                change = true
+                userinfo.nick = newNick
             socket.broadcast.emit 'notice', '<b>' + oldNick + '</b> changed name to <b>' + userinfo.nick + '</b>.'
 
 #            console.log '[INFO] '.green + "'#{oldNick.underline.cyan}' change nick to '#{newNick.underline.cyan}' (#{userinfo.userid})"
