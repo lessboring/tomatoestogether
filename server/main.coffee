@@ -3,8 +3,6 @@ path = require('path')
 express = require('express')
 Encoder = require('node-html-encoder').Encoder
 
-#colors = require('colors');
-
 app = new express()
 
 app.set('port', process.env.PORT or 3000)
@@ -36,7 +34,7 @@ io = require('socket.io').listen(server)
 server.listen(app.get('port'))
 
 # Less logging
-io.set('log level', 1);
+io.set('log level', 1)
 
 messageHistory = []
 connectedUsers = []
@@ -156,7 +154,7 @@ io.sockets.on 'connection', (socket) ->
 
 #            console.log '[INFO] '.green + "'#{oldNick.underline.cyan}' change nick to '#{newNick.underline.cyan}' (#{userinfo.userid})"
 
-        if change 
+        if change
             socket.emit 'myinfo', userinfo
 
 

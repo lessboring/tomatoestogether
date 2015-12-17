@@ -1,10 +1,15 @@
-padWithZero = (num) ->
-    if num.toString().length == 1
-        return '0' + num.toString()
-    else
-        return num.toString()
+types = require('client/types')
 
-module.exports =
+
+module.exports = types.checkModule
+    padWithZero_: ['Number', 'String']
+    padWithZero: (num) ->
+        if num.toString().length == 1
+            '0' + num.toString()
+        else
+            num.toString()
+
+    tomatoTimeFromHourTime_: ['Date', ['Number', 'Number', 'String']]
     tomatoTimeFromHourTime: (currentTime) ->
         minutes = currentTime.getMinutes()
         seconds = currentTime.getSeconds()
@@ -24,13 +29,15 @@ module.exports =
             minutesLeft = 25 - minutes - 1
             state = 'tomato'
         secondsLeft = 60 - seconds - 1
-        return [minutesLeft, secondsLeft, state]
+        [minutesLeft, secondsLeft, state]
 
+    formatCurrentTime_: ['Date', 'String']
     formatCurrentTime: (date) ->
         hours = date.getHours()
         minutes = date.getMinutes()
         seconds = date.getSeconds()
-        return hours + ':' + padWithZero(minutes) + ':' + padWithZero(seconds)
+        hours + ':' + padWithZero(minutes) + ':' + padWithZero(seconds)
 
+    formatTomatoClock_: ['Number', 'Number', 'String']
     formatTomatoClock: (minutesLeft, secondsLeft) ->
-        return minutesLeft + ':' + padWithZero(secondsLeft)
+        "#{minutesLeft}:#{padWithZero(secondsLeft)}"
