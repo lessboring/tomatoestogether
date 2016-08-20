@@ -1,13 +1,19 @@
 module.exports =
     connected: ->
+        myId = localStorage.getItem('myId') or null
+
         # Send the server our id if we have it
+        socket.emit('join', {myId})
+
     confirmed: ->
         # Receive all information about our user if it was still there
         # other users
         # current tomato task state (during/break)
     
-    changeUsername: ->
+    changeMyUser: ({ username, color, tomatoTask }) ->
         # Change our username and send it to the server
+
+        m.redraw()
 
     changeColor: ->
         # Change our color and send it to the server

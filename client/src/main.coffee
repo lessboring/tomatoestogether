@@ -1,3 +1,11 @@
+m = require('mithril')
+
+App = require('src/view')
+
+m.mount(document.body, App)
+
+
+"""
 module.exports =
     saveCompletedTomato: (tomato) ->
         storage = JSON.parse(localStorage.getItem('tomatoestogether'))
@@ -361,3 +369,4 @@ $ ->
 
         # Set the clock update timer
         setInterval(vm.tick, 1000)
+"""
