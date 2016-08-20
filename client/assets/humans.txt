@@ -1,4 +1,5 @@
 /* THANKS */
+Denaje: Help with version 3 rewrite
 Oxysoft: Kappa emote
 JordanFitz: Colgan emote, io.sockets.emit vs socket.emit, and preventing chat spam to a certain extent
 ChillyFlashER: Made the chat show during tomatoes with a disabled text box, limited the message history
