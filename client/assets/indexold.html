@@ -56,8 +56,10 @@
                     </div>
                 </div>
                 <form data-bind="submit: joinNextTomato" class="input-group mbl">
-                    <input placeholder="During this tomato I am going to..." type="text" name="nextTomatoTask" data-bind="value: nextTomatoTaskInput, valueUpdate: 'keyup'" class="form-control"><span class="input-group-btn">
-                        <button type="submit" class="btn btn-success">Join</button></span>
+                    <input placeholder="During this tomato I am going to..." type="text" name="nextTomatoTask" data-bind="value: nextTomatoTaskInput, valueUpdate: 'keyup'" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success">Join</button>
+                    </span>
                 </form>
                 <!-- ko if: doneTomatoes().length > 0-->
                 <h3>Today's Completed Tomatoes</h3>

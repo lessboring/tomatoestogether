@@ -15,12 +15,6 @@ module.exports =
 
         m.redraw()
 
-    changeColor: ->
-        # Change our color and send it to the server
-
-    changeTomatoTask: ->
-        # Change our tomato task and send it to the server
-
     sendMessage: ->
         # Send a chat message to the server
 
@@ -32,12 +26,5 @@ module.exports =
     otherUserLeft: ->
         # Remove this user from our list of users
 
-    otherUserChangedUsername: ->
-        # Update user with new nickname
-
-    otherUserChangedColor: ->
-        # Update user with new color
-
-    otherUserChangedTomatoTask: ->
-        # Update user with new tomato task
-
+    otherUserChanged: ->
+        # Update user with new nickname, color, and tomato task

@@ -4,7 +4,8 @@
   "description": "Be productive together!",
   "main": "main.coffee",
   "scripts": {
-    "start": "npm run watch & npm run static",
+    "start": "npm run watch & npm run css & npm run static",
+    "css": "stylus -w style.styl -o assets/style.css",
     "static": "http-server assets/ -p 8000 -s",
     "watch": "watchify src/main.coffee -g coffeeify --fast --extension .js --extension .coffee -o assets/bundle.js -dv",
     "build": "browserify src/main.coffee -g coffeeify --fast --extension .js --extension .coffee | uglifyjs > assets/bundle.js"
@@ -23,6 +24,7 @@
     "mithril": "^0.2.5",
     "mocha": "^3.0.2",
     "socket.io-client": "^1.4.8",
+    "stylus": "^0.54.5",
     "tape": "^4.6.0",
     "watchify": "^3.7.0"
   }
