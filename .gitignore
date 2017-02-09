@@ -12,3 +12,4 @@ scratch
 /figures/*
 !.gitkeep
 db_backup.sql
+__pycache__
