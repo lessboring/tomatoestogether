@@ -1,0 +1,64 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} | Tomatoes Together</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link type="text/plain" rel="author" href="https://www.tomatoestogether.com/humans.txt" />
+
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" media="screen">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="nav navbar-nav">
+            <a class="nav-item nav-link navbar-brand active" href="{% url 'home' %}">
+                <img src="{% static 'tomato.png' %}" alt="tomato" />
+                Tomatoes Together
+            </a>
+        </div>
+        <div class="desktop-nav hidden-sm-down">
+            {% if not request.user.is_authenticated %}
+                <div class="navbar-nav">
+                </div>
+                <div class="nav navbar-nav pull-xs-right">
+                    <a class="nav-item nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Log In</a>
+                </div>
+            {% else %}
+                <div class="navbar-nav">
+                    <div>
+                        <div>
+                            <a class="nav-item nav-link" href="{% url 'project_list' %}">Projects</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav navbar-nav pull-xs-right">
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div id="clock"></div>
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block foot %}{% endblock %}
+
+    {% if not debug %}
+        <script>
+            // Insert google analytics here maybe
+        </script>
+    {% endif %}
+    <script>
+        var clock = document.querySelector('#clock');
+        clock.innerHTML = 'hello';
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}Create or Update Project{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Create or Update Project</h1>
+
+    <div class="row">
+        <form method="POST" class="col-md-6">{% csrf_token %}
+            {{ form|bootstrap }}
+            <input id="id_login" type="submit" class="btn btn-primary btn-lg" value="Save" />
+        </form>
+    </div>
+</div>
+{% endblock %}
+

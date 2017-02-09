@@ -1,57 +1,84 @@
-# Tomatoes Together
+# Architecture
+* ReactJS/React Native
+* Typescript
+* Browserify
+* Python 3
+* Django/Django Rest Framework
+* Django Channels/Socket.io for websocket stuff
 
-A site for doing work together.
 
-To hack on the project, first install NodeJS. Then you'll want to clone the project like so: 
-    
-    git clone https://github.com/dcolgan/tomatoestogether.git
+Features
+* Ability to capture ideas and tasks from any device
 
-Then you'll want to cd into the project directory and run this command to install the node modules:
+Different kinds of todos:
+Time sensitive one off todos (errands)
+    Fill in my channel description because it is blank
+    Buy a coffee maker
+Recurring tasks (chores)
+    Do the dishes
+    Tidy the house
+    Pay the rent
+Scheduled tasks (appointments)
+    Something on a calendar, could also be recurring
+Habits
+    Did I floss
+    Did I upload vods to youtube
+Lists
+    Things I want to blog about
+    Recipes I want to try cooking
+    Things to buy
 
-    npm install
 
-#### Automatic Compilation
+Buy a coffee maker by the end of the week
+    To buy
+    Has deadline
 
-To automatically compile the main coffeescript files use: 
+Ability to easy run it yourself and export your data
+    Open source - if you want to run your own instance you can
+    Make it easy to get a json dump or whatever dump of all your data
 
-    brunch watch
+When at the store, I can on my phone pull up "show me all tasks with the to buy tag"
 
-To automatically compile and run the project use this command in the base directory: 
 
-    nodemon server.coffee
+Pricing
+    Make it a flat $9 a month, but open source it and if you want to self-host you can (or an enterprise can for $999 a month)
 
-#### Using with Vim
 
-Due to an unknown bug with Vim and auto compilation, add this to your .vimrc:
+Workflows
+    Create project
+    Manage tasks per project
+    Tomato page
 
-    set nowritebackup
 
-#### Contributing
 
-You can contribute to this project by first cloning the main repository. Once you've made changes or added features, you'll want to fork the project on github, then commit and push the project to your fork. After pushing, you'll want to submit a pull request to the main project.
 
-#### Additional information
+* if you change your tomato task during the tomato it shows all of them in the chat during the break
+* suggest taking a long break after 4
+* have some way to say "i'm working on this for this tomato" and confirm that you are doing this tomato
 
-This project makes use of [Node.js](http://nodejs.org/), [Socket.io](http://socket.io/), [Brunch.io](http://brunch.io/), and [Knockout.js](http://knockoutjs.com/)
+* show the chat always if you haven't confirmed you are doing this tomato
+    add a 'doingthistomato' variable
+    # I am not sure what you mean by this // ChillyFlashER
 
-## Planned features (you can help to add these)
+* favicon (tomato)
+* add user accounts (login with facebook, twitter, gmail? username/password)
+* show what everyone else did during the break?
 
-* Show currently connected users!
-* Don't allow multiple people to have the same username - add an underscore somehow if that name is taken
-* ✔ Start discarding message history after a certain point (ChillyFlashER)
+* leaderboards for most tomatoes ever, most tomatoes per day
+* show everyone who is doing a tomato right now
 
-	Now it only does it on the server, not the client. Should it also do it on the client?
+* make login optional and have leaderboards for people who are logged in
+* count the total number of tomatoes ever done
+* give guests names like adjective + "Tomato": Suspicious Tomato
+* make the tomato timer pop out
 
-* ✔ Rate limit messages (JordanFitz)
-* Unit tests! LOTS of unit tests.
-* The app/main.coffee file is kind of a mess
-* ✔ Show the chat during a tomato, just don't allow chatting? (ChillyFlashER)
+* mark whether or not your tomato was a success (rate 1-5 stars how productive you were)
 
-	Should you be allowed to chat if you haven't joined the tomato?
+* have a way to share a screenshot with people of what you did
+combine with GTD, todo lists
 
-* This README needs expanded, explain better how to set up the project, add windows/mac/linux instructions
-* Some sort of build automation like Jake?
-* The top header on the page could be nicened up
-* /node_modules should be removed from the repo, as well as /public
+* add streaming your tomatos?
 
-If you make a contribution, send me a pull request and add yourself to app/assets/humans.txt!
+
+* If you refresh you lose your current tomato
+* Add user connect/disconnect to history?

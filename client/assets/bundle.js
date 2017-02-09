@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module 'src/types' from '/home/dvcolgan/projects/tomatoestogether/client'");

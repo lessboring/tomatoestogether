@@ -1,2 +1,14 @@
-public
+*.swp
+*.swo
+*.pyc
+\#*\#
+*~
+.\#*
+env
 node_modules
+.coverage
+scratch
+.idea/
+/figures/*
+!.gitkeep
+db_backup.sql
