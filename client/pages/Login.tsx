@@ -4,10 +4,10 @@ import * as DocumentTitle from 'react-document-title';
 import {observer, inject} from 'mobx-react';
 import {CardLayout} from '../components/Layouts';
 import FormField from '../components/FormField';
-import {IsNotEmpty} from "class-validator";
 import PageError from '../components/PageError';
 import {observable, computed, action} from 'mobx';
 import {browserHistory} from 'react-router';
+import Spinner from '../components/Spinner';
 import http from '../http';
 
 
@@ -50,8 +50,8 @@ export default class Login extends React.Component<{}, {}> {
         this.store.login()
     }
 
-    handleChange = (name: keyof LoginCredentials) => (e: any) => {
-        this.store.credentials[name] = (e.target as any).value;
+    handleChange = (name: string) => (e: any) => {
+        (this.store.credentials as any)[name] = (e.target as any).value;
     }
 
     render() {

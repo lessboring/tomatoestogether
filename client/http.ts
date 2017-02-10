@@ -6,7 +6,7 @@ if (typeof window !== 'undefined') {
     (window as any).http = http;
 }
 http.catchAll = (err: any) => {
-    const current = browserHistory.getCurrentLocation().pathname;
+    const current = browserHistory.location.pathname;
     if (current !== '/login' && err.response.status === 401) {
         // If the token is still here, it must be out of date
         localStorage.removeItem('token');
