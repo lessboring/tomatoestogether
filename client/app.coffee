@@ -1,6 +1,24 @@
 m = require('mithril')
 {header, footer} = require('client/components/simple')
 
+module.exports = types.checkModule
+    header_: ['Html']
+    header: ->
+        m '.header.clearfix.mbl',
+            m '.container',
+                m '.row',
+                    m '.col-sm-6.col-md-8.col-lg-6',
+                        m 'h1', 'Tomatoes Together!'
+                    m '.col-sm-6.col-md-4.col-lg-6',
+                        m 'p', 'Working by yourself can lead to a lack of motivation. But working around others can be distracting.  So do 25 minutes of focused work, and then take a 5 minute break to tell everyone about how it went!  Work periods start on the hour and half past the hour.'
+
+    footer_: ['Html']
+    footer: ->
+        m '#footer',
+            m '.container.text-muted',
+                'An experiment by'
+                m 'a[href=https://twitter.com/davidscolgan]', '@davidscolgan'
+
 components = types.checkModule
 configBar =
     view_: ['Ctrl', {user: 'User', playSound: 'Boolean'}, 'Html']
@@ -27,7 +45,7 @@ configBar =
 
 tomatoTimer = (ctrl) ->
     <div data-bind="css: clockBreakTime">
-        vm.clockBreakTime = ko.computed -> 
+        vm.clockBreakTime = ko.computed ->
             if vm.state() == 'break' then 'clock break' else 'clock work'
         <h2 data-bind="text: clockHeaderMessage">Tomato Time!</h2>
         <div data-bind="text: formattedTime" class="clock-face"></div>
@@ -93,7 +111,6 @@ chatBox = (ctrl) ->
                 m 'button.btn.btn-primary[type=submit]',
                     data-bind="enable: chatEnabled()" class="">
                     'Chat'
-
 
 module.exports = types.checkModule
     controller: ->

@@ -13,3 +13,4 @@ scratch
 !.gitkeep
 db_backup.sql
 __pycache__
+npm-debug.log

@@ -3,21 +3,29 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import User, Project, Task, Tomato
+from rest_framework import generics
+from . import serializers
 
 
 class SignUpView(
         generic.CreateView):
     template_name = 'registration/signup.html'
     model = User
-    fields = [
-        'email', 'password'
-    ]
+    fields = ['email', 'password']
 
 
 class ProjectListView(
         LoginRequiredMixin,
         generic.ListView):
     model = Project
+
+
+class ProjectListCreateAPIView(
+        generics.ListCreateAPIView):
+    serializer_class = serializers.ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
 
 
 class ProjectDetailView(

@@ -1,3 +1,7 @@
+
+
+
+
 # Architecture
 * ReactJS/React Native
 * Typescript
@@ -5,6 +9,21 @@
 * Python 3
 * Django/Django Rest Framework
 * Django Channels/Socket.io for websocket stuff
+
+Make it so that you can enter your distracting communication website into the app and it will show that site only during the tomato break
+Slack, Gmail, Hangouts
+
+Free version can be just the tomato timer, and you can create todo lists but not save them other than in local storage
+Paid version adds todo lists/projects, tagging things, saving how many tomatoes you have done, stats and graphs
+I want to make the tool that will help me create more apps and maybe it will be helpful to other people too
+
+Make it easy to download your data
+Make it open source and say if you want to have the full version without paying, you can set it up yourself
+
+This app may also allow me to focus more while working if I put the twitch chat into the system
+
+Use twitch streams for marketing
+
 
 
 Features

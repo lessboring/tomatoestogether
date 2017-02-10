@@ -1,0 +1,1 @@
+console.error("TypeScript error: client/http.ts(9,36): Error TS2339: Property 'getCurrentLocation' does not exist on type 'History'.");

@@ -11,11 +11,6 @@ gongSound = new Audio('gong.mp3')
 ringGong = ->
     gongSound.play()
 
-scrollChatToBottom = ->
-    $('.chat-container').stop().animate({
-        scrollTop: $('.chat-container')[0].scrollHeight
-    }, 800)
-
 getDate = ->
     date = new Date()
     #date.setMinutes(date.getMinutes() % 5 + 25)
@@ -64,7 +59,6 @@ $ ->
         vm.chatEnabled = ->
             if vm.debugChatEnable() then return true
             return vm.connected() and vm.state() == 'break'
-
 
         vm.tick = ->
             vm.clock(getDate())

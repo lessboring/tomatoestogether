@@ -1,4 +1,5 @@
 import os
+import datetime
 import socket
 from django.core.urlresolvers import reverse_lazy
 import getpass
@@ -40,31 +41,21 @@ else:
     DEBUG = True
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-if not DEBUG:
-    ALLOWED_HOSTS = [
-        '*.tomatoestogether.com',
-    ]
+ALLOWED_HOSTS = [
+    'tomatoestogether',
+    '*.tomatoestogether.com',
+]
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django_extensions',
-    'bootstrapform',
     'core',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'tomatoestogether.urls'
@@ -137,3 +128,23 @@ TEMPLATES = [{
         ],
     },
 }]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
+
+# Disable api metadata if we are on production
+if not DEBUG:
+    REST_FRAMEWORK['DEFAULT_METADATA_CLASS'] = None

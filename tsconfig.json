@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "strictNullChecks": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "experimentalDecorators": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "target": "ES5",
+        "jsx": "react",
+        "typeRoots": [
+            "./node_modules/@types",
+            "./types"
+        ]
+    },
+    "files": [
+        "src/index.tsx",
+        "tests/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

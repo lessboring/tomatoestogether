@@ -1,0 +1,53 @@
+{
+  "name": "tomatoestogether",
+  "version": "0.0.1",
+  "description": "The Tomatoes Together Frontend Website",
+  "scripts": {
+    "start": "npm run watch-client & npm run watch-scss & npm run livereload",
+    "watch-client": "watchify client/index.tsx -p tsify -o assets/bundle.js",
+    "watch-scss": "nodemon -e scss -x \"npm run build-scss\"",
+    "build-scss": "node-sass --include-path=scss scss/main.scss assets/styles.css",
+    "livereload": "livereload assets/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvcolgan/tomatoestogether.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvcolgan/tomatoestogether/issues"
+  },
+  "homepage": "https://www.tomatoestogether.com",
+  "author": "David Colgan",
+  "dependencies": {
+    "@types/axios": "^0.9.34",
+    "@types/es6-promise": "0.0.32",
+    "@types/marked": "0.0.28",
+    "@types/node-uuid": "0.0.28",
+    "@types/react": "^0.14.54",
+    "@types/react-dom": "^0.14.19",
+    "@types/react-router": "^3.0.3",
+    "@types/victory": "^0.9.5",
+    "@types/xtend": "^4.0.2",
+    "axios": "^0.15.3",
+    "bootstrap": "^4.0.0-alpha.6",
+    "browserify": "^13.1.1",
+    "es6-promise": "^4.0.5",
+    "livereload": "^0.6.0",
+    "marked": "^0.3.6",
+    "mobx": "^2.7.0",
+    "mobx-react": "^4.1.0",
+    "node-sass": "^4.3.0",
+    "nodemon": "^1.11.0",
+    "react": "^15.4.1",
+    "react-document-title": "^2.0.2",
+    "react-dom": "^15.4.1",
+    "react-router": "^3.0.2",
+    "react-router-restore-scroll": "0.0.1",
+    "tsify": "^2.0.3",
+    "typescript": "^2.1.4",
+    "victory": "^0.15.0",
+    "watchify": "^3.7.0",
+    "xtend": "^4.0.1"
+  }
+}
