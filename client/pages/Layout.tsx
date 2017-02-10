@@ -14,7 +14,10 @@ export default class Layout extends React.Component<{}, {}> {
                     <button className="navbar-toggler navbar-toggler-right" type="button" onClick={vm.toggleMenu}>
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" href="#">Navbar</a>
+                    <a className="navbar-brand" href="#">
+                        <img className="tomato-logo" src="/assets/tomato.png"/>
+                        Tomatoes Together
+                    </a>
                     <div className={'collapse navbar-collapse ' + (vm.menuExpanded ? 'show' : '')}>
                         <div className="navbar-nav">
                             <a className="nav-item nav-link active" href="#">Home</a>

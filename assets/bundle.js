@@ -322,21 +322,30 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var React = require("react");
 var DocumentTitle = require("react-document-title");
+var Layouts_1 = require("../components/Layouts");
+var HomeStore = (function () {
+    function HomeStore() {
+    }
+    return HomeStore;
+}());
 var Home = (function (_super) {
     __extends(Home, _super);
     function Home() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.store = new HomeStore();
+        return _this;
     }
     Home.prototype.render = function () {
-        return (React.createElement(DocumentTitle, { title: "Log In | Tomatoes Together" },
-            React.createElement("h1", null, "Log In")));
+        return (React.createElement(DocumentTitle, { title: "Home | Tomatoes Together" },
+            React.createElement(Layouts_1.CardLayout, null,
+                React.createElement("h1", null, "Tomatoes Together"))));
     };
     return Home;
 }(React.Component));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Home;
 
-},{"react":284,"react-document-title":92}],10:[function(require,module,exports){
+},{"../components/Layouts":2,"react":284,"react-document-title":92}],10:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -362,7 +371,9 @@ var Layout = (function (_super) {
             React.createElement("nav", { className: "navbar navbar-toggleable-md navbar-light bg-faded" },
                 React.createElement("button", { className: "navbar-toggler navbar-toggler-right", type: "button", onClick: view_model_1.default.toggleMenu },
                     React.createElement("span", { className: "navbar-toggler-icon" })),
-                React.createElement("a", { className: "navbar-brand", href: "#" }, "Navbar"),
+                React.createElement("a", { className: "navbar-brand", href: "#" },
+                    React.createElement("img", { className: "tomato-logo", src: "/assets/tomato.png" }),
+                    "Tomatoes Together"),
                 React.createElement("div", { className: 'collapse navbar-collapse ' + (view_model_1.default.menuExpanded ? 'show' : '') },
                     React.createElement("div", { className: "navbar-nav" },
                         React.createElement("a", { className: "nav-item nav-link active", href: "#" }, "Home"),
