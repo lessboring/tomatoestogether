@@ -14,3 +14,32 @@ body {
 .container {
     padding: 0;
 }
+
+.card {
+    border: 0;
+}
+
+$dark-red: #730217;
+$light-red: #BF0426;
+$dark-green: #2C4001;
+$light-green: #72A603;
+
+.timer {
+    color: white;
+    text-align: center;
+    padding-bottom: 1rem;
+
+    &.tomato {
+        background-color: #cc0000;
+    }
+    &.break {
+        background-color: #008800;
+    }
+}
+.time-display {
+    font-size: 4rem;
+}
+.task-display {
+    font-size: 2rem;
+    font-weight: bold;
+}

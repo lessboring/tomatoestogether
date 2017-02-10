@@ -1,3 +1,5 @@
+import * as types from './types';
+
 export const padWithZero = (num: number) => {
     if (num.toString().length === 1) {
         return '0' + num.toString();
@@ -7,11 +9,11 @@ export const padWithZero = (num: number) => {
     }
 };
 
-export const tomatoTimeFromHourTime = (currentTime) => {
+export const tomatoTimeFromHourTime = (currentTime: Date): [number, number, types.TomatoState] => {
     const minutes = currentTime.getMinutes();
     const seconds = currentTime.getSeconds();
     let minutesLeft = 0;
-    let state = null;
+    let state: types.TomatoState = 'break';
 
     if (minutes >= 55) {
         minutesLeft = 5 - (minutes - 55) - 1;
@@ -33,13 +35,13 @@ export const tomatoTimeFromHourTime = (currentTime) => {
     return [minutesLeft, secondsLeft, state];
 };
 
-export const formatCurrentTime = (date) => {
+export const formatCurrentTime = (date: Date) => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
     return `${hours}:${padWithZero(minutes)}:${padWithZero(seconds)}`;
 };
 
-export const formatTomatoClock = (minutesLeft, secondsLeft) => {
+export const formatTomatoClock = (minutesLeft: number, secondsLeft: number) => {
     return `${minutesLeft}:${padWithZero(secondsLeft)}`;
 };
