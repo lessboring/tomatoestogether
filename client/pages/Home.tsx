@@ -1,14 +1,9 @@
 import * as React from 'react';
 import * as DocumentTitle from 'react-document-title';
 import {CardLayout} from '../components/Layouts';
-import vm from '../view-model';
+import store from '../store';
 import {observer} from 'mobx-react';
 import {Link} from 'react-router';
-
-
-class HomeStore {
-
-}
 
 
 interface Task {
@@ -21,7 +16,7 @@ class TimeDisplay extends React.Component<{}, {}> {
     render() {
         return (
             <div className="time-display">
-                {vm.formattedTime}
+                {store.formattedTime}
             </div>
         );
     }
@@ -42,7 +37,7 @@ class TaskDisplay extends React.Component<{task: Task}, {}> {
 class Timer extends React.Component<{task: Task}, {}> {
     render() {
         return (
-            <div className={'timer ' + vm.state}>
+            <div className={'timer ' + store.state}>
                 <TimeDisplay />
                 <TaskDisplay task={this.props.task} />
             </div>
@@ -52,7 +47,9 @@ class Timer extends React.Component<{task: Task}, {}> {
 
 @observer
 export default class Home extends React.Component<{}, {}> {
-    store = new HomeStore();
+    componentWillMount() {
+        store.fetchProjects();
+    }
     render() {
         return (
             <DocumentTitle title="Home | Tomatoes Together">

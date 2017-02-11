@@ -4,7 +4,7 @@
   "description": "The Tomatoes Together Frontend Website",
   "scripts": {
     "start": "npm run watch-client & npm run watch-scss & npm run livereload",
-    "watch-client": "watchify client/index.tsx -p tsify -o assets/bundle.js",
+    "watch-client": "watchify index.ts -p tsify -o assets/bundle.js",
     "watch-scss": "nodemon -e scss -x \"npm run build-scss\"",
     "build-scss": "node-sass --include-path=scss scss/main.scss assets/styles.css",
     "livereload": "livereload assets/"
