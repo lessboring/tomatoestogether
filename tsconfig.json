@@ -15,7 +15,7 @@
         ]
     },
     "files": [
-        "src/index.tsx",
+        "index.ts",
         "tests/**/*"
     ],
     "exclude": [

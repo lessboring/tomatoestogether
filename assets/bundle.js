@@ -179,7 +179,10 @@ var react_router_1 = require("react-router");
 var react_router_restore_scroll_1 = require("react-router-restore-scroll");
 var createHistory = react_router_restore_scroll_1.useHistoryRestoreScroll(function () { return react_router_1.browserHistory; });
 var routerRender = react_router_1.applyRouterMiddleware(react_router_restore_scroll_1.useRouterRestoreScroll());
-react_dom_1.render(React.createElement(react_router_1.Router, { routes: routes_1.default, history: createHistory(), render: routerRender }), document.getElementById('app'));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = function () {
+    react_dom_1.render(React.createElement(react_router_1.Router, { routes: routes_1.default, history: createHistory(), render: routerRender }), document.getElementById('app'));
+};
 
 },{"./routes":13,"react":285,"react-dom":94,"react-router":252,"react-router-restore-scroll":223}],7:[function(require,module,exports){
 "use strict";

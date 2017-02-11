@@ -1,0 +1,2 @@
+to get rid of the right margin, do .row {margin: 0;}
+vim doesn't pick up the tsconfig unless the entry point is in the same folder as the tsconfig, so make a index.ts in the same folder that just imports the startup file

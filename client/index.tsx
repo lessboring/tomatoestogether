@@ -7,8 +7,9 @@ import { useHistoryRestoreScroll, useRouterRestoreScroll } from 'react-router-re
 const createHistory = useHistoryRestoreScroll(() => browserHistory);
 const routerRender = applyRouterMiddleware(useRouterRestoreScroll());
 
-render(
-    <Router routes={routes} history={createHistory()} render={routerRender}/>,
-    document.getElementById('app')
-);
-
+export default () => {
+    render(
+        <Router routes={routes} history={createHistory()} render={routerRender}/>,
+        document.getElementById('app')
+    );
+}
