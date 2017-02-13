@@ -48,7 +48,7 @@ class Timer extends React.Component<{task: Task}, {}> {
 @observer
 export default class Home extends React.Component<{}, {}> {
     componentWillMount() {
-        store.fetchProjects();
+        //store.fetchProjects();
     }
     render() {
         return (

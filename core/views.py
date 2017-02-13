@@ -7,6 +7,19 @@ from rest_framework import generics
 from . import serializers
 
 
+class ProjectListCreateAPIView(
+        generics.ListCreateAPIView):
+    serializer_class = serializers.ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
+
+
+class ProjectRetrieveUpdateDestroyAPIView(
+        generics.ListCreateAPIView):
+    serializer_class = serializers.ProjectSerializer
+
+
 class SignUpView(
         generic.CreateView):
     template_name = 'registration/signup.html'
@@ -19,13 +32,6 @@ class ProjectListView(
         generic.ListView):
     model = Project
 
-
-class ProjectListCreateAPIView(
-        generics.ListCreateAPIView):
-    serializer_class = serializers.ProjectSerializer
-
-    def get_queryset(self):
-        return Project.objects.filter(user=self.request.user)
 
 
 class ProjectDetailView(

@@ -9,9 +9,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    tasks = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
     class Meta:
         model = Project
-        fields = ['name']
+        fields = ['name', 'tasks']
+
+
+class TomatoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['user', 'start', 'project']
 
 
 class TaskSerializer(serializers.ModelSerializer):

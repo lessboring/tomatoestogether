@@ -1,7 +1,7 @@
 import { MockableHttp } from './mockable-http';
 import { browserHistory } from 'react-router';
 
-const http = new MockableHttp('http://tomatoestogether/app/api/v1');
+const http = new MockableHttp('http://tomatoestogether/api/v1');
 if (typeof window !== 'undefined') {
     (window as any).http = http;
 }

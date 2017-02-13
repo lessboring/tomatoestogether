@@ -25,9 +25,9 @@ class ProjectStore {
         http.get(`/projects/${projectId}`)
         .then(action((projectData: any) => {
             this.projects = [];
-            for (const projectData of projectsData) {
-                this.projects.push(new models.Project(projectData));
-            }
+            //for (const projectData of projectsData) {
+            //    this.projects.push(new models.Project(projectData));
+            //}
             this.loading = false;
         }))
     }

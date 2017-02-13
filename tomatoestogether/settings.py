@@ -48,7 +48,9 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'django.contrib.auth',
+    'django.contrib.staticfiles',
     'django.contrib.contenttypes',
+    'rest_framework',
     'django_extensions',
     'core',
 ]
@@ -143,6 +145,7 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_ALLOW_REFRESH': True,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': '',
 }
 
 # Disable api metadata if we are on production

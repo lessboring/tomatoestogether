@@ -1,14 +1,139 @@
+# TODO
+
+Get webcam back
+Research how to structure the frontend model layout
+Spend the middle of the day walking around and thinking and also researching
+Talk to Ted
+Decide if i want this to be a full fledged cms
+Decide if I want to work on the Django tutorial in tandem so if I get stuck I can swap back and forth?
+
+Draw up wireframes for the whole app, and figure out all of the react companents
+Design the entire api
+Consider balsamiq
+Consider installing Windows
+
+
+# Version 1 Features
+
+* Be able to without logging in, use the tomato timer and a single todo list stored locally (same features from the original version)
+* Be able to log in, create an account, and pay
+* Once logged in, be able to create projects and add tasks to the lists
+
+# Version 2 Features
+
+* Habit tracking
+* Idea capture
+* Decision making
+* Contacts manager
+* Statistics and tracking of what you get done
+* Public stats page that shows your tomatoes per day, embed on your website (market method)
+
+Floss
+Eat x number of veggies
+wake up by 7am
+go to bed by 11pm
+stream today
+took a walk today
+start evening stream by 6pm
+
+I wilt at 9pm, so start stream at 6pm if I want 3 hours
 
 
 
+# Reasons for making
+
+* Practice my stack
+* Figure out my process for building things
+* Make the task management system I want myself
+* Potentially sell it if it is useful enough
+* People wanted to be able to use the old tomatoes together again, and it was broken
 
 # Architecture
+
 * ReactJS/React Native
 * Typescript
 * Browserify
 * Python 3
 * Django/Django Rest Framework
 * Django Channels/Socket.io for websocket stuff
+
+# API
+
+```bash
+GET /projects/
+returns 200 {
+    id: number,
+    name: string,
+}
+
+GET /projects/<project_id>/
+returns 200 {
+    id: number,
+    name: string,
+}
+
+POST /projects/ {
+    name: string,
+} returns 201 {
+    id: number,
+    name: string,
+}
+
+PUT/PATCH /projects/<project_id>/ {
+    name: string,
+} returns 200 {
+    id: number,
+    name: string,
+}
+
+DELETE /projects/<project_id>/
+returns 204
+
+GET /projects/<project_id>/
+returns 200 {
+    id: number,
+    name: string,
+}
+
+GET /projects/<project_id>/?full=true
+returns 200 {
+    id: number,
+    name: string,
+    tasks: [{
+        id: number,
+        tomato_id?: number,
+        title: string,
+        body: string,
+    }]
+}
+
+GET /tasks/?project_id=
+
+GET /projects/<project_id>/
+returns 200 {
+    id: number,
+    name: string,
+}
+
+POST /projects/ {
+    name: string,
+} returns 201 {
+    id: number,
+    name: string,
+}
+
+PUT/PATCH /projects/<project_id>/ {
+    name: string,
+} returns 200 {
+    id: number,
+    name: string,
+}
+
+DELETE /projects/<project_id>/
+returns 204
+
+```
+
 
 Make it so that you can enter your distracting communication website into the app and it will show that site only during the tomato break
 Slack, Gmail, Hangouts
