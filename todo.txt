@@ -41,3 +41,15 @@ GET /tomatoes/
     Get all of my user's completed tomatoes
 POST /tomatoes/
     Start a new tomato
+
+Frontend pages spec
+
+Header bar
+Iframe window
+Task System
+Tomato Timer
+    Shows either the task system or the iframe window
+Login modal
+Sign up modal
+Upgrade to the full version modal
+Profile modal

@@ -23,7 +23,6 @@ export default class Layout extends React.Component<{}, {}> {
                             <a className="nav-item nav-link active" href="#">Home</a>
                             <a className="nav-item nav-link" href="#">Features</a>
                             <a className="nav-item nav-link" href="#">Pricing</a>
-                            <a className="nav-item nav-link disabled" href="#">Disabled</a>
                         </div>
                     </div>
                 </nav>
