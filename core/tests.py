@@ -7,6 +7,7 @@ class BaseTest(WebTest):
 
     def setUp(self):
         self.headers = {}
+        self.user = None
 
     def create_user(self, email, password, name=''):
         user = User.objects.create(
@@ -15,9 +16,13 @@ class BaseTest(WebTest):
         )
         user.set_password(password)
         user.save()
+        self.user = user
         return user
 
-    def login(self, email, password):
+    def login(
+            self,
+            email='dvcolgan@gmail.com',
+            password='password'):
         self.create_user(email, password)
 
         res = self.post('/auth/token/', {
@@ -99,3 +104,31 @@ class TestUsers(BaseTest):
         self.assertResponse(res, 200, {
             'token': token,
         })
+
+
+class TestTasks(BaseTest):
+    API_ROOT = '/api/v1'
+
+    def test_create_task(self):
+        self.login()
+        res = self.post('/tasks/', {
+            'title': 'Go to the store',
+            'user': self.user.id,
+        })
+
+        self.assertResponse(res, 201, {
+            'parent': None,
+            'title': 'Go to the store',
+            'body': '',
+            'tomato': None,
+            'completed': False,
+        })
+
+    #def test_fetch_all_tasks(self):
+    #    self.login()
+    #    other_user = self.create_other_user()
+    #    self.create_task_for(self.user)
+    #    self.create_task_for(other_user)
+
+    #    res = self.get('/tasks/')
+    #    self.assertEqual(1, len(res.json))

@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
+from .models import Task
 from . import filters
 from . import serializers
 
@@ -22,6 +23,10 @@ class TaskListCreateAPIView(
         generics.ListCreateAPIView):
     serializer_class = serializers.TaskSerializer
     filter_backends = (filters.IsOwnerFilterBackend,)
+    queryset = Task.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class TaskRetrieveUpdateDestroyAPIView(
@@ -35,3 +40,6 @@ class TomatoListCreateAPIView(
         generics.ListCreateAPIView):
     serializer_class = serializers.TomatoSerializer
     filter_backends = (filters.IsOwnerFilterBackend,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
