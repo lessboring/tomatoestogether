@@ -6,7 +6,7 @@ from timezone_field import TimeZoneField
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
     tomato_break_iframe_url = models.CharField(max_length=255, blank=True)
     timezone = TimeZoneField(default='America/New_York')
 
