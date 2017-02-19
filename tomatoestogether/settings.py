@@ -1,7 +1,7 @@
 import os
 import datetime
-import socket
 from django.core.urlresolvers import reverse_lazy
+import socket
 import getpass
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,6 +42,7 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ALLOWED_HOSTS = [
+    'localhost',
     'tomatoestogether',
     '*.tomatoestogether.com',
 ]
@@ -51,11 +52,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
     'rest_framework',
+    'test_without_migrations',
     'django_extensions',
+    'timezone_field',
     'core',
 ]
 
 MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
@@ -131,6 +136,7 @@ TEMPLATES = [{
     },
 }]
 
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -145,7 +151,7 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_ALLOW_REFRESH': True,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_AUTH_HEADER_PREFIX': '',
+    #'JWT_AUTH_HEADER_PREFIX': '',
 }
 
 # Disable api metadata if we are on production

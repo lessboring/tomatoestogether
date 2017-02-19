@@ -1,0 +1,43 @@
+Version 1
+    Get tomato timer working
+    Allow entering your own chat into an iframe during the tomato break
+    Get basic nested task editing
+    Allow specifying a task with subtasks for a tomato
+    Record completed tomatoes and completed tasks
+    Create account
+    Login
+    Paid version $9 to save tasks and tomatoes done
+
+Version 2
+    Add Vim shortcut keys
+    Customizable keyboard shortcuts?
+    Autodetect timezone in JS
+
+API Spec
+
+GET /users/me/
+    Get my user's data
+POST /users/
+    Create a new user
+PUT /users/me/
+    Update my user data
+
+POST /auth/token/
+    Login
+
+GET /tasks/
+    Get all of my user's tasks
+POST /tasks/
+    Creates a new task
+
+GET /tasks/{id}/
+    Get a specific task of mine
+PUT /tasks/{id}/
+    Updates a task
+DELETE /tasks/{id}/
+    Deletes a task
+
+GET /tomatoes/
+    Get all of my user's completed tomatoes
+POST /tomatoes/
+    Start a new tomato

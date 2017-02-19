@@ -1,27 +1,48 @@
 from rest_framework import serializers
-from .models import User, Project, Task, Tomato
+from .models import User, Task, Tomato
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+        fields = [
+            'email', 'password', 'name',
+            'tomato_break_iframe_url',
+        ]
 
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.set_password(validated_data.get('password'))
+        user.save()
+        return user
 
-class ProjectSerializer(serializers.ModelSerializer):
-    tasks = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
-    class Meta:
-        model = Project
-        fields = ['name', 'tasks']
+    def update(self, instance, validated_data):
+        user = super().update(instance, validated_data)
+        password = validated_data.get('password')
+        if password:
+            user.set_password(password)
+            user.save()
+        return user
 
 
 class TomatoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
-        fields = ['user', 'start', 'project']
+        model = Tomato
+        fields = [
+            'start'
+        ]
 
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['title', 'body']
+        fields = [
+            'parent',
+            'title',
+            'body',
+            'completed',
+            'tomato',
+        ]
