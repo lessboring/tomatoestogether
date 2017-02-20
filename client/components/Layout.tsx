@@ -1,12 +1,13 @@
 import * as React from 'react';
 import * as DocumentTitle from 'react-document-title';
 import {Link} from 'react-router';
-import {observer} from 'mobx-react';
-import store from '../store';
+import {observer, inject} from 'mobx-react';
+import {Store} from '../store';
 
 
+@inject('store')
 @observer
-export default class Layout extends React.Component<{}, {}> {
+export default class Layout extends React.Component<{store: Store}, {}> {
     render() {
         return (
 			<div>

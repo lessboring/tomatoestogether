@@ -1,72 +1,60 @@
 import {observable, computed, action} from 'mobx';
-import {observer, inject} from 'mobx-react';
+import {observer} from 'mobx-react';
 import * as React from 'react';
 import HeaderBar from './components/HeaderBar';
 import Iframe from './components/Iframe';
-
-
-const store = observable({
-    showModal: true,
-    showLogin: true,
-    showCreateAccount: false,
-    showUpgrade: false,
-    showProfile: false,
-});
+import Empty from './components/Empty';
+import Modal from './components/Modal';
+import Store from './store';
 
 
 @observer
-class Modal extends React.Component<{show: boolean, children?: any}, {}> {
+export default class App extends React.Component<{store: Store}, {}> {
     render() {
-        return (
-            <div className="modal fade show" style={{display: this.props.show ? 'block' : 'none'}}>
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h3 className="modal-title">{this.props.title}</h3>
-                            <button type="button" className="close" onClick={(e) => store.showModal = false}>
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            {this.props.children}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
-
-@observer
-export default class App extends React.Component<{}, {}> {
-    render() {
+        const {store} = this.props;
         return (
 			<div>
                 <HeaderBar />
                 <p>Iframe window</p>
                 <p>Tomato timer</p>
                 
-                <Modal show={store.showModal}>
-                    {store.showLogin && (
-                        <h3>Login</h3>
-                    ) || store.showCreateAccount && (
-                        <h3>CreateAccount</h3>
-                    ) || store.showUpgrade && (
-                        <h3>Upgrade</h3>
-                    ) || store.showProfile && (
-                        <h3>Profile</h3>
-                    ) || (
-                        <div />
-                    )}
-                </Modal>
 
                 <p>Login Modal</p>
                 <p>Sign up modal</p>
                 <p>Upgrade to full version modal</p>
                 <p>Profile modal</p>
-                {store.showModal && (
-                    <div className="modal-backdrop show fade"></div>
-                )}
+
+                <Modal
+                    title="Login"
+                    show={store.currentModal === 'login'}
+                    handleClose={() => store.currentModal = null}
+                >
+                    <h3>Login</h3>
+                </Modal>
+
+                <Modal
+                    title="Create Account"
+                    show={store.currentModal === 'createAccount'}
+                    handleClose={() => store.currentModal = null}
+                >
+                    <h3>Create Account</h3>
+                </Modal>
+
+                <Modal
+                    title="Upgrade"
+                    show={store.currentModal === 'upgrade'}
+                    handleClose={() => store.currentModal = null}
+                >
+                    <h3>Upgrade</h3>
+                </Modal>
+
+                <Modal
+                    title="Your Profile"
+                    show={store.currentModal === 'profile'}
+                    handleClose={() => store.currentModal = null}
+                >
+                    <h3>Your Profile</h3>
+                </Modal>
             </div>
 		);
 	}

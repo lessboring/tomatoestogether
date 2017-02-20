@@ -4,7 +4,7 @@ import * as types from './types';
 import * as models from './models';
 import http from './http';
 
-
+/*
 class ProjectStore {
     @observable loading: boolean = false;
     @observable projects: models.Project[] = [];
@@ -32,14 +32,17 @@ class ProjectStore {
         }))
     }
 }
+*/
 
-class Store {
+export type ModalState = 'login' | 'createAccount' | 'upgrade' | 'profile' | null;
+
+export default class Store {
     @observable menuExpanded: boolean = false;
     @observable currentTime: Date = new Date();
     @observable minutesLeft: number = 0;
     @observable secondsLeft: number = 0;
     @observable state: types.TomatoState = 'break';
-    @observable projects: ProjectStore = new ProjectStore();
+    @observable currentModal: ModalState = null;
 
     @action toggleMenu = () => {
         this.menuExpanded = !this.menuExpanded;
@@ -56,11 +59,7 @@ class Store {
 
 }
 
-const store = new Store();
 
-setInterval(store.tick, 1000);
-
-export default store;
 /*
 actions = require('client/actions')
 types = require('src/types')

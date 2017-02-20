@@ -1,8 +1,10 @@
 from django_webtest import WebTest
+from selenium import webdriver
+from django.test import LiveServerTestCase
 from .models import User
 
 
-class BaseTest(WebTest):
+class BaseAPITest(WebTest):
     API_ROOT = ''
 
     def setUp(self):
@@ -60,7 +62,7 @@ class BaseTest(WebTest):
         self.assertEqual(res.status_code, status_code)
 
 
-class TestUsers(BaseTest):
+class TestUserAPI(BaseAPITest):
     API_ROOT = '/api/v1'
 
     def test_create_account(self):
@@ -106,7 +108,7 @@ class TestUsers(BaseTest):
         })
 
 
-class TestTasks(BaseTest):
+class TestTaskAPI(BaseAPITest):
     API_ROOT = '/api/v1'
 
     def test_create_task(self):
@@ -132,3 +134,21 @@ class TestTasks(BaseTest):
 
     #    res = self.get('/tasks/')
     #    self.assertEqual(1, len(res.json))
+
+
+class BaseIntegrationTest(LiveServerTestCase):
+    def setUp(self):
+        self.browser = webdriver.Chrome()
+        self.browser.implicitly_wait(3)
+        self.browser.set_window_position(0, 0)
+        screen_height = self.browser.execute_script('return window.screen.height')
+        self.browser.set_window_size(360, screen_height - 32)
+        self.browser.get('http://tomatoestogether_test/')
+
+    def tearDown(self):
+        self.browser.quit()
+
+
+class TestUserIntegration(BaseIntegrationTest):
+    def test_create_account(self):
+        import ipdb; ipdb.set_trace() 
