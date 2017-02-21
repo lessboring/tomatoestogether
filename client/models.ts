@@ -1,7 +1,7 @@
 import {observable} from 'mobx';
 
 class Model {
-    constructor(initial: any) {
+    constructor(initial?: any) {
         for (const key in initial) {
             (this as any)[key] = initial[key];
         }
@@ -10,7 +10,18 @@ class Model {
 
 export class User extends Model {
     @observable id: number;
-    @observable password?: string;
+    @observable email: string;
+    @observable name: string;
+    @observable tomato_break_iframe_url: string;
+
+    static empty(): User {
+        return new User({
+            id: 0,
+            email: '',
+            name: '',
+            tomato_break_iframe_url: '',
+        });
+    }
 }
 
 export class Project extends Model {

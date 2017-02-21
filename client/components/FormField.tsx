@@ -6,6 +6,7 @@ interface FormFieldProps {
     name: string;
     value: string;
     onChange: any;
+    errors?: string[];
     placeholder?: string;
     before?: string;
     after?: string;
@@ -16,7 +17,9 @@ interface FormFieldProps {
 
 export default class FormField extends React.Component<FormFieldProps, {}> {
     render() {
-        const { type, name, value, onChange, placeholder, before, after, className, noMargin=false, ...rest  } = this.props;
+        const { type, name, value, onChange, errors, placeholder, before, after, className, noMargin=false, ...rest  } = this.props;
+
+        const hasErrors = !!errors;
 
         let input;
         if (type === 'textarea') {
@@ -24,7 +27,7 @@ export default class FormField extends React.Component<FormFieldProps, {}> {
                 <textarea
                     ref={name}
                     name={name}
-                    className={'form-control ' + className}
+                    className={'form-control ' + className + (hasErrors ? ' form-control-danger': '')}
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
@@ -38,17 +41,20 @@ export default class FormField extends React.Component<FormFieldProps, {}> {
                     ref={name}
                     type={type}
                     name={name}
-                    className={'form-control ' + className}
+                    className={'form-control ' + className + (hasErrors ? ' form-control-danger': '')}
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
                 />
             );
         }
+
+        let errorNumber = 1;
+
         return (
-            <fieldset className={'form-group ' +  (noMargin ? 'm-b-0' : '')}>
+            <fieldset className={'form-group ' + (noMargin ? 'm-b-0' : '') + (hasErrors ? 'has-danger' : '')}>
                 {!placeholder && (
-                    <label htmlFor={name}>
+                    <label className="form-control-label" htmlFor={name}>
                         {name.charAt(0).toUpperCase() + name.slice(1).replace('-', ' ')}
                     </label>
                 )}
@@ -62,6 +68,10 @@ export default class FormField extends React.Component<FormFieldProps, {}> {
                 ): (
                     input
                 )}
+
+                {!!errors && hasErrors && (errors.map((error: string) => (
+                    <div key={++errorNumber} className="form-control-feedback">{error}</div>
+                )))}
             </fieldset>
         );
     }

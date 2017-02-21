@@ -69,7 +69,7 @@ export class MockableHttp {
                     this.catchAll && this.catchAll(err);
                 }
                 catch (err) {
-                    reject(err);
+                    reject(err.response.data);
                 }
             });
         });

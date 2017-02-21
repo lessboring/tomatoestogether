@@ -13,7 +13,7 @@ const Spinner = () => (
             radius: 42,
             scale: 1,
             corners: 1,
-            color: '#2FEE2B',
+            color: 'black',
             opacity: 0.25,
             rotate: 0,
             direction: 1,

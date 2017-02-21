@@ -1,38 +1,9 @@
 import {observable, computed, action} from 'mobx';
 import * as util from './util';
 import * as types from './types';
-import * as models from './models';
+import {User, Tomato, Task} from './models';
 import http from './http';
 
-/*
-class ProjectStore {
-    @observable loading: boolean = false;
-    @observable projects: models.Project[] = [];
-
-    @action fetchProjects = () => {
-        this.loading = true;
-        http.get('/projects')
-        .then(action((projectsData: any) => {
-            this.projects = [];
-            for (const projectData of projectsData) {
-                this.projects.push(new models.Project(projectData));
-            }
-            this.loading = false;
-        }))
-    }
-
-    @action fetchProjectTasks = (projectId: number) => {
-        http.get(`/projects/${projectId}`)
-        .then(action((projectData: any) => {
-            this.projects = [];
-            //for (const projectData of projectsData) {
-            //    this.projects.push(new models.Project(projectData));
-            //}
-            this.loading = false;
-        }))
-    }
-}
-*/
 
 export type ModalState = 'login' | 'upgrade' | 'settings' | null;
 
@@ -43,6 +14,9 @@ export class Store {
     @observable secondsLeft: number = 0;
     @observable state: types.TomatoState = 'break';
     @observable currentModal: ModalState = null;
+    @observable user: User = new User();
+    @observable loading: boolean = false;
+    @observable error: {} = {};
 
     @action toggleMenu = () => {
         this.menuExpanded = !this.menuExpanded;
@@ -63,11 +37,26 @@ export class Store {
     @action closeModal = () => {
         this.currentModal = null;
     }
+    @action fetchUser = () => {
+        this.loading = true;
+        http.get('/users/me/')
+        .then(action((userData) => {
+            this.user = new User(userData);
+            this.loading = false;
+        }))
+        .catch(action((error) => {
+            this.loading = false;
+            this.error = error;
+        }));
+    }
 }
 
 export const store = new Store();
 setInterval(store.tick, 1000);
 
+if (localStorage.getItem('token')) {
+    store.fetchUser();
+}
 
 /*
 actions = require('client/actions')

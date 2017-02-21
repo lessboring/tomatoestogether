@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
         fields = [
-            'email', 'password', 'name',
+            'id', 'email', 'password', 'name',
             'tomato_break_iframe_url',
         ]
 
@@ -32,7 +32,7 @@ class TomatoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tomato
         fields = [
-            'start'
+            'id', 'start'
         ]
 
 
@@ -40,6 +40,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = [
+            'id',
             'parent',
             'title',
             'body',

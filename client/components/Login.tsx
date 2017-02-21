@@ -1,12 +1,10 @@
 import * as React from 'react';
-import {Link} from 'react-router';
-import {observer, inject} from 'mobx-react';
+import {observer} from 'mobx-react';
 import FormField from './FormField';
-import PageError from './PageError';
 import {observable, computed, action} from 'mobx';
-import {browserHistory} from 'react-router';
 import Spinner from './Spinner';
 import http from '../http';
+import {store} from '../store';
 
 
 export class LoginStore {
@@ -15,71 +13,51 @@ export class LoginStore {
         password: '',
     };
     @observable loading: boolean = false;
-    @observable error: any = '';
+    @observable error: {
+        email?: string[],
+        password?: string[],
+    } = {};
 
-    @action login() {
+    @action submit = (e: React.SyntheticEvent<{}>) => {
+        e.preventDefault();
         this.loading = true;
-        http.post('/users/login', {
+        http.post('/auth/token/', {
             email: this.credentials.email,
             password: this.credentials.password,
         })
-        .then((response) => {
+        .then(action((response: {token: string}) => {
+            localStorage.setItem('token', response.token);
             this.loading = false;
-            localStorage.setItem('token', response.key);
-            browserHistory.push('/home');
-        })
-        .catch((error) => {
+            store.closeModal();
+            store.openModal('settings');
+        }))
+        .catch(action((error) => {
+            this.error = error;
             this.loading = false;
-            this.error = error.response.data.modelState || {
-                Error: {errors: [{errorMessage: "We couldn't find that email or password."}]}
-            };
-        });
-    }
-
-    constructor() {
+        }));
     }
 }
 
-@observer
-export default class Login extends React.Component<{}, {}> {
-    store: LoginStore = new LoginStore();
-    handleSubmit = (e: any) => {
-        e.preventDefault();
-        this.store.login()
-    }
+const loginStore: LoginStore = new LoginStore();
 
-    handleChange = (name: string) => (e: any) => {
-        (this.store.credentials as any)[name] = (e.target as any).value;
-    }
-
-    render() {
-        return (
-            
-            <h1>Log In</h1>
-            <PageError error={this.store.error}>
-                {this.store.loading && <Spinner /> || (
-                    <form method="POST" onSubmit={this.handleSubmit}>
-                        <FormField
-                            type="text"
-                            name="email"
-                            value={this.store.credentials.email}
-                            onChange={this.handleChange('email')}
-                        />
-                        <FormField
-                            type="password"
-                            name="password"
-                            value={this.store.credentials.password}
-                            onChange={this.handleChange('password')}
-                        />
-                        <Link className="btn btn-link pull-xs-right" to="/register">Or Register</Link>
-                        <input type="submit" className="btn btn-primary" id="submit" value="Log In" />
-                        {
-                            //<Link className="btn btn-link" to="/forgot-password">Forgot your password?</Link>
-                        }
-                    </form>
-                )}
-            </PageError>
-        );
-    }
-}
-
+export default observer(function Login() {
+    return loginStore.loading && <Spinner /> || (
+        <form method="POST" onSubmit={loginStore.submit}>
+            <FormField
+                type="text"
+                name="email"
+                value={loginStore.credentials.email}
+                onChange={(e: any) => loginStore.credentials.email = e.target.value}
+                errors={loginStore.error.email}
+            />
+            <FormField
+                type="password"
+                name="password"
+                value={loginStore.credentials.password}
+                onChange={(e: any) => loginStore.credentials.password = e.target.value}
+                errors={loginStore.error.password}
+            />
+            <input type="submit" className="btn btn-primary" id="submit" value="Log In" />
+        </form>
+    );
+});
