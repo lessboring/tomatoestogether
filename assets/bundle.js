@@ -119,7 +119,8 @@ exports.default = mobx_react_1.observer(function HeaderBar() {
             React.createElement("div", { className: "navbar-nav" },
                 React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('settings'); } }, "Settings"),
                 React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('upgrade'); } }, "Upgrade to Pro"),
-                React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('login'); } }, "Log In")))));
+                React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('login'); } }, "Log In"),
+                React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.logOut(); } }, "Log Out")))));
 });
 
 },{"../store":12,"mobx-react":63,"react":219}],4:[function(require,module,exports){
@@ -650,6 +651,10 @@ var Store = (function () {
                 _this.error = error;
             }));
         };
+        this.logOut = function () {
+            localStorage.removeItem('token');
+            window.location.href = '';
+        };
     }
     Object.defineProperty(Store.prototype, "formattedTime", {
         get: function () {
@@ -705,6 +710,9 @@ __decorate([
 __decorate([
     mobx_1.action
 ], Store.prototype, "fetchUser", void 0);
+__decorate([
+    mobx_1.action
+], Store.prototype, "logOut", void 0);
 exports.Store = Store;
 exports.store = new Store();
 setInterval(exports.store.tick, 1000);

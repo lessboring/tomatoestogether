@@ -18,6 +18,7 @@ export default observer(function HeaderBar() {
                     <a className="nav-item nav-link" href="#" onClick={() => store.openModal('settings')}>Settings</a>
                     <a className="nav-item nav-link" href="#" onClick={() => store.openModal('upgrade')}>Upgrade to Pro</a>
                     <a className="nav-item nav-link" href="#" onClick={() => store.openModal('login')}>Log In</a>
+                    <a className="nav-item nav-link" href="#" onClick={() => store.logOut()}>Log Out</a>
                 </div>
             </div>
         </nav>

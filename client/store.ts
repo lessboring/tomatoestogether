@@ -49,6 +49,10 @@ export class Store {
             this.error = error;
         }));
     }
+    @action logOut = () => {
+        localStorage.removeItem('token');
+        window.location.href = '';
+    }
 }
 
 export const store = new Store();
