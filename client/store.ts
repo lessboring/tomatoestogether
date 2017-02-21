@@ -34,9 +34,9 @@ class ProjectStore {
 }
 */
 
-export type ModalState = 'login' | 'createAccount' | 'upgrade' | 'profile' | null;
+export type ModalState = 'login' | 'upgrade' | 'settings' | null;
 
-export default class Store {
+export class Store {
     @observable menuExpanded: boolean = false;
     @observable currentTime: Date = new Date();
     @observable minutesLeft: number = 0;
@@ -57,7 +57,16 @@ export default class Store {
         return util.formatTomatoClock(this.minutesLeft, this.secondsLeft);
     }
 
+    @action openModal = (which: ModalState) => {
+        this.currentModal = which;
+    }
+    @action closeModal = () => {
+        this.currentModal = null;
+    }
 }
+
+export const store = new Store();
+setInterval(store.tick, 1000);
 
 
 /*

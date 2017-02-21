@@ -27,10 +27,8 @@ export default class Modal extends React.Component<{
                             </div>
                         </div>
                     </div>
+                    <div className="overlay" style={{display: this.props.show ? 'block' : 'none'}} onClick={this.props.handleClose}></div>
                 </div>
-                {this.props.show && (
-                    <div className="modal-backdrop show fade"></div>
-                )}
             </div>
         )
     }

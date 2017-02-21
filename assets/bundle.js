@@ -15,28 +15,23 @@ var mobx_react_1 = require("mobx-react");
 var React = require("react");
 var HeaderBar_1 = require("./components/HeaderBar");
 var Modal_1 = require("./components/Modal");
+var store_1 = require("./store");
 var App = (function (_super) {
     __extends(App, _super);
     function App() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
-        var store = this.props.store;
         return (React.createElement("div", null,
             React.createElement(HeaderBar_1.default, null),
+            React.createElement("p", null, "Tasks list"),
             React.createElement("p", null, "Iframe window"),
             React.createElement("p", null, "Tomato timer"),
-            React.createElement("p", null, "Login Modal"),
-            React.createElement("p", null, "Sign up modal"),
-            React.createElement("p", null, "Upgrade to full version modal"),
-            React.createElement("p", null, "Profile modal"),
-            React.createElement(Modal_1.default, { title: "Login", show: store.currentModal === 'login', handleClose: function () { return store.currentModal = null; } },
+            React.createElement(Modal_1.default, { title: "Login", show: store_1.store.currentModal === 'login', handleClose: store_1.store.closeModal },
                 React.createElement("h3", null, "Login")),
-            React.createElement(Modal_1.default, { title: "Create Account", show: store.currentModal === 'createAccount', handleClose: function () { return store.currentModal = null; } },
-                React.createElement("h3", null, "Create Account")),
-            React.createElement(Modal_1.default, { title: "Upgrade", show: store.currentModal === 'upgrade', handleClose: function () { return store.currentModal = null; } },
+            React.createElement(Modal_1.default, { title: "Upgrade", show: store_1.store.currentModal === 'upgrade', handleClose: store_1.store.closeModal },
                 React.createElement("h3", null, "Upgrade")),
-            React.createElement(Modal_1.default, { title: "Your Profile", show: store.currentModal === 'profile', handleClose: function () { return store.currentModal = null; } },
+            React.createElement(Modal_1.default, { title: "Settings", show: store_1.store.currentModal === 'settings', handleClose: store_1.store.closeModal },
                 React.createElement("h3", null, "Your Profile"))));
     };
     return App;
@@ -47,26 +42,27 @@ App = __decorate([
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = App;
 
-},{"./components/HeaderBar":2,"./components/Modal":3,"mobx-react":31,"react":186}],2:[function(require,module,exports){
+},{"./components/HeaderBar":2,"./components/Modal":3,"./store":5,"mobx-react":31,"react":186}],2:[function(require,module,exports){
 "use strict";
 var React = require("react");
-function HeaderBar() {
+var mobx_react_1 = require("mobx-react");
+var store_1 = require("../store");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = mobx_react_1.observer(function HeaderBar() {
     return (React.createElement("nav", { className: "navbar navbar-toggleable-md navbar-light bg-faded" },
-        React.createElement("button", { className: "navbar-toggler navbar-toggler-right", type: "button", onClick: function () { } },
+        React.createElement("button", { className: "navbar-toggler navbar-toggler-right", type: "button", onClick: function () { return store_1.store.toggleMenu(); } },
             React.createElement("span", { className: "navbar-toggler-icon" })),
-        React.createElement("a", { className: "navbar-brand", href: "#" },
+        React.createElement("a", { className: "navbar-brand", href: "#", onClick: function () { return store_1.store.closeModal(); } },
             React.createElement("img", { className: "tomato-logo", src: "/assets/tomato.png" }),
             "Tomatoes Together"),
-        React.createElement("div", { className: 'collapse navbar-collapse ' + (true ? 'show' : '') },
+        React.createElement("div", { className: 'collapse navbar-collapse ' + (store_1.store.menuExpanded ? 'show' : '') },
             React.createElement("div", { className: "navbar-nav" },
-                React.createElement("a", { className: "nav-item nav-link active", href: "#" }, "Home"),
-                React.createElement("a", { className: "nav-item nav-link", href: "#" }, "Features"),
-                React.createElement("a", { className: "nav-item nav-link", href: "#" }, "Pricing")))));
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = HeaderBar;
+                React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('settings'); } }, "Settings"),
+                React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('upgrade'); } }, "Upgrade to Pro"),
+                React.createElement("a", { className: "nav-item nav-link", href: "#", onClick: function () { return store_1.store.openModal('login'); } }, "Log In")))));
+});
 
-},{"react":186}],3:[function(require,module,exports){
+},{"../store":5,"mobx-react":31,"react":186}],3:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95,8 +91,8 @@ var Modal = (function (_super) {
                             React.createElement("h3", { className: "modal-title" }, this.props.title),
                             React.createElement("button", { type: "button", className: "close", onClick: this.props.handleClose },
                                 React.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
-                        React.createElement("div", { className: "modal-body" }, this.props.children)))),
-            this.props.show && (React.createElement("div", { className: "modal-backdrop show fade" }))));
+                        React.createElement("div", { className: "modal-body" }, this.props.children))),
+                React.createElement("div", { className: "overlay", style: { display: this.props.show ? 'block' : 'none' }, onClick: this.props.handleClose }))));
     };
     return Modal;
 }(React.Component));
@@ -111,15 +107,12 @@ exports.default = Modal;
 var React = require("react");
 var react_dom_1 = require("react-dom");
 var App_1 = require("./App");
-var store_1 = require("./store");
-var store = new store_1.default();
-setInterval(store.tick, 1000);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = function () {
-    react_dom_1.render(React.createElement(App_1.default, { store: store }), document.getElementById('app'));
+    react_dom_1.render(React.createElement(App_1.default, null), document.getElementById('app'));
 };
 
-},{"./App":1,"./store":5,"react":186,"react-dom":35}],5:[function(require,module,exports){
+},{"./App":1,"react":186,"react-dom":35}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -145,6 +138,12 @@ var Store = (function () {
             _this.currentTime = new Date();
             _a = util.tomatoTimeFromHourTime(_this.currentTime), _this.minutesLeft = _a[0], _this.secondsLeft = _a[1], _this.state = _a[2];
             var _a;
+        };
+        this.openModal = function (which) {
+            _this.currentModal = which;
+        };
+        this.closeModal = function () {
+            _this.currentModal = null;
         };
     }
     Object.defineProperty(Store.prototype, "formattedTime", {
@@ -183,8 +182,15 @@ __decorate([
 __decorate([
     mobx_1.computed
 ], Store.prototype, "formattedTime", null);
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Store;
+__decorate([
+    mobx_1.action
+], Store.prototype, "openModal", void 0);
+__decorate([
+    mobx_1.action
+], Store.prototype, "closeModal", void 0);
+exports.Store = Store;
+exports.store = new Store();
+setInterval(exports.store.tick, 1000);
 
 },{"./util":6,"mobx":32}],6:[function(require,module,exports){
 "use strict";

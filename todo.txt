@@ -1,5 +1,24 @@
+"Life Management System"
+Idea capture - never forget anything
+Assistance with what to do next, and breaking that down into manageable chunks
+Assitance with distraction by the internet
+Reminders for time sensitive things
+Track my progress so I can see where I've come from
+Plan
+
+Make the entirety of your life's tasks not seem so enormous
+Instead of thinking in terms of days and weeks and months and years, think in terms of minutes and hours.
+
+
+
+
+
+
 Version 1
     Get tomato timer working
+        Hook up the code for displaying the current time
+        Wire up the api endpoint
+        Create a react component
     Allow entering your own chat into an iframe during the tomato break
     Get basic nested task editing
     Allow specifying a task with subtasks for a tomato
@@ -7,6 +26,8 @@ Version 1
     Create account
     Login
     Paid version $9 to save tasks and tomatoes done
+        Sign up for a stripe account
+        Build a stripe checkout form
 
 Version 2
     Add Vim shortcut keys
