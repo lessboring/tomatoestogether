@@ -5,6 +5,7 @@ import {observable, computed, action} from 'mobx';
 import Spinner from './Spinner';
 import http from '../http';
 import {store} from '../store';
+import {User} from '../models';
 
 
 export class UpgradeStore {
@@ -30,10 +31,18 @@ export class UpgradeStore {
             name: this.credentials.name,
             password: this.credentials.password,
         })
-        .then(action((response) => {
-            this.loading = false;
-            store.closeModal();
-            store.openModal('settings');
+        .then(action((userData) => {
+            store.user = new User(userData);
+            http.post('/auth/token/', {
+                email: this.credentials.email,
+                password: this.credentials.password,
+            })
+            .then(action((response: {token: string}) => {
+                localStorage.setItem('token', response.token);
+                this.loading = false;
+                store.closeModal();
+                store.openModal('settings');
+            }));
         }))
         .catch(action((error) => {
             this.error = error;

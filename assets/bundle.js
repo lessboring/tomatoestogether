@@ -158,6 +158,7 @@ var LoginStore = (function () {
                 localStorage.setItem('token', response.token);
                 _this.loading = false;
                 store_1.store.closeModal();
+                store_1.store.fetchUser();
                 store_1.store.openModal('settings');
             }))
                 .catch(mobx_1.action(function (error) {
@@ -278,6 +279,7 @@ var mobx_1 = require("mobx");
 var Spinner_1 = require("./Spinner");
 var http_1 = require("../http");
 var store_1 = require("../store");
+var models_1 = require("../models");
 var UpgradeStore = (function () {
     function UpgradeStore() {
         var _this = this;
@@ -297,10 +299,18 @@ var UpgradeStore = (function () {
                 name: _this.credentials.name,
                 password: _this.credentials.password,
             })
-                .then(mobx_1.action(function (response) {
-                _this.loading = false;
-                store_1.store.closeModal();
-                store_1.store.openModal('settings');
+                .then(mobx_1.action(function (userData) {
+                store_1.store.user = new models_1.User(userData);
+                http_1.default.post('/auth/token/', {
+                    email: _this.credentials.email,
+                    password: _this.credentials.password,
+                })
+                    .then(mobx_1.action(function (response) {
+                    localStorage.setItem('token', response.token);
+                    _this.loading = false;
+                    store_1.store.closeModal();
+                    store_1.store.openModal('settings');
+                }));
             }))
                 .catch(mobx_1.action(function (error) {
                 _this.error = error;
@@ -334,7 +344,7 @@ exports.default = mobx_react_1.observer(function Upgrade() {
         React.createElement("input", { type: "submit", className: "btn btn-primary", id: "submit", value: "Log In" })));
 });
 
-},{"../http":8,"../store":12,"./FormField":2,"./Spinner":6,"mobx":64,"mobx-react":63,"react":219}],8:[function(require,module,exports){
+},{"../http":8,"../models":11,"../store":12,"./FormField":2,"./Spinner":6,"mobx":64,"mobx-react":63,"react":219}],8:[function(require,module,exports){
 "use strict";
 var mockable_http_1 = require("./mockable-http");
 var store_1 = require("./store");

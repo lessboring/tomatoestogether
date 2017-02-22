@@ -5,6 +5,7 @@ import {observable, computed, action} from 'mobx';
 import Spinner from './Spinner';
 import http from '../http';
 import {store} from '../store';
+import {User} from '../models';
 
 
 export class LoginStore {
@@ -29,6 +30,7 @@ export class LoginStore {
             localStorage.setItem('token', response.token);
             this.loading = false;
             store.closeModal();
+            store.fetchUser();
             store.openModal('settings');
         }))
         .catch(action((error) => {

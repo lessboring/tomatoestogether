@@ -11,6 +11,8 @@ Instead of thinking in terms of days and weeks and months and years, think in te
 
 
 
+Return a token after creating a user
+Return a user as well on login
 
 
 
