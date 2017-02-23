@@ -13,6 +13,7 @@ export default observer(function HeaderBar() {
                 <img className="tomato-logo" src="/assets/tomato.png"/>
                 Tomatoes Together
             </a>
+
             <div className={'collapse navbar-collapse ' + (store.menuExpanded ? 'show' : '')}>
                 <div className="navbar-nav">
                     <a className="nav-item nav-link" href="#" onClick={() => store.openModal('settings')}>Settings</a>

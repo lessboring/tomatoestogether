@@ -4,8 +4,8 @@ import FormField from './FormField';
 import {observable, computed, action} from 'mobx';
 import Spinner from './Spinner';
 import http from '../http';
-import {store} from '../store';
 import {User} from '../models';
+import {store} from '../store';
 
 
 export class LoginStore {

@@ -8,6 +8,8 @@ import Modal from './components/Modal';
 import Upgrade from './components/Upgrade';
 import Login from './components/Login';
 import Spinner from './components/Spinner';
+import TomatoTimer from './components/TomatoTimer';
+import Tasks from './components/Tasks';
 import {store} from './store';
 
 
@@ -17,13 +19,13 @@ export default class App extends React.Component<{}, {}> {
         return (store.loading && <Spinner /> || (
 			<div>
                 <HeaderBar />
-
-                {store.user.id !== 0 && (
-                    <p>Hello {store.user.name}</p>
+                <TomatoTimer />
+                {store.isTomato ? (
+                    <Tasks />
+                ) : (
+                    <Iframe src="https://www.twitch.tv/dvcolgan/chat?popout=" />
                 )}
-                <p>Tasks list</p>
-                <p>Iframe window</p>
-                <p>Tomato timer</p>
+
 
                 <Modal
                     title="Log in to Tomatoes Together"

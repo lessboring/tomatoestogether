@@ -1,0 +1,1 @@
+type TomatoState = 'break'|'tomato';

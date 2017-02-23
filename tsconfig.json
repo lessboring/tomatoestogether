@@ -16,6 +16,7 @@
     },
     "files": [
         "index.ts",
+        "client/types.d.ts",
         "tests/**/*"
     ],
     "exclude": [

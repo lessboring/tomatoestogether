@@ -1,6 +1,5 @@
 import {observable, computed, action} from 'mobx';
 import * as util from './util';
-import * as types from './types';
 import {User, Tomato, Task} from './models';
 import http from './http';
 
@@ -12,11 +11,43 @@ export class Store {
     @observable currentTime: Date = new Date();
     @observable minutesLeft: number = 0;
     @observable secondsLeft: number = 0;
-    @observable state: types.TomatoState = 'break';
+    @observable state: TomatoState = 'break';
     @observable currentModal: ModalState = null;
     @observable user: User = new User();
     @observable loading: boolean = false;
     @observable error: {} = {};
+    // Tasks with no parent, in a list
+    @observable tasks: Task[] = [
+        new Task({
+            id: 0,
+            parent_id: 0,
+            children: [],
+            title: 'Do the dishes',
+            body: '',
+        }),
+        new Task({
+            id: 1,
+            parent_id: 0,
+            children: [],
+            title: 'Empty the litterbox',
+            body: '',
+        }),
+        new Task({
+            id: 2,
+            parent_id: 0,
+            children: [],
+            title: 'Polish the baby',
+            body: '',
+        }),
+        new Task({
+            id: 3,
+            parent_id: 0,
+            children: [],
+            title: 'Exume the desk',
+            body: '',
+        }),
+    ];
+
 
     @action toggleMenu = () => {
         this.menuExpanded = !this.menuExpanded;
@@ -30,9 +61,16 @@ export class Store {
     @computed get formattedTime(): string {
         return util.formatTomatoClock(this.minutesLeft, this.secondsLeft);
     }
+    @computed get isTomato(): boolean {
+        return this.state === 'tomato';
+    }
+    @computed get isBreak(): boolean {
+        return this.state === 'break';
+    }
 
     @action openModal = (which: ModalState) => {
         this.currentModal = which;
+        this.menuExpanded = false;
     }
     @action closeModal = () => {
         this.currentModal = null;

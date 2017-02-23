@@ -41,12 +41,18 @@ export class Tomato extends Model {
 
 export class Task extends Model {
     @observable id: number;
-    @observable project_id: number;
-    @observable project?: Project;
-    @observable tomato_id: number;
-    @observable tomato?: Tomato;
-    @observable user_id: number;
-    @observable user?: User;
+    @observable parent_id: number;
+    @observable children: Task[];
     @observable title: string;
     @observable body: string;
+
+    static empty(): Task {
+        return new Task({
+            id: 0,
+            parent_id: 0,
+            children: [],
+            title: '',
+            body: '',
+        });
+    }
 }

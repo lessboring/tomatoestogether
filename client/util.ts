@@ -1,5 +1,3 @@
-import * as types from './types';
-
 export const padWithZero = (num: number) => {
     if (num.toString().length === 1) {
         return '0' + num.toString();
@@ -9,11 +7,11 @@ export const padWithZero = (num: number) => {
     }
 };
 
-export const tomatoTimeFromHourTime = (currentTime: Date): [number, number, types.TomatoState] => {
+export const tomatoTimeFromHourTime = (currentTime: Date): [number, number, TomatoState] => {
     const minutes = currentTime.getMinutes();
     const seconds = currentTime.getSeconds();
     let minutesLeft = 0;
-    let state: types.TomatoState = 'break';
+    let state: TomatoState = 'break';
 
     if (minutes >= 55) {
         minutesLeft = 5 - (minutes - 55) - 1;

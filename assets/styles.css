@@ -35,16 +35,14 @@ body {
   font-weight: bold; }
 
 .overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: black;
-    opacity: 0.3;
-    z-index: 1000;
-}
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 1000; }
 
 .modal-dialog {
-    z-index: 1050;
-}
+  z-index: 1050; }
