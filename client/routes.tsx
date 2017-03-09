@@ -5,7 +5,7 @@ import { Route, IndexRoute } from 'react-router';
 import Layout from './components/Layout';
 //import Login from './components/Login';
 //import Logout from './components/Logout';
-//import Inbox from './components/Inbox';
+import Ideas from './components/Ideas';
 import Tasks from './components/Tasks';
 import Projects from './components/Projects';
 //import Tags from './components/Tags';
@@ -15,6 +15,7 @@ import Empty from './components/Empty';
 
 export default (
     <Route path="/" component={Layout}>
+        <Route path="ideas" component={Ideas} />
 
         <Route path="projects" component={Projects}>
             <Route path=":projectId" component={Tasks} />
