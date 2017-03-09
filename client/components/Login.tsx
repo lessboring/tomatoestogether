@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { browserHistory } from 'react-router';
 import {observer} from 'mobx-react';
 import FormField from './FormField';
 import {observable, computed, action} from 'mobx';
 import Spinner from './Spinner';
 import http from '../http';
 import {User} from '../models';
-import {store} from '../store';
+import ctrl from '../controller';
 
 
 export class LoginStore {
@@ -29,9 +30,8 @@ export class LoginStore {
         .then(action((response: {token: string}) => {
             localStorage.setItem('token', response.token);
             this.loading = false;
-            store.closeModal();
-            store.fetchUser();
-            store.openModal('settings');
+            browserHistory.push('/');
+            ctrl.getMe();
         }))
         .catch(action((error) => {
             this.error = error;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {store} from '../store';
 
 
 export default function Iframe(props: {src: string}) {

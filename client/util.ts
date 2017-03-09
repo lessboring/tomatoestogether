@@ -43,3 +43,11 @@ export const formatCurrentTime = (date: Date) => {
 export const formatTomatoClock = (minutesLeft: number, secondsLeft: number) => {
     return `${minutesLeft}:${padWithZero(secondsLeft)}`;
 };
+
+export function times<T>(amount: number, callback: (i: number) => T): T[] {
+    const res: T[] = [];
+    for (let i=0; i<amount; i++) {
+        res.push(callback(i));
+    }
+    return res
+};

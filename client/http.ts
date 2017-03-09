@@ -1,6 +1,5 @@
 import { MockableHttp } from './mockable-http';
 import { browserHistory } from 'react-router';
-import {store} from './store';
 
 const http = new MockableHttp('http://tomatoestogether/api/v1');
 if (typeof window !== 'undefined') {
@@ -8,13 +7,20 @@ if (typeof window !== 'undefined') {
 }
 
 http.catchAll = (err: any) => {
-    if (store.currentModal !== 'login' && err.response.status === 401) {
+    const current = browserHistory.getCurrentLocation().pathname;
+    if (current !== '/login' && err.response.status === 401) {
         // If the token is still here, it must be out of date
         localStorage.removeItem('token');
-        store.openModal('login');
+        browserHistory.push('/login');
     }
-    throw err;
+    else if (err.response.status === 404) {
+        browserHistory.push('/404');
+    }
+    else {
+        throw err;
+    }
 };
+
 
 
 export default http;

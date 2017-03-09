@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
-from .models import Task
+from .models import Project, Task
 from . import filters
 from . import serializers
 
@@ -17,6 +17,23 @@ class UserRetrieveUpdateAPIView(
 
     def get_object(self):
         return self.request.user
+
+
+class ProjectListCreateAPIView(
+        generics.ListCreateAPIView):
+    serializer_class = serializers.ProjectSerializer
+    filter_backends = (filters.IsOwnerFilterBackend,)
+    queryset = Project.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class ProjectRetrieveUpdateDestroyAPIView(
+        generics.UpdateAPIView,
+        generics.DestroyAPIView):
+    serializer_class = serializers.ProjectSerializer
+    filter_backends = (filters.IsOwnerFilterBackend,)
 
 
 class TaskListCreateAPIView(
@@ -36,10 +53,13 @@ class TaskRetrieveUpdateDestroyAPIView(
     filter_backends = (filters.IsOwnerFilterBackend,)
 
 
-class TomatoListCreateAPIView(
-        generics.ListCreateAPIView):
-    serializer_class = serializers.TomatoSerializer
-    filter_backends = (filters.IsOwnerFilterBackend,)
+#class TomatoListCreateAPIView(
+#        generics.ListCreateAPIView):
+#    serializer_class = serializers.TomatoSerializer
+#    filter_backends = (filters.IsOwnerFilterBackend,)
+#
+#    def perform_create(self, serializer):
+#        serializer.save(user=self.request.user)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+
+#class OperationsHandleAPIView():

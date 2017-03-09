@@ -15,20 +15,28 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
 
-class Tomato(models.Model):
-    """
-    A unit of 25 minutes of work, followed by 5 minutes of break.
+class Project(models.Model):
+    user = models.ForeignKey(User, related_name='projects')
+    name = models.CharField(max_length=255)
+    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
 
-    For now a tomato is synchronized to the hour and half hour.
-    """
-    user = models.ForeignKey(User, related_name='tomatoes')
-    start = models.DateTimeField()
+
+#class Tomato(models.Model):
+#    """
+#    A unit of 25 minutes of work, followed by 5 minutes of break.
+#
+#    For now a tomato is synchronized to the hour and half hour.
+#    """
+#    user = models.ForeignKey(User, related_name='tomatoes')
+#    start = models.DateTimeField()
 
 
 class Task(models.Model):
-    user = models.ForeignKey(User, related_name='tasks')
+    project = models.ForeignKey(Project, related_name='tasks')
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+    index = models.IntegerField()
     title = models.CharField(max_length=255)
-    body = models.TextField(max_length=1000, blank=True)
     completed = models.BooleanField(default=False)
-    tomato = models.ForeignKey(Tomato, related_name='tasks', null=True, blank=True)
+
+    #body = models.TextField(max_length=1000, blank=True)
+    #tomato = models.ForeignKey(Tomato, related_name='tasks', null=True, blank=True)

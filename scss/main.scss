@@ -43,10 +43,6 @@ $light-green: #72A603;
 .time-display {
     font-size: 4rem;
 }
-.task-display {
-    font-size: 2rem;
-    font-weight: bold;
-}
 
 .overlay {
     position: absolute;
@@ -61,4 +57,33 @@ $light-green: #72A603;
 
 .modal-dialog {
     z-index: 1050;
+}
+
+.tasks {
+    margin-top: 20px;
+    .task {
+        margin-left: 40px;
+        position: relative;
+        .task-bullet {
+            position: absolute;
+            left: -24px;
+            top: 3px;
+            width: 20px;
+            height: 20px;
+            border: 6px solid white;
+            border-radius: 20px;
+            background-color: black;
+            cursor: pointer;
+            &:hover {
+                border-color: grey;
+            }
+        }
+        .task-title {
+            outline: none;
+        }
+        .task-body {
+            outline: none;
+            color: #666;
+        }
+    }
 }

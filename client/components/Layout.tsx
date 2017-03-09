@@ -1,29 +1,34 @@
 import * as React from 'react';
 import * as DocumentTitle from 'react-document-title';
 import {Link} from 'react-router';
-import {observer, inject} from 'mobx-react';
-import {Store} from '../store';
+import {observer} from 'mobx-react';
+import vm from '../view-model';
 
 
-@inject('store')
 @observer
-export default class Layout extends React.Component<{store: Store}, {}> {
+export default class Layout extends React.Component<{}, {}> {
     render() {
         return (
 			<div>
                 <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-                    <button className="navbar-toggler navbar-toggler-right" type="button" onClick={store.toggleMenu}>
+                    <button className="navbar-toggler navbar-toggler-right" type="button" onClick={vm.toggleMenu}>
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <a className="navbar-brand" href="#">
                         <img className="tomato-logo" src="/assets/tomato.png"/>
                         Tomatoes Together
                     </a>
-                    <div className={'collapse navbar-collapse ' + (store.menuExpanded ? 'show' : '')}>
+                    <div className={'collapse navbar-collapse ' + (vm.menuExpanded ? 'show' : '')}>
                         <div className="navbar-nav">
-                            <a className="nav-item nav-link active" href="#">Home</a>
-                            <a className="nav-item nav-link" href="#">Features</a>
-                            <a className="nav-item nav-link" href="#">Pricing</a>
+                            <Link className="nav-item nav-link active" to="/">Home</Link>
+                            <Link className="nav-item nav-link" to="/projects">Projects</Link>
+                            <Link className="nav-item nav-link" to="/calendar">Calendar</Link>
+                            <Link className="nav-item nav-link" to="/tags">Tags</Link>
+                            <Link className="nav-item nav-link" to="/stats">Stats</Link>
+                        </div>
+                        <div className="navbar-nav ml-auto">
+                            <Link className="nav-item nav-link" to="/login">Log In</Link>
+                            <Link className="nav-item nav-link" to="/logout">Log Out</Link>
                         </div>
                     </div>
                 </nav>
@@ -32,4 +37,3 @@ export default class Layout extends React.Component<{store: Store}, {}> {
 		);
 	}
 }
-

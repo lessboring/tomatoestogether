@@ -1,4 +1,158 @@
+Morning routine
+    Wake up
+    Go to the bathroom
+    Brush teeth
+    Shave
+    Put on clothes
+    Make eggs
+    Make coffee
+
+Evening routine
+    Cook frozen veggies
+    Read book
+    Eat dinner
+    Cook something
+
+Tuesday/Thursday/Saturday
+Wake up at 7
+7-8 get ready
+
+Stream from 8-12
+
+Gym 12-1
+Eat lunch 1-2
+Go on a walk 2-3
+
+Stream from 3-7
+
+On Tuesdays, go to game night at 7:30
+
+eat dinner, read, clean, cook until 11
+
+Monday/Wednesday/Friday
+
+Work on freelance for 8-12
+
+Go on a walk 12-1
+Go to the coffee shop and read 1-3
+Dancing on Monday nights 6-7
+
+Sunday
+Off
+
+Heuristic for what to do with your time:
+Only do things that will still have relevance in the morning.
+Reading reddit will not have relevance in the morning
+Streaming
+Gym
+Eating healthy
+Cleaning the apartment
+Reading books
+Doing the laundry
+will have relevance in the morning
+
+
+
+
+Ideas to try for next time:
+Talk a walk during lunch instead of staying on stream
+Take off 2 hours in the middle of the day
+
+If I hit a wall, I need to make sure I don't keep banging my head against it
+Identify walls that are hit, and instead of continuing, make a note and research it more later, and do something else
+
+
+
+tomatoestogether.com/app - react app
+tomatoestogether.com - static promotional page
+
+TomatoesTogether
+    Projects and Tasks
+        Consider the database and make sure it works still
+        Consider the api and make sure it works still
+        Do the UI
+        Hook up the API to the UI
+    Free App
+        Tomato timer
+        A single project
+        You put your chat system into the iframe and it hides it during the tomato
+    Inbox
+    Calendar
+    User Account Management
+    Tomato Timer and time tracking
+        You can start a timer
+        You can start tomatoes
+    Stats
+
+
+    Collect ideas - all new things first go to the inbox which looks like a workflowy document
+    Assign trees of ideas to projects
+    Other people who want to assign things to you have to add them to your inbox and can't directly add them to your projects
+
+Nested projects
+    Any project can be used as your tomato task
+        You can start a timer while you are working on things
+        Start a tomato while working on things
+        The system automatically tracks which tasks you finish during tomatoes and during time tracking sessions
+
+    A task can have comments and you can share projects with other people, but during a tomato it hides all of that from you so you aren't interrupted
+
+Nested tasks inside of projects
+Contexts/hashtags/settings/scenarios
+Calendar
+    Reminders and due dates (any task)
+
+Stats/Review
+    Graphs of tomatoes done per day per hour per whatever
+
+
+/
+
+2 hours - /login
+Simple login page
+
+0 hours - /logout
+Simple redirect to the home page
+
+2 hours - /register
+
+2 hours - /settings
+    Account settings
+
+/inbox
+    Shows a list of incoming tasks
+
+/projects
+/projects/:projectId
+    Show the nested tasks for that project
+
+/hashtags
+    Shows nested hashtags on the left and tasks hashed with those tags on the right
+
+/calendar
+    Shows a calendar
+    Clicking on a day shows the tasks due that day
+
+/stats
+    Dooskington's spreadsheet
+        A view of all projects and the number of tomatoes you have done for each
+
+/forgot-password
+/forgot-password/:key
+
+
+
+
+
 "Life Management System"
+
+Do you feel tired of forgetting things?
+Do you sit there in the morning saying to yourself, "what should I do today?"  If you are anything like me, this might could cause you to stress.
+You need Tomatoes Together!
+
+Tomatoes Together uses advanced Italian pomodoro technology to make your life easier to manage.  No more fretting about how large your list is.
+
+
 Idea capture - never forget anything
 Assistance with what to do next, and breaking that down into manageable chunks
 Assitance with distraction by the internet
@@ -15,16 +169,22 @@ Return a token after creating a user
 Return a user as well on login
 
 
+create a new task node
+edit a task node
+remove a task node
+
+Operations
+
+
+
 
 Version 1
     Get tomato timer working
-        Hook up the code for displaying the current time
-        Wire up the api endpoint
-        Create a react component
     Allow entering your own chat into an iframe during the tomato break
     Get basic nested task editing
-    Allow specifying a task with subtasks for a tomato
-    Record completed tomatoes and completed tasks
+        check off something
+        expand and collapse
+        zoom in
     Create account
     Login
     Paid version $9 to save tasks and tomatoes done
@@ -33,8 +193,11 @@ Version 1
 
 Version 2
     Add Vim shortcut keys
+    Allow specifying a task with subtasks for a tomato
+    Record completed tomatoes and completed tasks
     Customizable keyboard shortcuts?
     Autodetect timezone in JS
+    Slack integration
 
 API Spec
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Task, Tomato
+from .models import User, Project, Task #, Tomato
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -28,22 +28,32 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class TomatoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tomato
-        fields = [
-            'id', 'start'
-        ]
-
-
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = [
             'id',
+            'project',
             'parent',
             'title',
             'body',
             'completed',
-            'tomato',
         ]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = [
+            'id',
+            'parent',
+            'name',
+        ]
+
+
+#class TomatoSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = Tomato
+#        fields = [
+#            'id', 'start'
+#        ]

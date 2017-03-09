@@ -1,9 +1,5 @@
 # TODO
 
-Get webcam back
-Research how to structure the frontend model layout
-Spend the middle of the day walking around and thinking and also researching
-Talk to Ted
 Decide if i want this to be a full fledged cms
 Decide if I want to work on the Django tutorial in tandem so if I get stuck I can swap back and forth?
 
@@ -56,83 +52,6 @@ I wilt at 9pm, so start stream at 6pm if I want 3 hours
 * Python 3
 * Django/Django Rest Framework
 * Django Channels/Socket.io for websocket stuff
-
-# API
-
-```bash
-GET /projects/
-returns 200 {
-    id: number,
-    name: string,
-}
-
-GET /projects/<project_id>/
-returns 200 {
-    id: number,
-    name: string,
-}
-
-POST /projects/ {
-    name: string,
-} returns 201 {
-    id: number,
-    name: string,
-}
-
-PUT/PATCH /projects/<project_id>/ {
-    name: string,
-} returns 200 {
-    id: number,
-    name: string,
-}
-
-DELETE /projects/<project_id>/
-returns 204
-
-GET /projects/<project_id>/
-returns 200 {
-    id: number,
-    name: string,
-}
-
-GET /projects/<project_id>/?full=true
-returns 200 {
-    id: number,
-    name: string,
-    tasks: [{
-        id: number,
-        tomato_id?: number,
-        title: string,
-        body: string,
-    }]
-}
-
-GET /tasks/?project_id=
-
-GET /projects/<project_id>/
-returns 200 {
-    id: number,
-    name: string,
-}
-
-POST /projects/ {
-    name: string,
-} returns 201 {
-    id: number,
-    name: string,
-}
-
-PUT/PATCH /projects/<project_id>/ {
-    name: string,
-} returns 200 {
-    id: number,
-    name: string,
-}
-
-DELETE /projects/<project_id>/
-returns 204
-
-```
 
 
 Make it so that you can enter your distracting communication website into the app and it will show that site only during the tomato break
