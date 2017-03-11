@@ -14,3 +14,4 @@ scratch
 db_backup.sql
 __pycache__
 npm-debug.log
+private.py
