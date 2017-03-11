@@ -44,6 +44,8 @@ else:
 ALLOWED_HOSTS = [
     'localhost',
     'tomatoestogether',
+    'www.tomatoestogether.com',
+    'tomatoestogether.com',
     '*.tomatoestogether.com',
 ]
 
