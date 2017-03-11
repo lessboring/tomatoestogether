@@ -1,15 +1,22 @@
 import {observable, extendObservable, ObservableMap, asMap, computed, action} from 'mobx';
 import * as moment from 'moment';
+import http from './http';
+import { browserHistory } from 'react-router';
 
 
 export class User {
     @observable id: number = 0;
     @observable email: string = '';
     @observable name: string = 'guest';
+    @observable timezone: string = 'America/New_York';
     @observable tomato_break_iframe_url: string = '';
     @observable projects: Project[] = [];
 
     constructor(public store: Store) {}
+
+    static anonymous(store: Store): User {
+        return new User(store);
+    }
 }
 
 
@@ -49,6 +56,11 @@ export class Project {
     }
 }
 
+export class Category {
+    @observable id: number = 0;
+    @observable name: string = '';
+    @observable parent: Category | null = null;
+}
 
 export class Task {
     @observable id: number = 0;
@@ -62,12 +74,20 @@ export class Task {
     constructor(public store: Store) {}
 }
 
-interface ProjectJSON {
+export interface UserJSON {
+    id: number;
+    email: string;
+    tomato_break_iframe_url: string;
+    timezone: string;
+}
+
+export interface ProjectJSON {
     id: number;
     name: string;
     parent?: number;
 }
-interface TaskJSON {
+
+export interface TaskJSON {
     id: number;
     project: number;
     parent?: number;
@@ -76,20 +96,102 @@ interface TaskJSON {
     completed: boolean;
 }
 
-interface TomatoJSON {
+export interface TomatoJSON {
     id: number;
     project: number;
     startTime: moment.Moment;
 }
 
+class LoginForm {
+    @observable email: string = '';
+    @observable password: string = '';
+}
+
+export class LoginStore {
+    constructor(public store: Store) {}
+
+    @observable form = new LoginForm();
+    @observable loading: boolean = false;
+
+    @action submit = (e: React.SyntheticEvent<{}>) => {
+        e.preventDefault();
+        this.loading = true;
+        http.post('/auth/token/', {
+            email: this.form.email,
+            password: this.form.password,
+        })
+        .then(action((response: {token: string}) => {
+            localStorage.setItem('token', response.token);
+            this.loading = false;
+            browserHistory.push('/');
+        }))
+        .catch(action((error) => {
+            alert(JSON.stringify(error));
+            this.loading = false;
+        }));
+    }
+}
+
+
+
+class SignUpForm {
+    @observable email: string = '';
+    @observable password: string = '';
+    @observable password2: string = '';
+}
+
+export class SignUpStore {
+    constructor(public store: Store) {}
+
+    @observable form = new SignUpForm();
+    @observable loading: boolean = false;
+
+    @action submit = (e: React.SyntheticEvent<{}>) => {
+        e.preventDefault();
+        this.loading = true;
+        http.post('/users/', {
+            email: this.form.email,
+            password: this.form.password,
+        })
+        .then(action((userData: UserJSON) => {
+            // If the user creation is successful,
+            // log in and redirect
+
+            this.store.addMe(userData);
+            http.post('/auth/token/', {
+                email: this.form.email,
+                password: this.form.password,
+            })
+            .then(action((response: {token: string}) => {
+                localStorage.setItem('token', response.token);
+                this.loading = false;
+                browserHistory.push('/projects');
+            }));
+        }))
+        .catch(action((error) => {
+            alert(JSON.stringify(error));
+            this.loading = false;
+        }));
+    }
+}
+
 
 export class Store {
+    @observable me: User = User.anonymous(this);
     @observable projects: Project[] = [];
     @observable projectsById: ObservableMap<Project> = asMap<Project>({});
     @observable tasksById: ObservableMap<Task> = asMap<Task>({});
 
     getProject(id: number): Project | null {
         return this.projectsById.get(id.toString()) || null;
+    }
+
+    @action addMe(initial: UserJSON) {
+        const user = new User(this);
+        user.email = initial.email;
+        user.tomato_break_iframe_url = initial.tomato_break_iframe_url;
+        user.timezone = initial.timezone;
+        this.me = user;
     }
 
     @action addProject(initial: ProjectJSON) {

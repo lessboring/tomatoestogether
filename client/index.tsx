@@ -4,10 +4,12 @@ import routes from './routes';
 import {Provider} from 'mobx-react';
 import { Router, browserHistory, applyRouterMiddleware } from 'react-router';
 import { useHistoryRestoreScroll, useRouterRestoreScroll } from 'react-router-restore-scroll';
-import {Store, Project, Task} from './stores';
+import {Store, SignUpStore, LoginStore, Project, Task} from './stores';
 import * as moment from 'moment';
 
 const store = new Store();
+const signUpStore = new SignUpStore(store);
+const loginStore = new LoginStore(store);
 
 store.addProject({id:1, name:'Business Development'});
 store.addProject({id:2, name:'Tomatoes Together', parent:1});
@@ -101,8 +103,11 @@ const routerRender = applyRouterMiddleware(useRouterRestoreScroll());
 
 export default () => {
     render(
-        <Provider store={store}>
-            <Router
+        <Provider
+            store={store}
+            signUpStore={signUpStore}
+            loginStore={loginStore}
+        ><Router
                 routes={routes}
                 history={createHistory()}
                 render={routerRender}

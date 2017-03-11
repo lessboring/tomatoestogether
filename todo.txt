@@ -1,3 +1,27 @@
+There is a tab of Reminders
+Each reminder has a name and a tree of tasks off of it
+
+
+The core fundamental unit of thing is a "Task"
+A task can have subtasks, which can have subtasks which can have subtasks
+
+A task can be worked on during a tomato
+A task can be a reminder where it is periodically added back into your inbox
+A task
+A task has a duration of time worked on 
+A task has number of tomatoes done on
+
+
+Brain Dump
+    Tasks that haven't been acknowledged yet
+Goals and tasks related to them
+    Tasks that are on my plate
+Plan
+    Tasks that are scheduled for doing
+    
+
+
+
 Morning routine
     Wake up
     Go to the bathroom

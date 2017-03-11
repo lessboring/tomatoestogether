@@ -36,20 +36,35 @@ class TaskSerializer(serializers.ModelSerializer):
             'project',
             'parent',
             'title',
-            'body',
+            'index',
             'completed',
         ]
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(many=True, read_only=True)
+
     class Meta:
         model = Project
         fields = [
             'id',
             'parent',
             'name',
+            'tasks',
         ]
 
+
+class FolderSerializer(serializers.ModelSerializer):
+    projects = ProjectSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Task
+        fields = [
+            'id',
+            'parent',
+            'name',
+            'projects',
+        ]
 
 #class TomatoSerializer(serializers.ModelSerializer):
 #    class Meta:

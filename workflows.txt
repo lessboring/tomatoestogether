@@ -1,0 +1,178 @@
+What all do I need to remember in my life management system?
+
+What are your most important very broad goals?
+
+Business Products
+Health
+Social Life
+Freelance
+Boring Life Stuff
+
+Do a brain dump of everything you have in life
+
+Finish the freelance job I have
+Maintain the other retainer job I have
+Water my plant
+Keep my apartment clean
+Learn more recipes to cook better
+Build a desk for my computer
+Go to the store and buy food
+Organize game nights with friends
+Attend dance lessons
+Attend the every other Saturday dance event
+Go to the coffee shop and chat with the owners
+Keep up with friends who don't live in the same city as me
+Read that book I got from that one person
+Read the book I bought about software dev
+Stay up to date on new programming things
+Play that one video game
+Get curtains for my living room
+Buy more plants
+Do the dishes
+Call mom
+Eat all the food in the fridge
+Do the laundry
+Sweep the floor sometime
+Finish making my bed
+Book tickets to Microconf
+Discuss business things with Ted
+Set up backups for my computer
+Update the packages on my servers
+Harden my servers
+
+Sort these into projects
+
+One time project
+    Finish the freelance job I have
+    Build a desk for my computer
+    Get curtains for my living room
+    Finish making my bed
+    Set up backups for my computer
+    Harden my servers
+
+One time task
+    Read that book I got from that one person
+    Read the book I bought about software dev
+    Send an email to the person who got me the book
+    Book tickets to Microconf
+
+Recurring project
+    Maintain the other retainer job I have
+    Keep my apartment clean
+    Go to the store and buy food
+    Organize game nights with friends
+
+Recurring Tasks
+    Water my plant
+    Do the dishes
+
+Ongoing but one time only tasks project
+    Learn more recipes to cook better
+    Play that one video game
+
+Recurring events on the calendar
+    Go talk to Ted on Monday
+    Attend dance lessons
+    Attend the every other Saturday dance event
+
+Reminders
+    Update the packages on my servers
+    Ask Ted for another meeting
+    Do the laundry
+    Call mom
+    Sweep the floor sometime
+    Go to the coffee shop and chat with the owners
+    Keep up with friends who don't live in the same city as me
+    Stay up to date on new programming things
+    Buy more plants
+    Stay in touch with person A (remind me every 3 months)
+    Eat all the food in the fridge
+
+
+Video games to play at some point
+    Game 1
+    Game 2
+    Game 3
+
+Thursday March 9, 2017
+
+- 7-8 Do my morning routine
+    - Wake up
+    - Go to the bathroom
+    - Brush teeth
+    - Shave
+    - Put on clothes
+- 8-12 Stream working on Tomatoes Together @stream
+    #stream
+    no deadline
+    important
+    recurring on T/R/S
+    fixed duration
+    refers to task Tomatoes Together
+- 12-1 Go to the gym
+- 1-2 Eat lunch
+    Chicken soup
+    Choco yogurt
+    Carrots
+- 2-3 Go to the coffee shop
+- 3-7 Stream working on Tomatoes Together @stream
+    #stream
+    no deadline
+    important
+    recurring on T/R/S
+    fixed duration
+    refers to task Tomatoes Together
+
+7-11 Unstructured time @home
+
+- 7-8 Read a book for an hour
+#kitchen
+- Cook frozen veggies
+- Cook the chicken I haven't cooked yet
+- Wash the dishes
+
+
+Read a book for an hour
+Go on a walk
+
+
+- 7-8 Do my morning routine
+    - Wake up
+    - Go to the bathroom
+    - Brush teeth
+    - Shave
+    - Put on clothes
+- 8-12 Stream working on Tomatoes Together @stream
+    #stream
+    no deadline
+    important
+    recurring on T/R/S
+    fixed duration
+    refers to task Tomatoes Together
+- 12-1 Go to the gym
+- 3-7 Stream working on Tomatoes Together @stream
+    #stream
+    no deadline
+    important
+    recurring on T/R/S
+    fixed duration
+    refers to task Tomatoes Together
+
+
+Things to remember before streaming:
+    Don't brainstorm for too long or you will be worn out
+
+Why did David suddenly get tired of working?
+    Is it he tried too long to think of a good idea and couldn't
+    It is 5pm or whatever time it is
+    Is it because he worked for 6 hours
+
+I got into a trying out ideas in my head rut
+
+
+Folders of projects
+Projects have nested tasks
+You can do a tomato on a project
+You can schedule tasks
+
+

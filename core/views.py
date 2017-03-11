@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
-from .models import Project, Task
+from .models import Folder, Project, Task
 from . import filters
 from . import serializers
 
@@ -17,6 +17,23 @@ class UserRetrieveUpdateAPIView(
 
     def get_object(self):
         return self.request.user
+
+
+class FolderListCreateAPIView(
+        generics.ListCreateAPIView):
+    serializer_class = serializers.FolderSerializer
+    filter_backends = (filters.IsOwnerFilterBackend,)
+    queryset = Folder.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class FolderRetrieveUpdateDestroyAPIView(
+        generics.UpdateAPIView,
+        generics.DestroyAPIView):
+    serializer_class = serializers.FolderSerializer
+    filter_backends = (filters.IsOwnerFilterBackend,)
 
 
 class ProjectListCreateAPIView(

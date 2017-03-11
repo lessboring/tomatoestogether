@@ -29,6 +29,7 @@ export default class Layout extends React.Component<{}, {}> {
                         </div>
                         <div className="navbar-nav ml-auto">
                             <Link className="nav-item nav-link" to="/login">Log In</Link>
+                            <Link className="nav-item nav-link" to="/signup">Sign Up</Link>
                             <Link className="nav-item nav-link" to="/logout">Log Out</Link>
                         </div>
                     </div>

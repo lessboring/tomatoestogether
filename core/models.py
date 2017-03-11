@@ -15,10 +15,27 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
 
+class Folder(models.Model):
+    user = models.ForeignKey(User, related_name='folders')
+    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+    name = models.CharField(max_length=255)
+
+
 class Project(models.Model):
     user = models.ForeignKey(User, related_name='projects')
     name = models.CharField(max_length=255)
+
+
+class Task(models.Model):
+    user = models.ForeignKey(User, related_name='tasks')
+    project = models.ForeignKey(Project, related_name='tasks')
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+    index = models.IntegerField()
+    title = models.CharField(max_length=255)
+    completed = models.BooleanField(default=False)
+
+    #body = models.TextField(max_length=1000, blank=True)
+    #tomato = models.ForeignKey(Tomato, related_name='tasks', null=True, blank=True)
 
 
 #class Tomato(models.Model):
@@ -29,14 +46,3 @@ class Project(models.Model):
 #    """
 #    user = models.ForeignKey(User, related_name='tomatoes')
 #    start = models.DateTimeField()
-
-
-class Task(models.Model):
-    project = models.ForeignKey(Project, related_name='tasks')
-    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
-    index = models.IntegerField()
-    title = models.CharField(max_length=255)
-    completed = models.BooleanField(default=False)
-
-    #body = models.TextField(max_length=1000, blank=True)
-    #tomato = models.ForeignKey(Tomato, related_name='tasks', null=True, blank=True)
