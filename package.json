@@ -6,7 +6,7 @@
     "start": "npm run watch-client & npm run watch-scss & npm run livereload",
     "watch-client": "watchify --debug index.ts -p tsify -o assets/bundle.js",
     "watch-scss": "nodemon -e scss -x \"npm run build-scss\"",
-    "build-scss": "node-sass --include-path=scss scss/main.scss assets/styles.css",
+    "build-scss": "node-sass --include-path=node_modules --include-path=scss scss/main.scss assets/styles.css",
     "livereload": "livereload assets/"
   },
   "repository": {
@@ -36,6 +36,7 @@
     "browserify": "^13.1.1",
     "css-loader": "^0.26.2",
     "es6-promise": "^4.0.5",
+    "font-awesome": "^4.7.0",
     "import-glob": "^1.5.0",
     "livereload": "^0.6.0",
     "marked": "^0.3.6",

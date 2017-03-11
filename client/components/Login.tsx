@@ -4,16 +4,13 @@ import {observer, inject} from 'mobx-react';
 import FormField from './FormField';
 import {observable, computed, action} from 'mobx';
 import Spinner from './Spinner';
-import {Store, LoginStore} from '../stores';
+import {Store} from '../stores';
 
-@inject('store', 'loginStore')
+@inject('store')
 @observer
-export default class Login extends React.Component<{
-    store?: Store,
-    loginStore?: LoginStore,
-}, {}> {
+export default class Login extends React.Component<{store?: Store}, {}> {
     render() {
-        const loginStore = this.props.loginStore!;
+        const loginStore = this.props.store!.loginStore!;
         return loginStore.loading && <Spinner /> || (
             <form method="POST" onSubmit={loginStore.submit}>
                 <FormField

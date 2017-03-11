@@ -23,6 +23,7 @@ class Folder(models.Model):
 
 class Project(models.Model):
     user = models.ForeignKey(User, related_name='projects')
+    folder = models.ForeignKey(Folder, related_name='projects', null=True, blank=True)
     name = models.CharField(max_length=255)
 
 

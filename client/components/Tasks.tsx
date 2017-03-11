@@ -4,11 +4,12 @@ import {observer, inject} from 'mobx-react';
 import {Link} from 'react-router';
 import vm from '../view-model';
 import ContentEditable from './ContentEditable';
-import {Store, Project, Task} from '../stores';
+import {Store} from '../stores';
+import * as models from '../models';
 
 
 @observer
-class TaskNode extends React.Component<{task: Task}, {}> {
+class TaskNode extends React.Component<{task: models.Task}, {}> {
     render(): JSX.Element | null {
         const {task} = this.props;
         const focus = (vm.focusedTaskId === this.props.task.id);
@@ -32,7 +33,7 @@ class TaskNode extends React.Component<{task: Task}, {}> {
                     }}
                 />
                 {!task.collapsed && (
-                    task.children.map((task: Task) => (
+                    task.children.map((task: models.Task) => (
                         <TaskNode key={task.id} task={task} />
                     ))
                 )}
@@ -50,7 +51,7 @@ export default class Tasks extends React.Component<{store?: Store, params: {proj
             <div>
                 <h1>{project && project.name} Tasks</h1>
                 <div className="tasks">
-                    {project && project.tasks.map((task: Task) => (
+                    {project && project.tasks.map((task: models.Task) => (
                         <TaskNode key={task.id} task={task} />
                     ))}
                 </div>

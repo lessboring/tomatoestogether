@@ -25,3 +25,33 @@ interface DeleteOperation {
 }
 
 type Operation = CreateOperation | UpdateOperation | DeleteOperation;
+
+interface UserJSON {
+    id: number;
+    email: string;
+    tomato_break_iframe_url: string;
+    timezone: string;
+}
+
+interface FolderJSON {
+    id: number;
+    name: string;
+    parent: number | null;
+    projects?: ProjectJSON[];
+}
+
+interface ProjectJSON {
+    id: number;
+    name: string;
+    folder: number | null;
+    tasks?: TaskJSON[];
+}
+
+interface TaskJSON {
+    id: number;
+    project: number;
+    parent: number | null;
+    index: number;
+    title: string;
+    completed: boolean;
+}

@@ -1,106 +1,9 @@
 import {observable, extendObservable, ObservableMap, asMap, computed, action} from 'mobx';
-import * as moment from 'moment';
 import http from './http';
 import { browserHistory } from 'react-router';
+import * as models from './models';
+import * as moment from 'moment';
 
-
-export class User {
-    @observable id: number = 0;
-    @observable email: string = '';
-    @observable name: string = 'guest';
-    @observable timezone: string = 'America/New_York';
-    @observable tomato_break_iframe_url: string = '';
-    @observable projects: Project[] = [];
-
-    constructor(public store: Store) {}
-
-    static anonymous(store: Store): User {
-        return new User(store);
-    }
-}
-
-
-export class Tomato {
-    @observable id: number = 0;
-    @observable startTime: moment.Moment;
-    @observable project: Project;
-
-    @computed get endTime() {
-        return moment(this.startTime).add(25, 'minutes');
-    }
-
-    constructor(public store: Store) {}
-}
-
-export class Project {
-    @observable id: number = 0;
-    @observable name: string = '';
-    @observable parent: Project | null = null;
-    @observable children: Project[] = [];
-    @observable tasks: Task[] = [];
-    @observable tomatoes: Tomato[] = [];
-
-    constructor(public store: Store) {}
-
-    @computed get totalTomatoes(): number {
-        if (this.children.length === 0) {
-            return this.tomatoes.length;
-        }
-        else {
-            let total = this.tomatoes.length;
-            for (const project of this.children) {
-                total += project.totalTomatoes;
-            }
-            return total;
-        }
-    }
-}
-
-export class Category {
-    @observable id: number = 0;
-    @observable name: string = '';
-    @observable parent: Category | null = null;
-}
-
-export class Task {
-    @observable id: number = 0;
-    @observable project: Project | null = null;
-    @observable parent: Task | null = null;
-    @observable index: number = -1;
-    @observable title: string = '';
-    @observable collapsed: boolean = false;
-    @observable children: Task[] = [];
-
-    constructor(public store: Store) {}
-}
-
-export interface UserJSON {
-    id: number;
-    email: string;
-    tomato_break_iframe_url: string;
-    timezone: string;
-}
-
-export interface ProjectJSON {
-    id: number;
-    name: string;
-    parent?: number;
-}
-
-export interface TaskJSON {
-    id: number;
-    project: number;
-    parent?: number;
-    index: number;
-    title: string;
-    completed: boolean;
-}
-
-export interface TomatoJSON {
-    id: number;
-    project: number;
-    startTime: moment.Moment;
-}
 
 class LoginForm {
     @observable email: string = '';
@@ -131,7 +34,6 @@ export class LoginStore {
         }));
     }
 }
-
 
 
 class SignUpForm {
@@ -175,74 +77,237 @@ export class SignUpStore {
     }
 }
 
+export class ProjectsStore {
+    constructor(public store: Store) {}
+
+    @action load() {
+        http.get('/folders/')
+        .then(action((foldersData: FolderJSON[]) => {
+            this.store.addFolders(foldersData);
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+
+    @action createFolder(parentId: number | null) {
+        http.post('/folders/', {
+            name: 'New Folder',
+            parent: parentId,
+        })
+        .then(action((folderData: FolderJSON) => {
+            this.store.addFolder(folderData);
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+
+    @action createProject(folderId: number | null) {
+        http.post('/projects/', {
+            name: 'New Project',
+            folder: folderId,
+        })
+        .then(action((projectData: ProjectJSON) => {
+            this.store.addProject(projectData);
+            browserHistory.push(`/projects/${projectData.id}`);
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+
+    @action renameFolder(folderId: number, name: string) {
+        http.put(`/folders/${folderId}/`, {name})
+        .then(action((res: any) => {
+            this.store.getFolder(folderId)!.name = name;
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+
+    @action renameProject(projectId: number, name: string) {
+        http.put(`/projects/${projectId}/`, {name})
+        .then(action((res: any) => {
+            this.store.getProject(projectId)!.name = name;
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+
+    @action deleteFolder(folderId: number) {
+        http.delete(`/folders/${folderId}/`)
+        .then(action((res: any) => {
+            this.store.foldersById.delete(folderId.toString());
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+
+    @action deleteProject(projectId: number) {
+        http.delete(`/projects/${projectId}/`)
+        .then(action((res: any) => {
+            this.store.removeProject(projectId);
+        }))
+        .catch(action((error) => {
+            alert(error);
+        }));
+    }
+}
 
 export class Store {
-    @observable me: User = User.anonymous(this);
-    @observable projects: Project[] = [];
-    @observable projectsById: ObservableMap<Project> = asMap<Project>({});
-    @observable tasksById: ObservableMap<Task> = asMap<Task>({});
+    @observable loginStore = new LoginStore(this);
+    @observable signUpStore = new SignUpStore(this);
+    @observable projectsStore = new ProjectsStore(this);
 
-    getProject(id: number): Project | null {
+    @observable me: models.User = models.User.anonymous();
+    @observable folders: models.Folder[] = [];
+    @observable foldersById: ObservableMap<models.Folder> = asMap<models.Folder>({});
+
+    @observable projectsById: ObservableMap<models.Project> = asMap<models.Project>({});
+    @observable tasksById: ObservableMap<models.Task> = asMap<models.Task>({});
+
+    getFolder(id: number): models.Folder | null {
+        return this.foldersById.get(id.toString()) || null;
+    }
+
+    getProject(id: number): models.Project | null {
         return this.projectsById.get(id.toString()) || null;
     }
 
     @action addMe(initial: UserJSON) {
-        const user = new User(this);
+        const user = new models.User();
         user.email = initial.email;
         user.tomato_break_iframe_url = initial.tomato_break_iframe_url;
         user.timezone = initial.timezone;
         this.me = user;
     }
 
-    @action addProject(initial: ProjectJSON) {
-        const project = new Project(this);
+    @action addFolders(foldersData: FolderJSON[]) {
+        for (const folderData of foldersData) {
+            const folder = new models.Folder();
+            folder.id = folderData.id;
+            folder.name = folderData.name;
+            this.foldersById.set(folder.id.toString(), folder);
+        }
+
+        for (const folderData of foldersData) {
+            const folder = this.foldersById.get(folderData.id.toString());
+            if (folderData.parent) {
+                const parentFolder = this.foldersById.get(folderData.parent.toString());
+                parentFolder && parentFolder.children.push(folder);
+                folder.parent = parentFolder;
+            }
+            else {
+                this.folders.push(folder);
+            }
+
+            if (folderData.projects) {
+                for (const projectData of folderData.projects) {
+                    this.addProject(projectData);
+                }
+            }
+        }
+    }
+
+    @action addFolder(initial: FolderJSON): models.Folder {
+        const folder = new models.Folder();
+        folder.id = initial.id;
+        folder.name = initial.name;
+        this.foldersById.set(folder.id.toString(), folder);
+
+        if (initial.parent) {
+            const parentFolder = this.foldersById.get(initial.parent.toString());
+            parentFolder && parentFolder.children.push(folder);
+            folder.parent = parentFolder;
+        }
+        else {
+            this.folders.push(folder);
+        }
+        return folder;
+    }
+
+    @action addProject(initial: ProjectJSON): models.Project {
+        const project = new models.Project();
         project.id = initial.id;
         project.name = initial.name;
         this.projectsById.set(project.id.toString(), project);
 
+        if (initial.folder) {
+            const folder = this.foldersById.get(initial.folder.toString());
+            folder && folder.projects.push(project);
+            project.folder = folder;
+        }
+
+        if (initial.tasks) {
+            this.addTask
+        }
+        return project;
+    }
+
+    @action removeProject(projectId: number) {
+        const project = this.projectsById.get(projectId.toString());
+        if (project) {
+            this.projectsById.delete(projectId.toString());
+            const folder = project.folder;
+            if (folder) {
+                folder.projects = folder.projects.filter((project: models.Project) => project.id !== projectId);
+            }
+            for (const task of project.tasks) {
+                this.removeTask(task.id);
+            }
+        }
+    }
+
+    @action addTask(initial: TaskJSON): models.Task {
+        const project = this.projectsById.get(initial.project.toString())
+        if (!project) {
+            throw new Error('there was a problem');
+        }
+
+        const task = new models.Task();
+        task.project = project;
+        task.id = initial.id;
+        task.title = initial.title;
+        task.index = initial.index;
+
+        this.tasksById.set(task.id.toString(), task);
+
         if (initial.parent) {
-            const parentProject = this.projectsById.get(initial.parent.toString());
-            parentProject && parentProject.children.push(project);
-            project.parent = parentProject;
+            const parentTask = this.tasksById.get(initial.parent.toString());
+            parentTask && parentTask.children.push(task);
+            task.parent = parentTask;
         }
         else {
-            this.projects.push(project);
+            project.tasks.push(task);
         }
+
+        return task;
     }
 
-    @action addTask(initial: TaskJSON) {
-        const project = this.projectsById.get(initial.project.toString())
-        if (project) {
-            const task = new Task(this);
-            task.id = initial.id;
-            task.project = project;
-            task.title = initial.title;
-            task.index = initial.index;
-
-
-            this.tasksById.set(task.id.toString(), task);
-
-            if (initial.parent) {
-                const parentTask = this.tasksById.get(initial.parent.toString());
-                parentTask && parentTask.children.push(task);
-                task.parent = parentTask;
-            }
-            else {
-                project.tasks.push(task);
+    @action removeTask(taskId: number) {
+        const task = this.tasksById.get(taskId.toString());
+        if (task) {
+            this.tasksById.delete(taskId.toString());
+            if (task.parent) {
+                this.removeTask(task.parent.id);
             }
         }
     }
 
-    @action addTomato(initial: TomatoJSON) {
-        const project = this.projectsById.get(initial.project.toString())
-        if (project) {
-            const tomato = new Tomato(this);
-            tomato.id = initial.id;
-            tomato.startTime = initial.startTime;
-            tomato.project = project;
-            project.tomatoes.push(tomato);
-        }
-    }
+    //@action addTomato(initial: TomatoJSON) {
+    //    const project = this.projectsById.get(initial.project.toString())
+    //    if (project) {
+    //        const tomato = new Tomato();
+    //        tomato.id = initial.id;
+    //        tomato.startTime = initial.startTime;
+    //        tomato.project = project;
+    //        project.tomatoes.push(tomato);
+    //    }
+    //}
 }
 
 /*

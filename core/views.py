@@ -32,6 +32,7 @@ class FolderListCreateAPIView(
 class FolderRetrieveUpdateDestroyAPIView(
         generics.UpdateAPIView,
         generics.DestroyAPIView):
+    queryset = Folder.objects.all()
     serializer_class = serializers.FolderSerializer
     filter_backends = (filters.IsOwnerFilterBackend,)
 
@@ -49,6 +50,7 @@ class ProjectListCreateAPIView(
 class ProjectRetrieveUpdateDestroyAPIView(
         generics.UpdateAPIView,
         generics.DestroyAPIView):
+    queryset = Project.objects.all()
     serializer_class = serializers.ProjectSerializer
     filter_backends = (filters.IsOwnerFilterBackend,)
 

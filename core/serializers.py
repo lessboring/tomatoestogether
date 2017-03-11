@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Project, Task #, Tomato
+from .models import User, Folder, Project, Task #, Tomato
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,7 +48,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = [
             'id',
-            'parent',
+            'folder',
             'name',
             'tasks',
         ]
@@ -58,7 +58,7 @@ class FolderSerializer(serializers.ModelSerializer):
     projects = ProjectSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Task
+        model = Folder
         fields = [
             'id',
             'parent',
