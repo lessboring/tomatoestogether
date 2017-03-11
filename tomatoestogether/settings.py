@@ -37,6 +37,7 @@ USER = getpass.getuser()
 if HOSTNAME == 'optimism' and USER == 'tomatoestogether':
     DEBUG = False
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     DEBUG = True
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
