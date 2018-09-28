@@ -30,7 +30,7 @@
 		<div id="header-menu" class="collapse navbar-collapse">
             {% if request.user.is_authenticated %}
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="{ url 'project_list' %}">Projects</a>
+                    <a class="nav-item nav-link" href="{% url 'project_list' %}">Projects</a>
                     <a class="nav-item nav-link" href="{ url 'work' %}">Work</a>
                     <a class="nav-item nav-link" href="{ url 'review' %}">Review</a>
                 </div>
@@ -38,10 +38,10 @@
             <div class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
                     <a class="nav-item nav-link">Hello {{ request.user.email }}</a>
-                    <a class="nav-item nav-link" href="{ url 'logout' %}">Log Out</a>
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>
                 {% else %}
-                    <a class="nav-item nav-link" href="{ url 'user_create' %}">Create Account</a>
-                    <a class="nav-item nav-link" href="{ url 'login' %}">Log In</a>
+                    <a class="nav-item nav-link" href="{% url 'user_create' %}">Create Account</a>
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Log In</a>
                 {% endif %}
             </div>
         </div>

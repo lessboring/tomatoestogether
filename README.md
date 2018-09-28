@@ -33,3 +33,9 @@ Review
 Django with server rendered HTML
 Bootstrap 4
 Turbolinks/mobile app?
+
+## Cool Django Sites
+
+* [Simple Is Better Than Complex](https://simpleisbetterthancomplex.com/)
+* [Classy Class Based Views](http://ccbv.co.uk)
+* [Django Docs](https://docs.djangoproject.com/)

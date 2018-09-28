@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'timezone_field',
+    'widget_tweaks',
     'core',
 ]
 
@@ -134,3 +135,4 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'core.User'
+LOGIN_URL = reverse_lazy('login')

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <h1>Projects</h1>
+
+                    <a class="btn btn-primary" href="{% url 'project_create' %}">Add a New Project</a>
+                    {% for project in project_list %}
+                        <div class="card my-4">
+                            <div class="card-body">
+                                <h2>{{ project.name }}</h2>
+                                <a class="btn btn-primary btn-sm" href="{% url 'project_update' project.id %}">Edit</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
