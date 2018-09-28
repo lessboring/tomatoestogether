@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="font-weight-bold">Overwhelmed by notifications?</h1>
+                <p class="lead">Achieve focus while staying up to date on communications.</p>
+                <router-link
+                :to="{ name: 'create-account' }"
+                class="btn btn-primary btn-lg"
+                >Start Free Trial</router-link>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h2>How Tomatoes Together Works</h2>
+        <p>Put an embedded video here of the timer turning on and off.</p>
+    </div>
+    <!--
+        <div class="mt-5">
+        <h2>Success Stories</h2>
+        </div>
+    -->
+    <div class="mt-5">
+        <h2>Pricing</h2>
+        <div class="row">
+            <div class="col-md-4 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Yearly</h3>
+                        <p>$10/month<br/><small>(Paid as $120/year)</small></p>
+                        <p>Access the full app</p>
+                        <router-link class="btn btn-primary" :to="{ name: 'sign-up' }">Start Free Trial</router-link>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Monthly</h3>
+                        <p>$12/month<br/><small>(Cancel at any time)</small></p>
+                        <p>Access the full app</p>
+                        <router-link class="btn btn-primary" :to="{ name: 'sign-up' }">Start Free Trial</router-link>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>1-on-1 Coaching</h3>
+                        <p>$200/month<br/><small>(Free introductory call)</small></p>
+                        <p>Access the full app</p>
+                        <a class="btn btn-primary" href="mailto:david@lessboring.com">Contact David</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2>FAQs</h2>
+
+                <h4>Who makes Tomatoes Together?</h4>
+                <p>Hi, I'm David Colgan.  I created Tomatoes Together to address notification overload in my freelance work.</p>
+
+                <h4>Is this a todo list app?</h4>
+                <p>No. Tomatoes Together was intentionally designed to complement your todo list, not to replace it.  Task management apps are a solved problem and you are probably already using one you like anyway.</p>
+                <p>Tomatoes Together is more of a done list - enter your current task and then it remembers everything you've worked on.  Keep on using Trello, Asana, Todoist, or your plain paper lists!</p>
+
+                <h4>I have more questions!</h4>
+                <p>Drop me a line personally at <a href="mailto:david@lessboring.com">david@lessboring.com</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
