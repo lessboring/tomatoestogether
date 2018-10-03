@@ -1,41 +1,27 @@
-# Pitch
+# app
 
-Not knowing what to do next
-Forgetting what I was working on and getting sidetracked
-Not feeling like I've actually accomplished anything during a day even if I did do a lot of work
-Feeling analysis paralysis from having lots of different projects to work on at once.
+> Tomatoes Together the dynamic parts
 
-Pages
+## Build Setup
 
-Home
+``` bash
+# install dependencies
+npm install
 
-Projects
-    Enter the projects you are working on
-        Name of the project
+# serve with hot reload at localhost:8080
+npm run dev
 
-Work
-    Set a timer for a specific amount of time
-    Enter in the project you are working on
-    The current task for that project
-    Mash go on the timer
-    The timer then counts down to zero
-    If you finish the task, you can click done and enter a new task
-    When the timer hits zero,
-        Record the tasks you completed during that tomato
-        then it starts counting up from zero to mark how long you've had a break for
+# build for production with minification
+npm run build
 
-Review
-    Shows fancy graphs of the work you've completed by day
-    Daily review where it shows you the days work and there's a text box where you can enter a journal entry?
+# build for production and view the bundle analyzer report
+npm run build --report
 
-# Stack
+# run unit tests
+npm run unit
 
-Django with server rendered HTML
-Bootstrap 4
-Turbolinks/mobile app?
+# run all tests
+npm test
+```
 
-## Cool Django Sites
-
-* [Simple Is Better Than Complex](https://simpleisbetterthancomplex.com/)
-* [Classy Class Based Views](http://ccbv.co.uk)
-* [Django Docs](https://docs.djangoproject.com/)
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

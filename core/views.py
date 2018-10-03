@@ -6,7 +6,7 @@ from django.forms.models import modelform_factory
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from core.models import User, Project, Tomato
+from core.models import User, Project
 
 
 class ModelFormWidgetMixin(object):
@@ -73,3 +73,16 @@ class ProjectUpdateView(
     ]
 
     success_url = reverse_lazy('project_list')
+
+
+class WorkView(
+        LoginRequiredMixin,
+        TemplateView):
+    template_name = 'work.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['aoeu'] = ''
+
+        return context

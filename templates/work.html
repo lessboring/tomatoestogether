@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="app">
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+
+                <h1 class="display-2 text-center nowrap">
+                    {{ tomato.remaining }}
+                </h1>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col text-center">
+                            <button type="button"
+                                    class="btn btn-primary rounded-circle"
+                                    style="width: 100px; height: 100px; font-size: 3rem"
+                                    @click.prevent="toggleRunning">
+                                <font-awesome-icon v-if="running" icon="pause" />
+                                <font-awesome-icon v-else icon="play" />
+                            </button>
+                        </div>
+                        <div class="col text-center">
+                            <button type="button" class="btn btn-sm btn-default mt-4">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form novalidate @submit.prevent="submit">
+                    <div class="form-group">
+                        <label>Current Project</label>
+                        <select
+                            class="form-control"
+                            v-model="tomato.project">
+                            <option
+                            v-for="project in projects"
+                            :key="project.id"
+                            :value="project.id">
+                            {{ project.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Task</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            v-model="tomato.task"
+                            placeholder="A short summary of what you are working on."
+                            />
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-success">Done!</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="vue.js">
+<script>
+new Vue({
+
+});
+</script>
+{% endblock %}

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +10,6 @@
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'styles.css' %}">
 
 	{% block head %}{% endblock %}
 </head>
@@ -31,7 +29,7 @@
             {% if request.user.is_authenticated %}
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="{% url 'project_list' %}">Projects</a>
-                    <a class="nav-item nav-link" href="{ url 'work' %}">Work</a>
+                    <a class="nav-item nav-link" href="{% url 'work' %}">Work</a>
                     <a class="nav-item nav-link" href="{ url 'review' %}">Review</a>
                 </div>
             {% endif %}
@@ -65,5 +63,7 @@
 			document.getElementById('header-menu').classList.toggle('show');
 		});
 	</script>
+
+    {% render_bundle 'app' %}
 </body>
 </html>

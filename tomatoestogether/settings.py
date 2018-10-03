@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'timezone_field',
     'widget_tweaks',
+    'webpack_loader',
     'core',
 ]
 
@@ -124,15 +125,25 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'site-static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'dist'),
 ]
 
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
+
 AUTH_USER_MODEL = 'core.User'
+
+LOGIN_REDIRECT_URL = reverse_lazy('project_list')
 LOGIN_URL = reverse_lazy('login')
