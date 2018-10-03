@@ -147,3 +147,8 @@ AUTH_USER_MODEL = 'core.User'
 
 LOGIN_REDIRECT_URL = reverse_lazy('project_list')
 LOGIN_URL = reverse_lazy('login')
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+    '::ffff:10.0.2.2',
+)

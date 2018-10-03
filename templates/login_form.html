@@ -1,0 +1,10 @@
+{% if form.errors %}
+<div class="alert alert-danger">
+    <strong>There was a problem with your email or password.  Please try again.</strong>
+</div>
+{% endif %}
+
+
+<form method="POST" novalidate>{% csrf_token %}
+    {% include 'form.html' %}
+</form>

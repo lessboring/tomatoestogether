@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" {% if debug %}style="display: none"{% endif %}>
 <head>
 	<title>{% block title %}{% endblock %} | Less Boring</title>
 
@@ -65,5 +65,10 @@
 	</script>
 
     {% render_bundle 'app' %}
+    {% if debug %}
+    <script>
+        $('html').show();
+    </script>
+    {% endif %}
 </body>
 </html>
