@@ -1,17 +1,14 @@
 <template>
-    <div id="app">
-        <img src="./assets/logo.png">
-        <HelloWorld/>
-    </div>
+    <TomatoTimer />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import TomatoTimer from './components/TomatoTimer';
 
 export default {
     name: 'App',
     components: {
-        HelloWorld,
+        TomatoTimer,
     },
 };
 </script>

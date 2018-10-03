@@ -1,16 +1,24 @@
 import Vue from 'vue';
 //import Turbolinks from 'turbolinks';
 import $ from 'jquery';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import App from './App';
 
 //Turbolinks.start();
 
+library.add(faPlay);
+library.add(faPause);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
+    el: '#tomato-timer-app',
     render: h => h(App),
 });
 
