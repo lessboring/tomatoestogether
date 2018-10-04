@@ -18,3 +18,4 @@ __pycache__
 *.swo
 tomatoestogether/private.py
 *.pyc
+webpack-stats.json
