@@ -1,0 +1,24 @@
+{% load staticfiles %}
+{% load custom_tags %}
+
+<h1>Today's Completed Work</h1>
+
+{% for project in user.projects.all %}
+    <h2>{{ project.name }}</h2>
+    {% for tomato in project.tomatoes.all %}
+    <div class="clearfix mb-2">
+        <div class="text-white text-center font-weight-bold float-left mr-2" style="background-image: url({% static 'tomato.png' %}); width: 40px; height: 42px; line-height: 50px; font-size: 1.6rem">
+            {{ tomato.duration|minutes }}
+        </div>
+        <div style="height: 42px; line-height: 46px; font-size: 1.2rem">
+            {{ tomato.tasks_display }}
+        </div>
+    </div>
+    {% endfor %}
+{% endfor %}
+
+<h1>Today's Breaks</h1>
+
+{% for break_ in user.breaks.all %}
+<p>{{ break_.start }} for {{ break_.duration }} minutes:<br/>{{ break.task }}</p>
+{% endfor %}

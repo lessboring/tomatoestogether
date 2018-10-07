@@ -14,6 +14,10 @@ urlpatterns = [
 
     path('work/', views.WorkView.as_view(), name='work'),
 
+    path('tomatoes/complete/', views.TomatoCompleteView.as_view(), name='tomato_complete'),
+    path('breaks/complete/', views.BreakCompleteView.as_view(), name='break_complete'),
+    path('tomatoes/today/', views.TodaysTomatoesListView.as_view(), name='todays_tomatoes'),
+
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

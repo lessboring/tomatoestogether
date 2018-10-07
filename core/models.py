@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from timezone_field import TimeZoneField
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.postgres.fields import ArrayField
+from datetime import date
 
 
 class UserManager(BaseUserManager):
@@ -40,15 +42,36 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    def todays_breaks(self):
+        return self.breaks.filter(
+            start__date=date.today()
+        )
+
 
 class Project(models.Model):
     user = models.ForeignKey(User, related_name='projects', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
+    def todays_tomatoes(self):
+        return self.tomatoes.filter(
+            start__date=date.today()
+        )
+
 
 class Tomato(models.Model):
     user = models.ForeignKey(User, related_name='tomatoes', on_delete=models.CASCADE)
     project = models.ForeignKey(Project, related_name='tomatoes', on_delete=models.CASCADE)
-    task = models.CharField(max_length=255)
+    tasks = ArrayField(models.CharField(max_length=255))
+    start = models.DateTimeField()
+    duration = models.DurationField()
+
+    @property
+    def tasks_display(self):
+        return ', '.join(self.tasks)
+
+
+class Break(models.Model):
+    user = models.ForeignKey(User, related_name='breaks', on_delete=models.CASCADE)
+    task = models.CharField(max_length=255, blank=True)
     start = models.DateTimeField()
     duration = models.DurationField()
