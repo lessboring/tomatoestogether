@@ -181,20 +181,20 @@ export default {
             if (this.isTomato && this.isStarted && this.tomatoRemaining < 0) {
                 this.completeTomato();
             }
-            saveState(this.currentTomato, this.currentTomato);
+            saveState(this.currentTomato, this.currentBreak);
         },
 
         startTomato() {
             if (this.currentBreak !== null) {
-                this.loading = true;
-                postForm('/breaks/complete/', {
-                    task: this.currentBreak.task,
-                    duration: durationToDjango(this.breakElapsed),
-                    start: timeToDjango(this.currentBreak.task),
-                }).then((res) => {
-                    setHTML('tomato-list-container', res.data);
-                    this.loading = false;
-                });
+                //this.loading = true;
+                //postForm('/breaks/complete/', {
+                //    task: this.currentBreak.task,
+                //    duration: durationToDjango(this.breakElapsed),
+                //    start: timeToDjango(this.currentBreak.task),
+                //}).then((res) => {
+                //    setHTML('tomato-list-container', res.data);
+                //    this.loading = false;
+                //});
                 this.currentBreak = null;
             }
             this.currentTomato.start = +new Date();

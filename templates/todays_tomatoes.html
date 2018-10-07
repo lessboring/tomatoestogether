@@ -17,8 +17,10 @@
     {% endfor %}
 {% endfor %}
 
+{% comment %}
 <h1>Today's Breaks</h1>
 
 {% for break_ in user.breaks.all %}
 <p>{{ break_.start }} for {{ break_.duration }} minutes:<br/>{{ break.task }}</p>
 {% endfor %}
+{% endcomment %}

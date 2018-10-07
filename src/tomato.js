@@ -23,7 +23,7 @@ export const isValidTomato = (tomato) => {
 };
 
 export const isValidBreak = (break_) => {
-    return (
+    return break_ === null || (
         typeof break_ === 'object' &&
 
         typeof break_ === 'object' &&
@@ -43,6 +43,7 @@ export const loadState = () => {
             if (isValidTomato(currentTomato) && isValidBreak(currentBreak)) {
                 return { currentTomato, currentBreak };
             }
+            localStorage.removeItem('state');
         }
     } catch (_) {
         localStorage.removeItem('state');

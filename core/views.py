@@ -109,12 +109,8 @@ class WorkView(
 
         context['durations'] = [
             3000,
-            1000 * 60 * 5,
-            1000 * 60 * 10,
             1000 * 60 * 25,
             1000 * 60 * 50,
-            1000 * 60 * 80,
-            1000 * 60 * 110,
         ]
 
         # context['completed'] = sorted(
